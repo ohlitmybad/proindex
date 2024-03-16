@@ -2,11 +2,19 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="user-scalable=no">
+    <meta name="viewport" content="width=device-width">
 <meta name="robots" content="noindex">
 
 <style>
 
+           @media (max-width: 767px) { /* Apply only for screens up to 767px wide (typical for mobile devices) */
+            /* Your CSS rules specific to mobile devices go here */
+            meta[name="viewport"] {
+                content: width=device-width, initial-scale=0.535, user-scalable=no;
+            }
+        } 
+    
+    
 /* Hide the scrollbar */
 ::-webkit-scrollbar {
     width: 0;

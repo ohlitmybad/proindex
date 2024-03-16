@@ -6,7 +6,22 @@
 
 <style>
 
-    
+    @media (max-width: 767px) {
+    body {
+        transform: scale(0.75); /* Zoom out by 1.333x for mobile devices */
+        transform-origin: 0 0; /* Set the origin to the top left corner */
+    }
+    .container {
+        width: 133.33%; /* Adjust container width for smaller screens */
+    }
+    .left-bar,
+    .right-bar {
+        width: 187.5px; /* Adjust width of bars for smaller screens */
+    }
+    .tablinks {
+        width: 187.5px; /* Adjust width of tab links for smaller screens */
+    }
+}
     
 /* Hide the scrollbar */
 ::-webkit-scrollbar {
@@ -22,8 +37,6 @@ body {
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
-    transform: scale(0.75); /* Zoom out by 1.333x */
-    transform-origin: 0 0; /* Set the origin to the top left corner */
 }
 
 .container {

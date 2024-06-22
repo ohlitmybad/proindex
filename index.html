@@ -272,7 +272,7 @@ td {
 
     <script>
 const xhr = new XMLHttpRequest();
-xhr.open('GET', 'https://datamb.football/data/index/index.csv', false); // false for synchronous request
+xhr.open('GET', 'https://datamb.football/database/index.csv', false); // false for synchronous request
 xhr.send(null);
 let data = xhr.responseText;	
 let extraHeaderRow = 'Player,Team,League,Position,Age,Performance Index,Minutes played,Successful defensive actions per 90,Defensive duels per 90,Aerial duels per 90,Sliding tackles per 90,PAdj Sliding tackles,Shots blocked per 90,Interceptions per 90,PAdj Interceptions,Successful attacking actions per 90,Goals per 90,Non-penalty goals per 90,xG per 90,Head goals per 90,Shots per 90,Assists per 90,Crosses per 90,Crosses to goalie box per 90,Dribbles per 90,Offensive duels per 90,Touches in box per 90,Progressive runs per 90,Accelerations per 90,Fouls suffered per 90,Passes per 90,Forward passes per 90,Short / medium passes per 90,Long passes per 90,Average pass length m,xA per 90,Shot assists per 90,Key passes per 90,Passes to final third per 90,Passes to penalty area per 90,Through passes per 90,Deep completions per 90,Progressive passes per 90,Shots against per 90,Clean sheets,xG against per 90,Prevented goals per 90,Exits per 90,Defensive duels won %,Aerial duels won %,Shots on target %,Goal conversion %,Accurate crosses %,Successful dribbles %,Offensive duels won %,Accurate passes %,Accurate forward passes %,Accurate short / medium passes %,Accurate long passes %,Accurate passes to final third %,Accurate passes to penalty area %,Accurate through passes %,Accurate progressive passes %,Save rate %';

@@ -7,7 +7,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
     <style>
 
-  
         .rank-bar-fill {
             background-color: rgba(0, 110, 255, 0.835);
             height: 100%;
@@ -29,8 +28,9 @@
 }
 
 .selectors-container {
-  gap: 4px; /* Adjust the value to increase or decrease the spacing */
+  gap: 14px; /* Adjust the value to increase or decrease the spacing */
 display: flex;
+align-items: center;
 flex-wrap: nowrap; /* Prevent wrapping */
 }
 
@@ -40,7 +40,6 @@ select {
     font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    margin-right: 10px;
 }
 
 
@@ -302,7 +301,6 @@ td {
 }
 #toggleSort {
     appearance: none;
-    margin-right: 11px;
     width: 18px;
     height: 18px;
     position: relative;
@@ -313,7 +311,8 @@ td {
     border: none;
     cursor: pointer;
     vertical-align: middle;
-    line-height: 30px;
+    margin-left: 0.7px; /* Adjust this value to reduce the gap */
+    margin-right: 0.7px; /* Adjust this value to reduce the gap */
 }
 
 #toggleSort:not(:checked)::before {
@@ -349,6 +348,7 @@ body.dark-mode #SFctr td {
 	border-radius: 8px;
 
 }
+	    
 	    
    </style>
 </head>

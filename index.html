@@ -326,34 +326,54 @@ td {
 
 
 
-
-
-#SFctr .SFfrm {
-    margin-top: 20px;
-margin-left: 10px;
-}
-	    
-#SFctr td {
+#SFctr {
 	font-family: Arial, Helvetica, sans-serif !important;
-}
-
-body.dark-mode #SFctr td {
-	color: #f3f6f4 !important;
-}
-	    
-#SFctr input[type="text"],
-#SFctr input[type="password"],
-#SFctr input[type="email"] {
-	border-radius: 8px;
+  transform: scale(0.808);
+  transform-origin: top left; /* Adjust the origin point if needed */
 
 }
+
+#SFusrlogpst strong:first-child {
+  font-size: 0px;
+}
+
+#SFusrlogpst input[type="checkbox"],
+#SFusrlogpwd input[type="checkbox"],
+#SFusrlogpst i,
+#SFusrlogpwd i {
+  display: none !important;
+}
+
+#SFctr .SFfrm input[type="text"],
+#SFctr .SFfrm input[type="password"],
+#SFctr .SFfrm button {
+  border-radius: 6px;
+}
+
+#SFusrlogpwd strong {
+  visibility: hidden; /* Hide the original text */
+  position: relative;
+}
+
+#SFusrlogpwd strong::after {
+  content: "Forgot Password?"; /* Add the new text */
+  visibility: visible;
+  position: absolute;
+  font-size: 12px;
+  font-weight: 400;
+  left: 80px;
+  white-space: nowrap; /* Prevent text from wrapping */
+  top: -15px;
+}
+
+
 	    
 	    
    </style>
 </head>
+<body>
     <script type="text/javascript">document.body.style.visibility="hidden";</script><div id="SFctr" data-org="31002" data-mfl="64c215764c0b6076026762a3"><div style="clear:both"></div></div><script type="text/javascript" src="https://cdn.membershipworks.com/mfl.js"></script>
 
-<body>
     <div class="selectors-container">
     <select id="metric" class="metric-selector">
     </select><input type="checkbox" id="toggleSort" style="display: none;">
@@ -451,7 +471,615 @@ let extraHeaderRow = 'Player,Team,League,Position,Age,Performance Index,Minutes 
 data = extraHeaderRow + '\n' + data;
 
 
-const _0x5e7b49=_0x11b9;(function(_0x1ff531,_0x2dbe41){const _0x2a871b=_0x11b9,_0x1a9732=_0x1ff531();while(!![]){try{const _0x4a16d5=-parseInt(_0x2a871b(0x147))/0x1+parseInt(_0x2a871b(0xad))/0x2+-parseInt(_0x2a871b(0x6d))/0x3*(parseInt(_0x2a871b(0x8d))/0x4)+parseInt(_0x2a871b(0x133))/0x5+-parseInt(_0x2a871b(0x9b))/0x6+-parseInt(_0x2a871b(0x83))/0x7+parseInt(_0x2a871b(0x18d))/0x8*(parseInt(_0x2a871b(0x9f))/0x9);if(_0x4a16d5===_0x2dbe41)break;else _0x1a9732['push'](_0x1a9732['shift']());}catch(_0x566f66){_0x1a9732['push'](_0x1a9732['shift']());}}}(_0xea11,0x7098d));let originalDataArray=data[_0x5e7b49(0xf4)]('\x0a')[_0x5e7b49(0x8c)](_0x495575=>_0x495575[_0x5e7b49(0xf4)](','));const playerTable=document[_0x5e7b49(0xb4)](_0x5e7b49(0x16c)),metricSelect=document[_0x5e7b49(0xb4)](_0x5e7b49(0x184)),positionSelect=document[_0x5e7b49(0xb4)](_0x5e7b49(0xcd)),leagueSelect=document[_0x5e7b49(0xb4)](_0x5e7b49(0xcf)),ageInput=document[_0x5e7b49(0xb4)](_0x5e7b49(0xdf)),metricHeader=document[_0x5e7b49(0xb4)](_0x5e7b49(0x138)),toggleButton=document[_0x5e7b49(0xb4)](_0x5e7b49(0x7d)),toggleSortButton=document['getElementById'](_0x5e7b49(0x169));let isToggled=![],isAscending=![],currentDataArray=originalDataArray;const customMetricOrder=[{'text':'Performance\x20Index','i18n':_0x5e7b49(0xc8)},{'text':'Minutes\x20played','i18n':_0x5e7b49(0x14c)},{'text':_0x5e7b49(0xb1),'i18n':_0x5e7b49(0x15b)},{'text':'Minutes\x20per\x20match','i18n':_0x5e7b49(0x11d)},{'text':'CATEGORY:\x20Goal\x20Scoring','i18n':_0x5e7b49(0xe5)},{'text':'Goals\x20per\x2090','i18n':'metrics.goalsPerNinety'},{'text':_0x5e7b49(0xd1),'i18n':'metrics.nonPenaltyGoals'},{'text':_0x5e7b49(0x137),'i18n':_0x5e7b49(0x15d)},{'text':_0x5e7b49(0x12c),'i18n':_0x5e7b49(0x186)},{'text':_0x5e7b49(0x152),'i18n':_0x5e7b49(0x114)},{'text':'npxG/Shot','i18n':_0x5e7b49(0x140)},{'text':'Goals\x20per\x20100\x20touches','i18n':_0x5e7b49(0x116)},{'text':_0x5e7b49(0x6a),'i18n':'metrics.xgPerTouches'},{'text':_0x5e7b49(0x70),'i18n':_0x5e7b49(0x8a)},{'text':_0x5e7b49(0x139),'i18n':_0x5e7b49(0x102)},{'text':_0x5e7b49(0xe3),'i18n':'metrics.shotsOnTarget'},{'text':_0x5e7b49(0xe2),'i18n':_0x5e7b49(0xa3)},{'text':_0x5e7b49(0x128),'i18n':_0x5e7b49(0xe6)},{'text':'Goals\x20-\x20xG\x20per\x2090','i18n':'metrics.goalsMinusXg'},{'text':'Goals\x20per\x20xG','i18n':_0x5e7b49(0x182)},{'text':'Headed\x20goals\x20per\x2090','i18n':_0x5e7b49(0xdc)},{'text':_0x5e7b49(0xb6),'i18n':_0x5e7b49(0x149)},{'text':'CATEGORY:\x20Goal\x20Creation','i18n':_0x5e7b49(0x15c)},{'text':_0x5e7b49(0x78),'i18n':_0x5e7b49(0x6e)},{'text':'xA\x20per\x2090','i18n':_0x5e7b49(0x187)},{'text':_0x5e7b49(0x9a),'i18n':_0x5e7b49(0x189)},{'text':_0x5e7b49(0x89),'i18n':_0x5e7b49(0xc2)},{'text':'NPG+A\x20per\x2090','i18n':'metrics.npGoalsAndAssists'},{'text':'xG+xA\x20per\x2090','i18n':_0x5e7b49(0x15e)},{'text':_0x5e7b49(0x6b),'i18n':_0x5e7b49(0x7e)},{'text':_0x5e7b49(0xde),'i18n':_0x5e7b49(0x175)},{'text':_0x5e7b49(0xd2),'i18n':'metrics.chanceCreation'},{'text':_0x5e7b49(0x10d),'i18n':_0x5e7b49(0x12a)},{'text':'Assists\x20per\x20xA','i18n':_0x5e7b49(0x17e)},{'text':_0x5e7b49(0x188),'i18n':_0x5e7b49(0x157)},{'text':_0x5e7b49(0x160),'i18n':_0x5e7b49(0x7b)},{'text':_0x5e7b49(0xb8),'i18n':'metrics.crosses'},{'text':'Cross\x20accuracy\x20%','i18n':'metrics.crossAccuracy'},{'text':_0x5e7b49(0x110),'i18n':_0x5e7b49(0x109)},{'text':'Crosses\x20to\x20box\x20per\x2090','i18n':_0x5e7b49(0x162)},{'text':'Deep\x20completions\x20per\x2090','i18n':_0x5e7b49(0xd4)},{'text':_0x5e7b49(0xaf),'i18n':_0x5e7b49(0xee)},{'text':'Dribbles\x20attempted\x20per\x2090','i18n':_0x5e7b49(0x16a)},{'text':_0x5e7b49(0x142),'i18n':_0x5e7b49(0xe9)},{'text':'Successful\x20dribbles\x20per\x2090','i18n':_0x5e7b49(0x143)},{'text':_0x5e7b49(0xa5),'i18n':_0x5e7b49(0x159)},{'text':'Successful\x20attacking\x20actions\x20per\x2090','i18n':_0x5e7b49(0x74)},{'text':_0x5e7b49(0xd8),'i18n':_0x5e7b49(0xea)},{'text':_0x5e7b49(0x11b),'i18n':_0x5e7b49(0x17a)},{'text':'Offensive\x20duels\x20won\x20per\x2090','i18n':'metrics.offensiveDuelsWonPerNinety'},{'text':'Progressive\x20carries\x20per\x2090','i18n':_0x5e7b49(0x104)},{'text':_0x5e7b49(0x91),'i18n':_0x5e7b49(0x100)},{'text':_0x5e7b49(0xb5),'i18n':_0x5e7b49(0x18a)},{'text':'Fouls\x20suffered\x20per\x2090','i18n':'metrics.foulsSuffered'},{'text':_0x5e7b49(0x11f),'i18n':_0x5e7b49(0x18b)},{'text':'Passes\x20per\x2090','i18n':_0x5e7b49(0x107)},{'text':_0x5e7b49(0x13a),'i18n':_0x5e7b49(0x16e)},{'text':'Passes\x20completed\x20per\x2090','i18n':'metrics.passesCompleted'},{'text':_0x5e7b49(0x151),'i18n':_0x5e7b49(0xc5)},{'text':'Forward\x20pass\x20completion\x20%','i18n':_0x5e7b49(0x179)},{'text':_0x5e7b49(0xf3),'i18n':_0x5e7b49(0xbd)},{'text':_0x5e7b49(0xab),'i18n':'metrics.shortPasses'},{'text':'Short\x20pass\x20completion\x20%','i18n':_0x5e7b49(0x181)},{'text':'Short\x20passes\x20completed\x20per\x2090','i18n':_0x5e7b49(0x120)},{'text':_0x5e7b49(0xcc),'i18n':_0x5e7b49(0x76)},{'text':_0x5e7b49(0xe8),'i18n':_0x5e7b49(0x82)},{'text':'Long\x20passes\x20completed\x20per\x2090','i18n':'metrics.longPassesCompleted'},{'text':'Progressive\x20passes\x20per\x2090','i18n':_0x5e7b49(0x7c)},{'text':_0x5e7b49(0x164),'i18n':_0x5e7b49(0xa7)},{'text':'Progressive\x20passes\x20completed\x20per\x2090','i18n':'metrics.progressivePassesCompleted'},{'text':'Progressive\x20passes\x20(PAdj)','i18n':'metrics.progressivePassesAdj'},{'text':_0x5e7b49(0x12f),'i18n':_0x5e7b49(0x14b)},{'text':_0x5e7b49(0x134),'i18n':_0x5e7b49(0x9d)},{'text':_0x5e7b49(0x166),'i18n':_0x5e7b49(0x93)},{'text':'Passes\x20to\x20penalty\x20box\x20per\x2090','i18n':_0x5e7b49(0x183)},{'text':'Pass\x20completion\x20(to\x20penalty\x20box)\x20%','i18n':_0x5e7b49(0x14f)},{'text':_0x5e7b49(0xc1),'i18n':'metrics.accuratePassesToBox'},{'text':'Through\x20passes\x20per\x2090','i18n':_0x5e7b49(0x125)},{'text':_0x5e7b49(0x6f),'i18n':_0x5e7b49(0x10c)},{'text':_0x5e7b49(0x69),'i18n':_0x5e7b49(0x165)},{'text':_0x5e7b49(0x15f),'i18n':_0x5e7b49(0x10b)},{'text':_0x5e7b49(0x185),'i18n':'metrics.backwardPasses'},{'text':'Misplaced\x20passes\x20per\x2090','i18n':'metrics.misplacedPasses'},{'text':_0x5e7b49(0xf1),'i18n':_0x5e7b49(0x13e)},{'text':_0x5e7b49(0xf6),'i18n':_0x5e7b49(0xd7)},{'text':_0x5e7b49(0x154),'i18n':_0x5e7b49(0x90)},{'text':_0x5e7b49(0x6c),'i18n':_0x5e7b49(0x144)},{'text':_0x5e7b49(0x87),'i18n':'metrics.touches'},{'text':'Possessions\x20lost\x20per\x2090','i18n':_0x5e7b49(0x8f)},{'text':_0x5e7b49(0x8e),'i18n':'metrics.possessionsBalance'},{'text':'Possession\x20+/-','i18n':_0x5e7b49(0x75)},{'text':_0x5e7b49(0x122),'i18n':'metrics.duels'},{'text':_0x5e7b49(0xe4),'i18n':_0x5e7b49(0x94)},{'text':'Duels\x20won\x20per\x2090','i18n':_0x5e7b49(0xeb)},{'text':'Progressive\x20actions\x20per\x2090','i18n':_0x5e7b49(0x95)},{'text':_0x5e7b49(0xfa),'i18n':_0x5e7b49(0x173)},{'text':_0x5e7b49(0x17f),'i18n':_0x5e7b49(0xbf)},{'text':_0x5e7b49(0xd6),'i18n':_0x5e7b49(0x117)},{'text':'Defensive\x20duels\x20won\x20%','i18n':_0x5e7b49(0x92)},{'text':_0x5e7b49(0xd3),'i18n':'metrics.defensiveDuelsWonPerNinety'},{'text':'Sliding\x20tackles\x20per\x2090','i18n':_0x5e7b49(0x72)},{'text':_0x5e7b49(0x16f),'i18n':_0x5e7b49(0x129)},{'text':'Interceptions\x20per\x2090','i18n':_0x5e7b49(0x71)},{'text':_0x5e7b49(0x161),'i18n':_0x5e7b49(0xfe)},{'text':_0x5e7b49(0x14e),'i18n':_0x5e7b49(0xa0)},{'text':'Aerial\x20duels\x20per\x2090','i18n':_0x5e7b49(0x167)},{'text':_0x5e7b49(0xc4),'i18n':_0x5e7b49(0x18e)},{'text':'Aerial\x20duels\x20won\x20per\x2090','i18n':_0x5e7b49(0xe0)},{'text':'Shots\x20blocked\x20per\x2090','i18n':'metrics.shotsBlocked'},{'text':'CATEGORY:\x20Goalkeeping','i18n':_0x5e7b49(0xe7)},{'text':_0x5e7b49(0x10f),'i18n':_0x5e7b49(0xbb)},{'text':_0x5e7b49(0x13d),'i18n':_0x5e7b49(0xa6)},{'text':_0x5e7b49(0x14d),'i18n':'metrics.preventedGoals'},{'text':'Shots\x20conceded\x20per\x2090','i18n':'metrics.shotsConceded'},{'text':'xG\x20conceded\x20per\x2090','i18n':_0x5e7b49(0x156)},{'text':_0x5e7b49(0x150),'i18n':_0x5e7b49(0x7f)},{'text':_0x5e7b49(0x168),'i18n':'metrics.exits'},{'text':_0x5e7b49(0xe1),'i18n':_0x5e7b49(0x155)},{'text':_0x5e7b49(0x127),'i18n':'metrics.freeKicks'},{'text':_0x5e7b49(0xb3),'i18n':_0x5e7b49(0x11e)},{'text':_0x5e7b49(0xb9),'i18n':_0x5e7b49(0xb7)},{'text':_0x5e7b49(0xdd),'i18n':'metrics.corners'},{'text':'Penalties\x20attempted','i18n':_0x5e7b49(0x101)},{'text':_0x5e7b49(0x79),'i18n':_0x5e7b49(0xed)},{'text':_0x5e7b49(0x111),'i18n':_0x5e7b49(0xf7)}],columnIndexMap={};originalDataArray[0x0][_0x5e7b49(0x145)]((_0x35997c,_0x2185dd)=>{columnIndexMap[_0x35997c]=_0x2185dd;}),metricSelect[_0x5e7b49(0xa1)]='',customMetricOrder[_0x5e7b49(0x145)](_0x33e038=>{const _0x393da6=_0x5e7b49,_0x3b1d9a=document[_0x393da6(0x118)](_0x393da6(0x178));if(_0x33e038[_0x393da6(0x106)][_0x393da6(0xf2)]('CATEGORY:\x20'))_0x3b1d9a[_0x393da6(0x12b)]=_0x33e038['text'][_0x393da6(0x16d)]('CATEGORY:\x20',''),_0x3b1d9a[_0x393da6(0xb2)]=!![],_0x3b1d9a[_0x393da6(0x135)][_0x393da6(0xcb)]=_0x393da6(0xc9),_0x3b1d9a['style'][_0x393da6(0x121)]=_0x393da6(0x8b),_0x3b1d9a[_0x393da6(0x132)](_0x393da6(0x7a),_0x33e038[_0x393da6(0x10e)]);else{const _0x3fd9a7=isToggled?_0x33e038[_0x393da6(0x106)][_0x393da6(0x16d)]('\x20per\x2090',''):_0x33e038[_0x393da6(0x106)],_0x426a4b=currentDataArray[0x0][_0x393da6(0x146)](_0x3fd9a7);_0x426a4b!==-0x1&&(_0x3b1d9a[_0x393da6(0x15a)]=_0x426a4b,_0x3b1d9a[_0x393da6(0x12b)]=_0x3fd9a7,_0x3b1d9a[_0x393da6(0x132)](_0x393da6(0x7a),_0x33e038[_0x393da6(0x10e)]));}metricSelect[_0x393da6(0xda)](_0x3b1d9a);}),metricSelect[_0x5e7b49(0x15a)]='5',leagueSelect[_0x5e7b49(0x11a)](_0x5e7b49(0x170))['disabled']=!![],leagueSelect[_0x5e7b49(0x11a)](_0x5e7b49(0xba))[_0x5e7b49(0xb2)]=!![],leagueSelect['querySelector'](_0x5e7b49(0xfd))[_0x5e7b49(0xb2)]=!![],leagueSelect[_0x5e7b49(0x11a)](_0x5e7b49(0x103))[_0x5e7b49(0xb2)]=!![],positionSelect[_0x5e7b49(0x11a)](_0x5e7b49(0x86))['disabled']=!![],leagueSelect[_0x5e7b49(0x11a)]('option[value=\x22South\x20America\x22]')['disabled']=!![],leagueSelect['querySelector'](_0x5e7b49(0x158))['disabled']=!![],leagueSelect[_0x5e7b49(0x11a)](_0x5e7b49(0xbe))[_0x5e7b49(0xb2)]=!![],metricSelect['dispatchEvent'](new Event(_0x5e7b49(0x131))),toggleButton[_0x5e7b49(0xa2)](_0x5e7b49(0x131),toggleData),toggleSortButton[_0x5e7b49(0xa2)](_0x5e7b49(0xf9),toggleSortOrder),metricSelect[_0x5e7b49(0xa2)](_0x5e7b49(0x131),()=>{isAscending=![],filterTable();}),positionSelect[_0x5e7b49(0xa2)]('change',filterTable),leagueSelect['addEventListener']('change',filterTable),ageInput[_0x5e7b49(0xa2)]('input',filterTable);function toggleSortOrder(){isAscending=!isAscending,filterTable();}function _0x11b9(_0x46feaf,_0x133d04){const _0xea11c0=_0xea11();return _0x11b9=function(_0x11b9e1,_0x1cfe86){_0x11b9e1=_0x11b9e1-0x69;let _0x2100d3=_0xea11c0[_0x11b9e1];return _0x2100d3;},_0x11b9(_0x46feaf,_0x133d04);}function toggleData(){const _0x461bf7=_0x5e7b49;isToggled=!isToggled;const _0xc38620=metricSelect[_0x461bf7(0x15a)];isToggled?(currentDataArray=originalDataArray[_0x461bf7(0x8c)]((_0x4d98f5,_0x11dc55)=>{const _0x2953c4=_0x461bf7;if(_0x11dc55===0x0)return _0x4d98f5[_0x2953c4(0x8c)]((_0x3486bf,_0x44b5e8)=>{const _0x4a1bd2=_0x2953c4;return![0xb,0xe,0x22,0x2c,0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x3a,0x3b,0x3c,0x3d,0x3e,0x3f][_0x4a1bd2(0xca)](_0x44b5e8)?_0x3486bf['replace'](_0x4a1bd2(0x81),''):_0x3486bf;});else{const _0x1afd13=parseFloat(_0x4d98f5[0x6]);return _0x4d98f5[_0x2953c4(0x8c)]((_0x3a4209,_0x5caacf)=>{const _0x323fc7=_0x2953c4;return _0x5caacf>0x4&&![0x5,0x6,0xb,0xe,0x22,0x2c,0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x3a,0x3b,0x3c,0x3d,0x3e,0x3f,0x42,0x44,0x45,0x46,0x48,0x49,0x4a,0x4b,0x4c,0x51,0x53,0x55,0x6a,0x6b,0x6c,0x6e,0x71,0x72,0x73,0x74,0x75,0x76,0x77][_0x323fc7(0xca)](_0x5caacf)?[0x12,0x23,0x2d,0x2e,0x50,0x52,0x54,0x6d,0x6f]['includes'](_0x5caacf)?(_0x3a4209*_0x1afd13/0x5a)['toFixed'](0x1):Math['round'](_0x3a4209*_0x1afd13/0x5a):_0x3a4209;});}}),metricSelect[_0x461bf7(0xa1)]='',customMetricOrder[_0x461bf7(0x145)](_0x50d270=>{const _0x5e69c3=_0x461bf7,_0x7a366a=document[_0x5e69c3(0x118)](_0x5e69c3(0x178));if(_0x50d270[_0x5e69c3(0x106)][_0x5e69c3(0xf2)]('CATEGORY:\x20'))_0x7a366a[_0x5e69c3(0x12b)]=_0x50d270[_0x5e69c3(0x106)][_0x5e69c3(0x16d)](_0x5e69c3(0x108),''),_0x7a366a[_0x5e69c3(0xb2)]=!![],_0x7a366a[_0x5e69c3(0x135)]['fontWeight']=_0x5e69c3(0xc9),_0x7a366a['style']['color']=_0x5e69c3(0x8b),_0x7a366a[_0x5e69c3(0x132)](_0x5e69c3(0x7a),_0x50d270['i18n']);else{const _0x159ad0=isToggled?_0x50d270['text'][_0x5e69c3(0x16d)](_0x5e69c3(0x81),''):_0x50d270['text'],_0x3f6d72=currentDataArray[0x0][_0x5e69c3(0x146)](_0x159ad0);_0x3f6d72!==-0x1&&(_0x7a366a[_0x5e69c3(0x15a)]=_0x3f6d72,_0x7a366a[_0x5e69c3(0x12b)]=_0x159ad0,_0x7a366a[_0x5e69c3(0x132)](_0x5e69c3(0x7a),_0x50d270[_0x5e69c3(0x10e)]));}metricSelect[_0x5e69c3(0xda)](_0x7a366a);})):currentDataArray=originalDataArray;currentDataArray=currentDataArray['map'](_0x186333=>{return parseFloat(_0x186333[0x10])===0x0&&parseFloat(_0x186333[0x12])===0x0&&(_0x186333[0x52]=''),_0x186333;}),currentDataArray=currentDataArray[_0x461bf7(0x8c)](_0x40ff1b=>{return parseFloat(_0x40ff1b[0x15])===0x0&&parseFloat(_0x40ff1b[0x23])===0x0&&(_0x40ff1b[0x54]=''),_0x40ff1b;}),metricSelect[_0x461bf7(0xa1)]='',customMetricOrder[_0x461bf7(0x145)](_0x370021=>{const _0x504ed5=_0x461bf7,_0x56d85f=document['createElement'](_0x504ed5(0x178));if(_0x370021['text'][_0x504ed5(0xf2)](_0x504ed5(0x108)))_0x56d85f[_0x504ed5(0x12b)]=_0x370021['text'][_0x504ed5(0x16d)]('CATEGORY:\x20',''),_0x56d85f['disabled']=!![],_0x56d85f[_0x504ed5(0x135)][_0x504ed5(0xcb)]='bold',_0x56d85f[_0x504ed5(0x135)][_0x504ed5(0x121)]='#aaa',_0x56d85f[_0x504ed5(0x132)](_0x504ed5(0x7a),_0x370021[_0x504ed5(0x10e)]);else{const _0x501ca0=isToggled?_0x370021['text']['replace'](_0x504ed5(0x81),''):_0x370021[_0x504ed5(0x106)],_0x26907f=currentDataArray[0x0][_0x504ed5(0x146)](_0x501ca0);_0x26907f!==-0x1&&(_0x56d85f[_0x504ed5(0x15a)]=_0x26907f,_0x56d85f[_0x504ed5(0x12b)]=_0x501ca0,_0x56d85f[_0x504ed5(0x132)](_0x504ed5(0x7a),_0x370021[_0x504ed5(0x10e)]));}metricSelect['appendChild'](_0x56d85f);}),metricSelect['value']=_0xc38620,handleSelectorsChange();const _0x464e32=getPreferredLanguage();applyLanguage(_0x464e32),filterTable();}function filterTable(){const _0x443fa5=_0x5e7b49;let _0x55c2c9=currentDataArray[_0x443fa5(0x176)](0x1);const _0x4954ef=metricSelect['value'],_0x4ab03e=positionSelect[_0x443fa5(0x15a)],_0x2b29b1=leagueSelect['value'],_0x1bc483=ageInput[_0x443fa5(0x15a)];_0x4954ef===''?metricHeader['style'][_0x443fa5(0x9c)]=_0x443fa5(0x14a):(metricHeader[_0x443fa5(0x135)]['display']='',isAscending?_0x55c2c9[_0x443fa5(0xa8)]((_0x3ab625,_0x1646e8)=>parseFloat(_0x3ab625[_0x4954ef])-parseFloat(_0x1646e8[_0x4954ef])):_0x55c2c9[_0x443fa5(0xa8)]((_0x37896e,_0x498151)=>parseFloat(_0x498151[_0x4954ef])-parseFloat(_0x37896e[_0x4954ef])));_0x55c2c9=_0x55c2c9['filter'](_0xa6592c=>_0xa6592c[_0x4954ef]!==''),_0x55c2c9=_0x55c2c9['map'](_0x379dfe=>{if(parseFloat(_0x379dfe[0x10])===0x0&&parseFloat(_0x379dfe[0x12])===0x0){const _0x29e189=isToggled?0x52:0x52;_0x379dfe[_0x29e189]='';}return _0x379dfe;}),_0x55c2c9=_0x55c2c9['map'](_0x1d54a9=>{return(parseFloat(_0x1d54a9[0x10])===0x0||parseFloat(_0x1d54a9[0x12])===0x0)&&(_0x1d54a9[0x53]=''),_0x1d54a9;}),_0x55c2c9=_0x55c2c9[_0x443fa5(0x8c)](_0x404089=>{if(parseFloat(_0x404089[0x15])===0x0&&parseFloat(_0x404089[0x23])===0x0){const _0x17d0ef=isToggled?0x54:0x54;_0x404089[_0x17d0ef]='';}return _0x404089;}),_0x55c2c9=_0x55c2c9[_0x443fa5(0x8c)](_0x51061a=>{return(parseFloat(_0x51061a[0x23])===0x0||parseFloat(_0x51061a[0x15])===0x0)&&(_0x51061a[0x55]=''),_0x51061a;}),_0x55c2c9=_0x55c2c9[_0x443fa5(0x8c)](_0x18041c=>{return(parseFloat(_0x18041c[0x12])===0x0||parseFloat(_0x18041c[0x14])===0x0)&&(_0x18041c[0x51]=''),_0x18041c;}),_0x55c2c9=_0x55c2c9[_0x443fa5(0x8c)](_0x578ad3=>{return(parseFloat(_0x578ad3[0x12])===0x0||parseFloat(_0x578ad3[0x14])===0x0)&&(_0x578ad3[0x6e]=''),_0x578ad3;});if(_0x4ab03e==='All'){const _0xbf9ce6={};_0x55c2c9=_0x55c2c9[_0x443fa5(0x11c)](_0x1acab7=>{const _0x4a630f=_0x1acab7[0x0]+'\x20'+_0x1acab7[0x1];if(!_0xbf9ce6[_0x4a630f])return _0xbf9ce6[_0x4a630f]=!![],!![];return![];});}else _0x4ab03e!==''&&(_0x55c2c9=_0x55c2c9[_0x443fa5(0x11c)](_0x559b43=>_0x559b43[0x3]===_0x4ab03e));if(_0x2b29b1===_0x443fa5(0x84))_0x55c2c9=_0x55c2c9[_0x443fa5(0x11c)](_0x103ce7=>[_0x443fa5(0x17c),_0x443fa5(0xec),_0x443fa5(0x112),'Ligue\x201',_0x443fa5(0xae)][_0x443fa5(0xca)](_0x103ce7[0x2]));else{if(_0x2b29b1===_0x443fa5(0x163))_0x55c2c9=_0x55c2c9['filter'](_0x14d8b5=>['Premier\x20League',_0x443fa5(0xec),_0x443fa5(0x112),_0x443fa5(0xef),_0x443fa5(0xae),'Eredivisie',_0x443fa5(0x115)][_0x443fa5(0xca)](_0x14d8b5[0x2]));else{if(_0x2b29b1===_0x443fa5(0x16b))_0x55c2c9=_0x55c2c9['filter'](_0x43b705=>[_0x443fa5(0x141),'Poland',_0x443fa5(0x73),'Russia','Israel',_0x443fa5(0x13c),_0x443fa5(0xac),'Chile',_0x443fa5(0x97),_0x443fa5(0x171),_0x443fa5(0xf0),_0x443fa5(0xf5),_0x443fa5(0x13f),_0x443fa5(0x17b),_0x443fa5(0x99),_0x443fa5(0xce),_0x443fa5(0x174),_0x443fa5(0x148),_0x443fa5(0x77),'Czech\x20Fortuna\x20Liga',_0x443fa5(0x126),_0x443fa5(0x10a),_0x443fa5(0x88),_0x443fa5(0xc3),_0x443fa5(0x180),_0x443fa5(0xdb),_0x443fa5(0xff),_0x443fa5(0x12d),'Championship',_0x443fa5(0x177),_0x443fa5(0x172),_0x443fa5(0x119),_0x443fa5(0xbc)][_0x443fa5(0xca)](_0x43b705[0x2]));else{if(_0x2b29b1===_0x443fa5(0x9e))_0x55c2c9=_0x55c2c9['filter'](_0x36b3f4=>[_0x443fa5(0x141),_0x443fa5(0xd5),_0x443fa5(0x73),'Russia',_0x443fa5(0x80),'Ecuador',_0x443fa5(0xac),_0x443fa5(0x123),_0x443fa5(0x97),_0x443fa5(0x17c),_0x443fa5(0xec),'La\x20Liga',_0x443fa5(0xef),_0x443fa5(0xae),_0x443fa5(0x105),_0x443fa5(0x115),_0x443fa5(0x171),_0x443fa5(0xf0),'Austrian\x20Bundesliga',_0x443fa5(0x13f),_0x443fa5(0x17b),_0x443fa5(0x99),_0x443fa5(0xce),_0x443fa5(0x174),'Croatia\x20HNL',_0x443fa5(0x77),_0x443fa5(0xc7),_0x443fa5(0x126),_0x443fa5(0x10a),'K\x20League\x201',_0x443fa5(0xc3),_0x443fa5(0x180),_0x443fa5(0xdb),_0x443fa5(0xff),_0x443fa5(0x12d),_0x443fa5(0xd0),'Segunda\x20Division',_0x443fa5(0x172),_0x443fa5(0x119),_0x443fa5(0xbc)]['includes'](_0x36b3f4[0x2]));else{if(_0x2b29b1===_0x443fa5(0x18c))_0x55c2c9=_0x55c2c9[_0x443fa5(0x11c)](_0x286afc=>[_0x443fa5(0xdb),'Argentina\x20Primera',_0x443fa5(0x12d),'Colombia',_0x443fa5(0x123),_0x443fa5(0xac),'Ecuador'][_0x443fa5(0xca)](_0x286afc[0x2]));else{if(_0x2b29b1===_0x443fa5(0x13b))_0x55c2c9=_0x55c2c9['filter'](_0x243b39=>[_0x443fa5(0x174),_0x443fa5(0x99),_0x443fa5(0xce)][_0x443fa5(0xca)](_0x243b39[0x2]));else{if(_0x2b29b1==='Eastern\x20Europe')_0x55c2c9=_0x55c2c9['filter'](_0x3472d4=>[_0x443fa5(0xc7),_0x443fa5(0x77),_0x443fa5(0x148),_0x443fa5(0xb0),_0x443fa5(0x73),_0x443fa5(0xd5)][_0x443fa5(0xca)](_0x3472d4[0x2]));else _0x2b29b1!==''&&(_0x55c2c9=_0x55c2c9[_0x443fa5(0x11c)](_0x3815c6=>_0x3815c6[0x2]===_0x2b29b1));}}}}}}_0x1bc483!==''&&(_0x55c2c9=_0x55c2c9['filter'](_0x3ad9a5=>_0x3ad9a5[0x4]<=_0x1bc483+0x1)),displayTable(_0x55c2c9);}function displayTable(_0x2d5b7f){const _0x478ca6=_0x5e7b49;playerTable['innerHTML']='';if(metricSelect[_0x478ca6(0x15a)]===''){playerTable[_0x478ca6(0x135)]['display']=_0x478ca6(0x14a);return;}else playerTable['style'][_0x478ca6(0x9c)]='';isAscending?_0x2d5b7f['sort']((_0x344972,_0x5e6a7d)=>parseFloat(_0x344972[metricSelect[_0x478ca6(0x15a)]])-parseFloat(_0x5e6a7d[metricSelect[_0x478ca6(0x15a)]])):_0x2d5b7f[_0x478ca6(0xa8)]((_0x23889c,_0x5a882f)=>parseFloat(_0x5a882f[metricSelect['value']])-parseFloat(_0x23889c[metricSelect['value']]));let _0x4a8c22=null,_0x36d7ee=0x0,_0x34c41f=0x64,_0x4d275c=0x64,_0x47199f=Math[_0x478ca6(0x136)](..._0x2d5b7f[_0x478ca6(0x8c)](_0x222a6b=>parseFloat(_0x222a6b[metricSelect[_0x478ca6(0x15a)]]))),_0xb1e7de=Math[_0x478ca6(0xfb)](..._0x2d5b7f[_0x478ca6(0x8c)](_0x203836=>parseFloat(_0x203836[metricSelect[_0x478ca6(0x15a)]])));_0x2d5b7f['forEach']((_0x5f3e46,_0x5a5864)=>{const _0x23cb95=_0x478ca6;let _0x30c56c,_0x10fa8a;if(_0x5f3e46[metricSelect[_0x23cb95(0x15a)]]===_0x4a8c22)_0x30c56c=_0x34c41f,_0x10fa8a=_0x4d275c;else{if(_0x5f3e46[metricSelect[_0x23cb95(0x15a)]]==='0')_0x30c56c=0x0,_0x10fa8a=0x0;else{if(metricSelect[_0x23cb95(0x15a)]==='46'||metricSelect[_0x23cb95(0x15a)]==='84'||metricSelect[_0x23cb95(0x15a)]==='73'||metricSelect[_0x23cb95(0x15a)]==='82'||metricSelect[_0x23cb95(0x15a)]===_0x23cb95(0xa4)){const _0x31a519=_0x2d5b7f[_0x23cb95(0x8c)](_0x7f593f=>parseFloat(_0x7f593f[metricSelect[_0x23cb95(0x15a)]])),_0x1cf1e0=Math['min'](..._0x31a519),_0x3b16ed=Math[_0x23cb95(0x136)](..._0x31a519),_0x4045c1=_0x3b16ed-_0x1cf1e0,_0x5be2a5=parseFloat(_0x5f3e46[metricSelect[_0x23cb95(0x15a)]]);_0x30c56c=Math[_0x23cb95(0x136)]((_0x5be2a5-_0x1cf1e0)/_0x4045c1*0x64,1.5),_0x10fa8a=(_0x2d5b7f[_0x23cb95(0x17d)]-_0x5a5864)/_0x2d5b7f['length']*0x64;}else metricSelect[_0x23cb95(0x15a)]==='5'?(_0x30c56c=parseFloat(_0x5f3e46[metricSelect[_0x23cb95(0x15a)]])*0x64/0x63,_0x10fa8a=(_0x2d5b7f[_0x23cb95(0x17d)]-_0x5a5864)/_0x2d5b7f[_0x23cb95(0x17d)]*0x64):(_0x30c56c=Math[_0x23cb95(0x136)](parseFloat(_0x5f3e46[metricSelect[_0x23cb95(0x15a)]])/_0x47199f*0x64,1.5),_0x10fa8a=(_0x2d5b7f[_0x23cb95(0x17d)]-_0x5a5864)/_0x2d5b7f[_0x23cb95(0x17d)]*0x64);}_0x4a8c22=_0x5f3e46[metricSelect[_0x23cb95(0x15a)]],_0x36d7ee=_0x5a5864,_0x34c41f=_0x30c56c,_0x4d275c=_0x10fa8a;}let _0x110a0d,_0x146948,_0x24938f;isAscending?(_0x110a0d=Math[_0x23cb95(0xa9)](0xff*(0x1-Math[_0x23cb95(0x130)]((0x64-_0x10fa8a)/0x64,1.3))),_0x146948=Math[_0x23cb95(0xa9)](0x64-_0x10fa8a),_0x24938f=Math['round'](0xff*Math[_0x23cb95(0x130)]((0x64-_0x10fa8a)/0x64,1.3))):(_0x110a0d=Math[_0x23cb95(0xa9)](0xff*(0x1-Math[_0x23cb95(0x130)](_0x10fa8a/0x64,1.3))),_0x146948=Math[_0x23cb95(0xa9)](_0x10fa8a),_0x24938f=Math[_0x23cb95(0xa9)](0xff*Math['pow'](_0x10fa8a/0x64,1.3)));const _0x456eb6=0.835,_0x1f2a8f=_0x23cb95(0x98)+_0x110a0d+',\x20'+_0x146948+',\x20'+_0x24938f+',\x20'+_0x456eb6+')',_0x498bf0=document[_0x23cb95(0x118)]('tr');_0x498bf0[_0x23cb95(0xa1)]=_0x23cb95(0xf8)+(_0x36d7ee+0x1)+'.\x20'+_0x5f3e46[0x0]+'&nbsp;<span\x20class=\x22smaller-text\x22>('+_0x5f3e46[0x1]+',\x20'+Math['round'](_0x5f3e46[0x4])+_0x23cb95(0x96)+_0x5f3e46[metricSelect[_0x23cb95(0x15a)]]+'</th>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<th>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22rank-bar\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22rank-bar-fill\x22\x20style=\x22width:\x20'+_0x30c56c+_0x23cb95(0x12e)+_0x1f2a8f+'\x22></div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</th>\x0a\x20\x20\x20\x20\x20\x20\x20\x20',playerTable[_0x23cb95(0xda)](_0x498bf0);});}function handleSelectorsChange(){const _0x2fdbce=_0x5e7b49,_0x5925e1=parseInt(metricSelect[_0x2fdbce(0x15a)]),_0x5cb14e=positionSelect['value'],_0x48d3c4=leagueSelect[_0x2fdbce(0x15a)],_0x4d109d=metricSelect[_0x2fdbce(0xc6)](_0x2fdbce(0x178)),_0x4e921c=document[_0x2fdbce(0x11a)]('.metric-selector');_0x5925e1===0x2b||_0x5925e1===0x2d||_0x5925e1===0x52||_0x5925e1===0x53||_0x5925e1===0x54||_0x5925e1===0x55?(toggleSortButton[_0x2fdbce(0x135)][_0x2fdbce(0x9c)]=_0x2fdbce(0x113),_0x4e921c[_0x2fdbce(0x153)][_0x2fdbce(0xc0)](_0x2fdbce(0xfc))):(toggleSortButton['style'][_0x2fdbce(0x9c)]='none',_0x4e921c[_0x2fdbce(0x153)][_0x2fdbce(0xaa)]('with-toggle')),_0x5925e1===0x5?(leagueSelect[_0x2fdbce(0x11a)](_0x2fdbce(0x170))[_0x2fdbce(0xb2)]=!![],leagueSelect['querySelector'](_0x2fdbce(0xba))[_0x2fdbce(0xb2)]=!![],positionSelect[_0x2fdbce(0x11a)](_0x2fdbce(0x86))[_0x2fdbce(0xb2)]=!![],leagueSelect[_0x2fdbce(0x11a)](_0x2fdbce(0x103))[_0x2fdbce(0xb2)]=!![],leagueSelect[_0x2fdbce(0x11a)](_0x2fdbce(0xfd))[_0x2fdbce(0xb2)]=!![],leagueSelect[_0x2fdbce(0x11a)](_0x2fdbce(0x124))['disabled']=!![],leagueSelect[_0x2fdbce(0x11a)](_0x2fdbce(0x158))['disabled']=!![],leagueSelect['querySelector'](_0x2fdbce(0xbe))[_0x2fdbce(0xb2)]=!![]):(leagueSelect['querySelector'](_0x2fdbce(0x170))[_0x2fdbce(0xb2)]=![],leagueSelect[_0x2fdbce(0x11a)](_0x2fdbce(0xba))[_0x2fdbce(0xb2)]=![],positionSelect[_0x2fdbce(0x11a)]('option[value=\x22All\x22]')[_0x2fdbce(0xb2)]=![],leagueSelect['querySelector'](_0x2fdbce(0x103))[_0x2fdbce(0xb2)]=![],leagueSelect[_0x2fdbce(0x11a)](_0x2fdbce(0xfd))[_0x2fdbce(0xb2)]=![],leagueSelect['querySelector'](_0x2fdbce(0x124))[_0x2fdbce(0xb2)]=![],leagueSelect[_0x2fdbce(0x11a)](_0x2fdbce(0x158))['disabled']=![],leagueSelect['querySelector'](_0x2fdbce(0xbe))[_0x2fdbce(0xb2)]=![]),_0x5cb14e===_0x2fdbce(0x85)||(_0x48d3c4===_0x2fdbce(0x84)||_0x48d3c4===_0x2fdbce(0x163)||_0x48d3c4===_0x2fdbce(0x16b)||_0x48d3c4===_0x2fdbce(0x9e)||_0x48d3c4===_0x2fdbce(0x18c)||_0x48d3c4===_0x2fdbce(0x13b)||_0x48d3c4===_0x2fdbce(0xd9))?(_0x4d109d[0x0][_0x2fdbce(0xb2)]=!![],_0x5925e1===0x0&&(metricSelect[_0x2fdbce(0x15a)]='1',filterTable())):_0x4d109d[0x0][_0x2fdbce(0xb2)]=![];}metricSelect[_0x5e7b49(0xa2)](_0x5e7b49(0x131),handleSelectorsChange),positionSelect['addEventListener']('change',handleSelectorsChange),leagueSelect['addEventListener'](_0x5e7b49(0x131),handleSelectorsChange),filterTable();function _0xea11(){const _0x389cab=['CATEGORY:\x20Passing','metrics.shortPassesCompleted','color','Duels\x20per\x2090','Chile','option[value=\x22South\x20America\x22]','metrics.throughPasses','Saudi\x20Pro\x20League','Free\x20kicks\x20per\x2090','Goal\x20conversion\x20%','metrics.slidingTacklesAdj','metrics.assistsMinusXa','textContent','xG/Shot','Uruguay\x20Primera','%;\x20background-color:\x20','Passes\x20to\x20final\x20third\x20per\x2090','pow','change','setAttribute','753990jfibGO','Pass\x20completion\x20(to\x20final\x20third)\x20%','style','max','xG\x20per\x2090','metricHeader','Shots\x20per\x2090','Pass\x20completion\x20%','Scandinavia','Ecuador','Save\x20percentage\x20%','metrics.forwardPassRatio','Swiss\x20Super\x20League','metrics.npxgPerShot','Greece','Dribble\x20success\x20rate\x20%','metrics.successfulDribbles','metrics.passesReceived','forEach','indexOf','441202ETIXOm','Croatia\x20HNL','metrics.touchesInBox','none','metrics.passesToFinalThird','metrics.minutesPlayed','Prevented\x20goals\x20per\x2090','Possessions\x20won\x20per\x2090','metrics.passCompletionToBox','Clean\x20sheets','Forward\x20passes\x20per\x2090','npxG\x20per\x2090','classList','CATEGORY:\x20Possession','categories.setPieces','metrics.xgConceded','metrics.shotAssists','option[value=\x22Eastern\x20Europe\x22]','metrics.dribblesPerTouches','value','metrics.matchesPlayed','categories.goalCreation','metrics.xgPerNinety','metrics.xgAndXa','Average\x20pass\x20length\x20(m)','Pre-assists\x20per\x2090','Interceptions\x20(PAdj)','metrics.crossesToBox','Top\x207\x20Leagues','Progressive\x20pass\x20accuracy\x20%','metrics.throughPassesCompleted','Accurate\x20passes\x20to\x20final\x20third\x20per\x2090','metrics.aerialDuels','Exits\x20per\x2090','toggleSort','metrics.dribblesAttempted','No\x20Top\x207','playerTable','replace','metrics.passCompletion','Sliding\x20tackles\x20(PAdj)','option[value=\x22Top\x205\x20Leagues\x22]','Belgium\x20Pro\x20League','Serie\x20B','metrics.progressiveActionRate','Norway\x20Eliteserien','metrics.keyPasses','slice','Segunda\x20Division','option','metrics.forwardPassCompletion','metrics.offensiveDuelsWon','Süper\x20Lig','Premier\x20League','length','metrics.assistsPerXa','CATEGORY:\x20Defending','LigaMX','metrics.shortPassCompletion','metrics.goalsPerXg','metrics.passesToBox','metric','Backward\x20passes\x20per\x2090','metrics.xgPerShot','metrics.xaPerNinety','Shot\x20assists\x20per\x2090','metrics.xaPerPasses','metrics.accelerations','categories.passing','South\x20America','88vGdrEb','metrics.aerialDuelsWon','Through\x20passes\x20completed\x20per\x2090','xG\x20per\x20100\x20touches','npxG+xA\x20per\x2090','Passes\x20received\x20per\x2090','476094uhSPqH','metrics.assistsPerNinety','Through\x20pass\x20completion\x20%','Shot\x20frequency','metrics.interceptions','metrics.slidingTackles','Ukraine','metrics.attackingActions','metrics.possessionPlusMinus','metrics.longPasses','Serbia\x20SuperLiga','Assists\x20per\x2090','Penalties\x20scored','data-i18n','metrics.preAssists','metrics.progressivePasses','toggleMetrics','metrics.npxgAndXa','metrics.cleanSheets','Israel','\x20per\x2090','metrics.longPassAccuracy','249508AbLMsT','Top\x205\x20Leagues','All','option[value=\x22All\x22]','Touches\x20per\x2090','K\x20League\x201','Goals\x20+\x20Assists\x20per\x2090','metrics.shotFrequency','#aaa','map','12QlIMzr','Possessions\x20won\x20-\x20lost\x20per\x2090','metrics.possessionsLost','categories.possession','Ball-carrying\x20frequency','metrics.defensiveDuelsWon','metrics.accuratePassesFinalThird','metrics.duelsWon','metrics.progressiveActions',')</span></td>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<th>','Colombia','rgba(','Denmark\x20Superliga','xA\x20per\x20100\x20passes','1647720KhXjFg','display','metrics.passCompletionFinalThird','All\x20Leagues','999693BkwLdI','metrics.possessionsWon','innerHTML','addEventListener','metrics.shotsOnTargetPerNinety','103','Dribbles\x20per\x20100\x20touches','metrics.savePercentage','metrics.progressivePassAccuracy','sort','round','remove','Short\x20passes\x20per\x2090','Paraguay','632224fNUGBG','Serie\x20A','CATEGORY:\x20Dribbling\x20and\x20Ball-Carrying','Russia','Matches\x20played','disabled','Direct\x20free\x20kicks\x20per\x2090','getElementById','Accelerations\x20per\x2090','Touches\x20in\x20box\x20per\x2090','metrics.directFreeKicksOnTarget','Crosses\x20per\x2090','Direct\x20free\x20kicks\x20oT\x20%','option[value=\x22Top\x207\x20Leagues\x22]','metrics.saves','Ligue\x202','metrics.forwardPassesCompleted','option[value=\x22Scandinavia\x22]','categories.defending','add','Accurate\x20passes\x20to\x20pen\x20box\x20per\x2090','metrics.goalsAndAssists','MLS','Aerial\x20duels\x20won\x20%','metrics.forwardPasses','querySelectorAll','Czech\x20Fortuna\x20Liga','metrics.performanceIndex','bold','includes','fontWeight','Long\x20passes\x20per\x2090','position','Sweden\x20Allsvenskan','league','Championship','Non-penalty\x20goals\x20per\x2090','Chance\x20creation\x20ratio','Defensive\x20duels\x20won\x20per\x2090','metrics.deepCompletions','Poland','Defensive\x20duels\x20per\x2090','metrics.backwardPassRatio','Offensive\x20duels\x20per\x2090','Eastern\x20Europe','appendChild','Brazil\x20Serie\x20A','metrics.headedGoals','Corners\x20per\x2090','Key\x20passes\x20per\x2090','age','metrics.aerialDuelsWonPerNinety','CATEGORY:\x20Set\x20Pieces','Shots\x20on\x20target\x20per\x2090','Shots\x20on\x20target\x20%','Duels\x20won\x20%','categories.goalScoring','metrics.goalConversion','categories.goalkeeping','Long\x20pass\x20accuracy\x20%','metrics.dribbleSuccess','metrics.offensiveDuels','metrics.duelsWonPerNinety','Bundesliga','metrics.penaltiesScored','categories.dribbling','Ligue\x201','Scotland\x20Premiership','Forward\x20pass\x20ratio','startsWith','Forward\x20passes\x20completed\x20per\x2090','split','Austrian\x20Bundesliga','Backward\x20pass\x20ratio','metrics.penaltySuccessRate','\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<td>','click','Progressive\x20action\x20rate','min','with-toggle','option[value=\x22All\x20Leagues\x22]','metrics.interceptionsAdj','Argentina\x20Primera','metrics.ballCarrying','metrics.penaltiesAttempted','metrics.shotsPerNinety','option[value=\x22No\x20Top\x207\x22]','metrics.progressiveCarries','Eredivisie','text','metrics.passes','CATEGORY:\x20','metrics.accurateCrosses','J1\x20League','metrics.averagePassLength','metrics.throughPassCompletion','Assists\x20-\x20xA\x20per\x2090','i18n','Saves\x20per\x2090','Accurate\x20crosses\x20per\x2090','Penalty\x20success\x20rate\x20%','La\x20Liga','inline-block','metrics.npxgPerNinety','Liga\x20Portugal','metrics.goalsPerTouches','metrics.defensiveDuels','createElement','Bundesliga\x202','querySelector','Offensive\x20duels\x20won\x20%','filter','metrics.minutesPerMatch','metrics.directFreeKicks'];_0xea11=function(){return _0x389cab;};return _0xea11();}
+let originalDataArray = data.split('\n').map(row => row.split(','));
+
+const playerTable = document.getElementById('playerTable');
+const metricSelect = document.getElementById('metric');
+const positionSelect = document.getElementById('position');
+const leagueSelect = document.getElementById('league');
+const ageInput = document.getElementById('age');
+const metricHeader = document.getElementById('metricHeader');
+const toggleButton = document.getElementById('toggleMetrics');
+const toggleSortButton = document.getElementById('toggleSort'); // New button for toggling sort order
+
+let isToggled = false;
+let isAscending = false; // New state variable for sort order
+let currentDataArray = originalDataArray; // Initially set to original data
+
+const customMetricOrder = [
+ 
+    { text: "Performance Index", i18n: "metrics.performanceIndex" },
+    { text: "Minutes played", i18n: "metrics.minutesPlayed" },
+    { text: "Matches played", i18n: "metrics.matchesPlayed" },
+    { text: "Minutes per match", i18n: "metrics.minutesPerMatch" },
+
+    // Goal Scoring
+    { text: "CATEGORY: Goal Scoring", i18n: "categories.goalScoring" },
+    { text: "Goals per 90", i18n: "metrics.goalsPerNinety" },
+    { text: "Non-penalty goals per 90", i18n: "metrics.nonPenaltyGoals" },
+    { text: "xG per 90", i18n: "metrics.xgPerNinety" },
+    { text: "xG/Shot", i18n: "metrics.xgPerShot" },
+    { text: "npxG per 90", i18n: "metrics.npxgPerNinety" },
+    { text: "npxG/Shot", i18n: "metrics.npxgPerShot" },
+    { text: "Goals per 100 touches", i18n: "metrics.goalsPerTouches" },
+    { text: "xG per 100 touches", i18n: "metrics.xgPerTouches" },
+    { text: "Shot frequency", i18n: "metrics.shotFrequency" },
+    { text: "Shots per 90", i18n: "metrics.shotsPerNinety" },
+    { text: "Shots on target %", i18n: "metrics.shotsOnTarget" },
+    { text: "Shots on target per 90", i18n: "metrics.shotsOnTargetPerNinety" },
+    { text: "Goal conversion %", i18n: "metrics.goalConversion" },
+    { text: "Goals - xG per 90", i18n: "metrics.goalsMinusXg" },
+    { text: "Goals per xG", i18n: "metrics.goalsPerXg" },
+    { text: "Headed goals per 90", i18n: "metrics.headedGoals" },
+    { text: "Touches in box per 90", i18n: "metrics.touchesInBox" },
+
+    // Goal Creation
+    { text: "CATEGORY: Goal Creation", i18n: "categories.goalCreation" },
+    { text: "Assists per 90", i18n: "metrics.assistsPerNinety" },
+    { text: "xA per 90", i18n: "metrics.xaPerNinety" },
+    { text: "xA per 100 passes", i18n: "metrics.xaPerPasses" },
+    { text: "Goals + Assists per 90", i18n: "metrics.goalsAndAssists" },
+    { text: "NPG+A per 90", i18n: "metrics.npGoalsAndAssists" },
+    { text: "xG+xA per 90", i18n: "metrics.xgAndXa" },
+    { text: "npxG+xA per 90", i18n: "metrics.npxgAndXa" },
+    { text: "Key passes per 90", i18n: "metrics.keyPasses" },
+    { text: "Chance creation ratio", i18n: "metrics.chanceCreation" },
+    { text: "Assists - xA per 90", i18n: "metrics.assistsMinusXa" },
+    { text: "Assists per xA", i18n: "metrics.assistsPerXa" },
+    { text: "Shot assists per 90", i18n: "metrics.shotAssists" },
+    { text: "Pre-assists per 90", i18n: "metrics.preAssists" },
+    { text: "Crosses per 90", i18n: "metrics.crosses" },
+    { text: "Cross accuracy %", i18n: "metrics.crossAccuracy" },
+    { text: "Accurate crosses per 90", i18n: "metrics.accurateCrosses" },
+    { text: "Crosses to box per 90", i18n: "metrics.crossesToBox" },
+    { text: "Deep completions per 90", i18n: "metrics.deepCompletions" },
+
+    // Dribbling and Ball-Carrying
+    { text: "CATEGORY: Dribbling and Ball-Carrying", i18n: "categories.dribbling" },
+    { text: "Dribbles attempted per 90", i18n: "metrics.dribblesAttempted" },
+    { text: "Dribble success rate %", i18n: "metrics.dribbleSuccess" },
+    { text: "Successful dribbles per 90", i18n: "metrics.successfulDribbles" },
+    { text: "Dribbles per 100 touches", i18n: "metrics.dribblesPerTouches" },
+    { text: "Successful attacking actions per 90", i18n: "metrics.attackingActions" },
+    { text: "Offensive duels per 90", i18n: "metrics.offensiveDuels" },
+    { text: "Offensive duels won %", i18n: "metrics.offensiveDuelsWon" },
+    { text: "Offensive duels won per 90", i18n: "metrics.offensiveDuelsWonPerNinety" },
+    { text: "Progressive carries per 90", i18n: "metrics.progressiveCarries" },
+    { text: "Ball-carrying frequency", i18n: "metrics.ballCarrying" },
+    { text: "Accelerations per 90", i18n: "metrics.accelerations" },
+    { text: "Fouls suffered per 90", i18n: "metrics.foulsSuffered" },
+
+    // Passing
+    { text: "CATEGORY: Passing", i18n: "categories.passing" },
+    { text: "Passes per 90", i18n: "metrics.passes" },
+    { text: "Pass completion %", i18n: "metrics.passCompletion" },
+    { text: "Passes completed per 90", i18n: "metrics.passesCompleted" },
+    { text: "Forward passes per 90", i18n: "metrics.forwardPasses" },
+    { text: "Forward pass completion %", i18n: "metrics.forwardPassCompletion" },
+    { text: "Forward passes completed per 90", i18n: "metrics.forwardPassesCompleted" },
+    { text: "Short passes per 90", i18n: "metrics.shortPasses" },
+    { text: "Short pass completion %", i18n: "metrics.shortPassCompletion" },
+    { text: "Short passes completed per 90", i18n: "metrics.shortPassesCompleted" },
+    { text: "Long passes per 90", i18n: "metrics.longPasses" },
+    { text: "Long pass accuracy %", i18n: "metrics.longPassAccuracy" },
+    { text: "Long passes completed per 90", i18n: "metrics.longPassesCompleted" },
+    { text: "Progressive passes per 90", i18n: "metrics.progressivePasses" },
+    { text: "Progressive pass accuracy %", i18n: "metrics.progressivePassAccuracy" },
+    { text: "Progressive passes completed per 90", i18n: "metrics.progressivePassesCompleted" },
+    { text: "Progressive passes (PAdj)", i18n: "metrics.progressivePassesAdj" },
+    { text: "Passes to final third per 90", i18n: "metrics.passesToFinalThird" },
+    { text: "Pass completion (to final third) %", i18n: "metrics.passCompletionFinalThird" },
+    { text: "Accurate passes to final third per 90", i18n: "metrics.accuratePassesFinalThird" },
+    { text: "Passes to penalty box per 90", i18n: "metrics.passesToBox" },
+    { text: "Pass completion (to penalty box) %", i18n: "metrics.passCompletionToBox" },
+    { text: "Accurate passes to pen box per 90", i18n: "metrics.accuratePassesToBox" },
+    { text: "Through passes per 90", i18n: "metrics.throughPasses" },
+    { text: "Through pass completion %", i18n: "metrics.throughPassCompletion" },
+    { text: "Through passes completed per 90", i18n: "metrics.throughPassesCompleted" },
+    { text: "Average pass length (m)", i18n: "metrics.averagePassLength" },
+    { text: "Backward passes per 90", i18n: "metrics.backwardPasses" },
+    { text: "Misplaced passes per 90", i18n: "metrics.misplacedPasses" },
+    { text: "Forward pass ratio", i18n: "metrics.forwardPassRatio" },
+    { text: "Backward pass ratio", i18n: "metrics.backwardPassRatio" },
+
+    // Possession
+    { text: "CATEGORY: Possession", i18n: "categories.possession" },
+    { text: "Passes received per 90", i18n: "metrics.passesReceived" },
+    { text: "Touches per 90", i18n: "metrics.touches" },
+    { text: "Possessions lost per 90", i18n: "metrics.possessionsLost" },
+    { text: "Possessions won - lost per 90", i18n: "metrics.possessionsBalance" },
+    { text: "Possession +/-", i18n: "metrics.possessionPlusMinus" },
+    { text: "Duels per 90", i18n: "metrics.duels" },
+    { text: "Duels won %", i18n: "metrics.duelsWon" },
+    { text: "Duels won per 90", i18n: "metrics.duelsWonPerNinety" },
+    { text: "Progressive actions per 90", i18n: "metrics.progressiveActions" },
+    { text: "Progressive action rate", i18n: "metrics.progressiveActionRate" },
+
+    // Defending
+    { text: "CATEGORY: Defending", i18n: "categories.defending" },
+    { text: "Defensive duels per 90", i18n: "metrics.defensiveDuels" },
+    { text: "Defensive duels won %", i18n: "metrics.defensiveDuelsWon" },
+    { text: "Defensive duels won per 90", i18n: "metrics.defensiveDuelsWonPerNinety" },
+    { text: "Sliding tackles per 90", i18n: "metrics.slidingTackles" },
+    { text: "Sliding tackles (PAdj)", i18n: "metrics.slidingTacklesAdj" },
+    { text: "Interceptions per 90", i18n: "metrics.interceptions" },
+    { text: "Interceptions (PAdj)", i18n: "metrics.interceptionsAdj" },
+    { text: "Possessions won per 90", i18n: "metrics.possessionsWon" },
+    { text: "Aerial duels per 90", i18n: "metrics.aerialDuels" },
+    { text: "Aerial duels won %", i18n: "metrics.aerialDuelsWon" },
+    { text: "Aerial duels won per 90", i18n: "metrics.aerialDuelsWonPerNinety" },
+    { text: "Shots blocked per 90", i18n: "metrics.shotsBlocked" },
+
+    // Goalkeeping
+    { text: "CATEGORY: Goalkeeping", i18n: "categories.goalkeeping" },
+    { text: "Saves per 90", i18n: "metrics.saves" },
+    { text: "Save percentage %", i18n: "metrics.savePercentage" },
+    { text: "Prevented goals per 90", i18n: "metrics.preventedGoals" },
+    { text: "Shots conceded per 90", i18n: "metrics.shotsConceded" },
+    { text: "xG conceded per 90", i18n: "metrics.xgConceded" },
+    { text: "Clean sheets", i18n: "metrics.cleanSheets" },
+    { text: "Exits per 90", i18n: "metrics.exits" },
+
+    // Set Pieces
+    { text: "CATEGORY: Set Pieces", i18n: "categories.setPieces" },
+    { text: "Free kicks per 90", i18n: "metrics.freeKicks" },
+    { text: "Direct free kicks per 90", i18n: "metrics.directFreeKicks" },
+    { text: "Direct free kicks oT %", i18n: "metrics.directFreeKicksOnTarget" },
+    { text: "Corners per 90", i18n: "metrics.corners" },
+    { text: "Penalties attempted", i18n: "metrics.penaltiesAttempted" },
+    { text: "Penalties scored", i18n: "metrics.penaltiesScored" },
+    { text: "Penalty success rate %", i18n: "metrics.penaltySuccessRate" }
+];
+
+const columnIndexMap = {};
+originalDataArray[0].forEach((name, index) => {
+    columnIndexMap[name] = index;
+});
+
+metricSelect.innerHTML = ''; // Clear existing options
+
+customMetricOrder.forEach(metric => {
+    const option = document.createElement('option');
+    if (metric.text.startsWith("CATEGORY: ")) {
+        option.textContent = metric.text.replace("CATEGORY: ", "");
+        option.disabled = true;
+        option.style.fontWeight = "bold";
+        option.style.color = "#aaa";
+        option.setAttribute('data-i18n', metric.i18n);
+    } else {
+        const metricName = isToggled ? metric.text.replace(' per 90', '') : metric.text;
+        const index = currentDataArray[0].indexOf(metricName);
+        if (index !== -1) {
+            option.value = index;
+            option.textContent = metricName;
+            option.setAttribute('data-i18n', metric.i18n);
+        }
+    }
+    metricSelect.appendChild(option);
+});
+
+// Set column 61 as the default selection
+metricSelect.value = "5";
+
+leagueSelect.querySelector('option[value="Top 5 Leagues"]').disabled = true;
+leagueSelect.querySelector('option[value="Top 7 Leagues"]').disabled = true;
+leagueSelect.querySelector('option[value="All Leagues"]').disabled = true;
+leagueSelect.querySelector('option[value="No Top 7"]').disabled = true;
+positionSelect.querySelector('option[value="All"]').disabled = true;
+leagueSelect.querySelector('option[value="South America"]').disabled = true;
+    leagueSelect.querySelector('option[value="Eastern Europe"]').disabled = true;
+    leagueSelect.querySelector('option[value="Scandinavia"]').disabled = true;
+metricSelect.dispatchEvent(new Event('change'));
+
+toggleButton.addEventListener('change', toggleData);
+toggleSortButton.addEventListener('click', toggleSortOrder); // New event listener for sort order toggle
+metricSelect.addEventListener('change', () => {
+    isAscending = false; // Reset to default descending order
+    filterTable(); // Reapply filtering and sorting
+});positionSelect.addEventListener('change', filterTable);
+leagueSelect.addEventListener('change', filterTable);
+ageInput.addEventListener('input', filterTable);
+
+function toggleSortOrder() {
+    isAscending = !isAscending; // Toggle sort order
+    filterTable(); // Reapply filtering and sorting
+}
+
+function toggleData() {
+    isToggled = !isToggled; // Toggle the state
+    const currentMetricValue = metricSelect.value;
+
+    if (isToggled) {
+        currentDataArray = originalDataArray.map((row, index) => {
+            if (index === 0) {
+                return row.map((cell, cellIndex) => {
+                    if (![11, 14, 34, 44, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63].includes(cellIndex)) {
+                        return cell.replace(' per 90', '');
+                    } else {
+                        return cell; // Keep other cells unchanged
+                    }
+                });
+            } else {
+                const minutesPlayed = parseFloat(row[6]);
+                return row.map((cell, cellIndex) => {
+                    if (cellIndex > 4 && ![5, 6, 11, 14, 34, 44, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 66, 68, 69, 70, 72, 73, 74, 75, 76, 81, 83, 85, 106, 107, 108, 110, 113, 114, 115, 116, 117, 118, 119].includes(cellIndex)) {
+                        if ([18, 35, 45, 46, 80, 82, 84, 109, 111].includes(cellIndex)) {
+                            return (cell * minutesPlayed / 90).toFixed(1);
+                        } else {
+                            return Math.round(cell * minutesPlayed / 90);
+                        }
+                    } else {
+                        return cell; // Keep other cells unchanged
+                    }
+                });
+            }
+        });
+
+        metricSelect.innerHTML = ''; // Clear existing options
+        customMetricOrder.forEach(metric => {
+            const option = document.createElement('option');
+            if (metric.text.startsWith("CATEGORY: ")) {
+                option.textContent = metric.text.replace("CATEGORY: ", "");
+                option.disabled = true;
+                option.style.fontWeight = "bold";
+                option.style.color = "#aaa";
+                option.setAttribute('data-i18n', metric.i18n);
+            } else {
+                const metricName = isToggled ? metric.text.replace(' per 90', '') : metric.text;
+                const index = currentDataArray[0].indexOf(metricName);
+                if (index !== -1) {
+                    option.value = index;
+                    option.textContent = metricName;
+                    option.setAttribute('data-i18n', metric.i18n);
+                }
+            }
+            metricSelect.appendChild(option);
+        });
+    } else {
+        currentDataArray = originalDataArray;
+    }
+
+    currentDataArray = currentDataArray.map(row => {
+        if (parseFloat(row[16]) === 0 && parseFloat(row[18]) === 0) {
+            row[82] = '';
+        }
+        return row;
+    });
+
+    currentDataArray = currentDataArray.map(row => {
+        if (parseFloat(row[21]) === 0 && parseFloat(row[35]) === 0) {
+            row[84] = '';
+        }
+        return row;
+    });
+
+    metricSelect.innerHTML = '';
+    customMetricOrder.forEach(metric => {
+        const option = document.createElement('option');
+        if (metric.text.startsWith("CATEGORY: ")) {
+            option.textContent = metric.text.replace("CATEGORY: ", "");
+            option.disabled = true;
+            option.style.fontWeight = "bold";
+            option.style.color = "#aaa";
+            option.setAttribute('data-i18n', metric.i18n);
+        } else {
+            const metricName = isToggled ? metric.text.replace(' per 90', '') : metric.text;
+            const index = currentDataArray[0].indexOf(metricName);
+            if (index !== -1) {
+                option.value = index;
+                option.textContent = metricName;
+                option.setAttribute('data-i18n', metric.i18n);
+            }
+        }
+        metricSelect.appendChild(option);
+    });
+    metricSelect.value = currentMetricValue;
+    handleSelectorsChange();
+    
+    // Reapply internationalization after toggling
+    const preferredLanguage = getPreferredLanguage();
+    applyLanguage(preferredLanguage);
+    
+    filterTable(); // Ensure filtering is always applied
+}
+
+function filterTable() {
+    let filteredData = currentDataArray.slice(1); // Exclude header row
+    const metricIndex = metricSelect.value;
+    const position = positionSelect.value;
+    const league = leagueSelect.value;
+    const age = ageInput.value;
+
+    if (metricIndex === '') {
+        metricHeader.style.display = 'none';
+    } else {
+        metricHeader.style.display = '';
+        // Sort by selected metric
+        if (isAscending) {
+            filteredData.sort((a, b) => parseFloat(a[metricIndex]) - parseFloat(b[metricIndex]));
+        } else {
+            filteredData.sort((a, b) => parseFloat(b[metricIndex]) - parseFloat(a[metricIndex]));
+        }    
+    }
+
+    filteredData = filteredData.filter(row => row[metricIndex] !== '');
+
+    filteredData = filteredData.map(row => {
+    if (parseFloat(row[16]) === 0 && parseFloat(row[18]) === 0) {
+        const targetColumn = isToggled ? 82 : 82;  // Adjust index if needed based on toggling
+        row[targetColumn] = '';
+    }
+    return row;
+});
+
+    filteredData = filteredData.map(row => {
+        if (parseFloat(row[16]) === 0 || parseFloat(row[18]) === 0) {
+            row[83] = '';
+        }
+        return row;
+    });
+
+
+    filteredData = filteredData.map(row => {
+    if (parseFloat(row[21]) === 0 && parseFloat(row[35]) === 0) {
+        const targetColumn = isToggled ? 84 : 84;  // Adjust index if needed based on toggling
+        row[targetColumn] = '';
+    }
+    return row;
+});
+
+    filteredData = filteredData.map(row => {
+        if (parseFloat(row[35]) === 0 || parseFloat(row[21]) === 0) {
+            row[85] = '';
+        }
+        return row;
+    });
+
+
+
+    filteredData = filteredData.map(row => {
+        if (parseFloat(row[18]) === 0 || parseFloat(row[20]) === 0) {
+            row[81] = '';
+        }
+        return row;
+    });
+
+
+    filteredData = filteredData.map(row => {
+        if (parseFloat(row[18]) === 0 || parseFloat(row[20]) === 0) {
+            row[110] = '';
+        }
+        return row;
+    });
+
+
+    if (position === 'All') {
+        // Filter out duplicates and select all players
+        const uniquePlayers = {};
+        filteredData = filteredData.filter(row => {
+            const key = `${row[0]} ${row[1]}`; // Assuming the first column contains player names
+            if (!uniquePlayers[key]) {
+                uniquePlayers[key] = true;
+                return true;
+            }
+            return false;
+        });
+    } else if (position !== '') {
+        // Filter by selected position
+        filteredData = filteredData.filter(row => row[3] === position);
+    }
+
+    if (league === 'Top 5 Leagues') {
+        // Filter data to include only players from the top 5 leagues
+        filteredData = filteredData.filter(row =>
+            ['Premier League', 'Bundesliga', 'La Liga', 'Ligue 1', 'Serie A'].includes(row[2])
+        );
+    } else if (league === 'Top 7 Leagues') {
+        // Filter data to include only players from the top 7 leagues
+        filteredData = filteredData.filter(row =>
+            ['Premier League', 'Bundesliga', 'La Liga', 'Ligue 1', 'Serie A', 'Eredivisie', 'Liga Portugal'].includes(row[2])
+        );
+    } else if (league === 'No Top 7') {
+        // Filter data to include only players from the top 7 leagues
+        filteredData = filteredData.filter(row =>
+            ['Greece','Poland','Ukraine','Russia','Israel','Ecuador','Paraguay','Chile','Colombia','Belgium Pro League', 'Scotland Premiership', 'Austrian Bundesliga', 'Swiss Super League', 'Süper Lig', 'Denmark Superliga', 'Sweden Allsvenskan', 'Norway Eliteserien', 'Croatia HNL', 'Serbia SuperLiga', 'Czech Fortuna Liga', 'Saudi Pro League', 'J1 League', 'K League 1', 'MLS', 'LigaMX', 'Brazil Serie A', 'Argentina Primera', 'Uruguay Primera', 'Championship', 'Segunda Division', 'Serie B', 'Bundesliga 2', 'Ligue 2', ].includes(row[2])
+        );
+    } else if (league === 'All Leagues') {
+        // Filter data to include only players from the top 7 leagues
+        filteredData = filteredData.filter(row =>
+            ['Greece','Poland','Ukraine','Russia','Israel','Ecuador','Paraguay','Chile','Colombia','Premier League', 'Bundesliga', 'La Liga', 'Ligue 1', 'Serie A', 'Eredivisie', 'Liga Portugal', 'Belgium Pro League', 'Scotland Premiership', 'Austrian Bundesliga', 'Swiss Super League', 'Süper Lig', 'Denmark Superliga', 'Sweden Allsvenskan', 'Norway Eliteserien', 'Croatia HNL', 'Serbia SuperLiga', 'Czech Fortuna Liga', 'Saudi Pro League', 'J1 League', 'K League 1', 'MLS', 'LigaMX', 'Brazil Serie A', 'Argentina Primera', 'Uruguay Primera', 'Championship', 'Segunda Division', 'Serie B', 'Bundesliga 2', 'Ligue 2'].includes(row[2])
+        );
+    } else if (league === 'South America') {
+        // Filter data to include only players from the top 7 leagues
+        filteredData = filteredData.filter(row =>
+            [      "Brazil Serie A",
+      "Argentina Primera",
+      "Uruguay Primera",
+      "Colombia",
+      "Chile",
+      "Paraguay",
+      "Ecuador",].includes(row[2])
+        );
+    } else if (league === 'Scandinavia') {
+        // Filter data to include only players from the top 7 leagues
+        filteredData = filteredData.filter(row =>
+            [   "Norway Eliteserien",
+      "Denmark Superliga",
+      "Sweden Allsvenskan"].includes(row[2])
+        );
+    } else if (league === 'Eastern Europe') {
+        // Filter data to include only players from the top 7 leagues
+        filteredData = filteredData.filter(row =>
+            [      "Czech Fortuna Liga",
+      "Serbia SuperLiga",
+      "Croatia HNL",
+      "Russia",
+      "Ukraine",
+      "Poland"].includes(row[2])
+        );
+    } else if (league !== '') {
+        // Filter data based on selected league
+        filteredData = filteredData.filter(row => row[2] === league);
+    }
+
+    if (age !== '') {
+    filteredData = filteredData.filter(row => row[4] <= age + 1);
+}
+
+
+    displayTable(filteredData);
+}
+
+function displayTable(data) {
+    // Clear existing table
+    playerTable.innerHTML = '';
+
+    if (metricSelect.value === '') {
+        playerTable.style.display = 'none'; // Hide the table if no metric is selected
+        return; // Exit the function
+    } else {
+        playerTable.style.display = ''; // Show the table if a metric is selected
+    }
+
+    // Sort the data first to ensure consistency in ranking
+    // Sort data based on the current sorting order
+    if (isAscending) {
+        data.sort((a, b) => parseFloat(a[metricSelect.value]) - parseFloat(b[metricSelect.value]));
+    } else {
+        data.sort((a, b) => parseFloat(b[metricSelect.value]) - parseFloat(a[metricSelect.value]));
+    }
+    let previousValue = null;
+    let previousIndex = 0;
+    let previousRankBarWidth = 100;
+    let previousRakim = 100;
+    let maxValue = Math.max(...data.map(row => parseFloat(row[metricSelect.value])));
+let minValue = Math.min(...data.map(row => parseFloat(row[metricSelect.value])));
+
+
+    // Add table data
+    data.forEach((row, index) => {
+    let rankBarWidth;
+    let rakim;
+    if (row[metricSelect.value] === previousValue) {
+        // If the current value is equal to the previous one, keep the same index and rank bar width
+        rankBarWidth = previousRankBarWidth;
+        rakim = previousRakim;
+    } else {
+        // If not tied, calculate rank bar width and index
+        if (row[metricSelect.value] === '0') {
+            rankBarWidth = 0;
+            rakim = 0;
+     } else {
+    if (metricSelect.value === "46" || metricSelect.value === "84" || metricSelect.value === "73" || metricSelect.value === "82" || metricSelect.value === "103") {
+        // Get min and max values from the entire dataset
+        const allValues = data.map(r => parseFloat(r[metricSelect.value]));
+        const minValue = Math.min(...allValues);
+        const maxValue = Math.max(...allValues);
+        const totalRange = maxValue - minValue;
+        
+        const value = parseFloat(row[metricSelect.value]);
+        // Scale from minValue (smallest bar) to maxValue (largest bar)
+        rankBarWidth = Math.max(((value - minValue) / totalRange * 100), 1.5);
+        rakim = ((data.length - index) / data.length) * 100;
+    } else if (metricSelect.value === "5") {
+        rankBarWidth = parseFloat(row[metricSelect.value]) * 100 / 99;
+        rakim = ((data.length - index) / data.length) * 100;
+    } else {
+        rankBarWidth = Math.max(((parseFloat(row[metricSelect.value])) / (maxValue) * 100), 1.5);
+        rakim = ((data.length - index) / data.length) * 100;
+    }
+}
+        previousValue = row[metricSelect.value];
+        previousIndex = index;
+        previousRankBarWidth = rankBarWidth;
+        previousRakim = rakim;
+    }
+
+    let red, green, blue;
+        if (isAscending) {
+            // Invert colors for ascending order: lower values are red, higher values are green
+            red = Math.round((255 * (1 - Math.pow(((100-rakim) / 100), 1.3))));
+            green = Math.round(100-rakim);
+            blue = Math.round((255 * Math.pow(((100-rakim) / 100), 1.3)));
+        } else {
+            // Default color logic for descending order: higher values are red, lower values are green
+            red = Math.round((255 * (1 - Math.pow((rakim / 100), 1.3))));
+            green = Math.round(rakim);
+            blue = Math.round((255 * Math.pow((rakim / 100), 1.3)));
+        }
+        const alpha = 0.835;
+        const color = `rgba(${red}, ${green}, ${blue}, ${alpha})`;
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${previousIndex + 1}. ${row[0]}&nbsp;<span class="smaller-text">(${row[1]}, ${Math.round(row[4])})</span></td>
+            <th>${row[metricSelect.value]}</th>
+            <th>
+                <div class="rank-bar">
+                    <div class="rank-bar-fill" style="width: ${rankBarWidth}%; background-color: ${color}"></div>
+                </div>
+            </th>
+        `;
+        playerTable.appendChild(tr);
+    });
+}
+
+function handleSelectorsChange() {
+    const selectedMetricIndex = parseInt(metricSelect.value);
+    const selectedPosition = positionSelect.value;
+    const selectedLeague = leagueSelect.value;
+    const metricOptions = metricSelect.querySelectorAll('option');
+    const metricSelector = document.querySelector('.metric-selector');
+
+    // Show or hide the toggleSortButton and adjust metric selector width
+    if (selectedMetricIndex === 43 || selectedMetricIndex === 45 || selectedMetricIndex === 82 || selectedMetricIndex === 83 || selectedMetricIndex === 84 || selectedMetricIndex === 85) {
+        toggleSortButton.style.display = 'inline-block';
+        metricSelector.classList.add('with-toggle');
+    } else {
+        toggleSortButton.style.display = 'none';
+        metricSelector.classList.remove('with-toggle');
+    }
+
+    if (selectedMetricIndex === 5) {
+        leagueSelect.querySelector('option[value="Top 5 Leagues"]').disabled = true;
+        leagueSelect.querySelector('option[value="Top 7 Leagues"]').disabled = true;
+        positionSelect.querySelector('option[value="All"]').disabled = true;
+        leagueSelect.querySelector('option[value="No Top 7"]').disabled = true;
+        leagueSelect.querySelector('option[value="All Leagues"]').disabled = true;
+        leagueSelect.querySelector('option[value="South America"]').disabled = true;
+        leagueSelect.querySelector('option[value="Eastern Europe"]').disabled = true;
+        leagueSelect.querySelector('option[value="Scandinavia"]').disabled = true;
+    } else {
+        leagueSelect.querySelector('option[value="Top 5 Leagues"]').disabled = false;
+        leagueSelect.querySelector('option[value="Top 7 Leagues"]').disabled = false;
+        positionSelect.querySelector('option[value="All"]').disabled = false;
+        leagueSelect.querySelector('option[value="No Top 7"]').disabled = false;
+        leagueSelect.querySelector('option[value="All Leagues"]').disabled = false;
+        leagueSelect.querySelector('option[value="South America"]').disabled = false;
+        leagueSelect.querySelector('option[value="Eastern Europe"]').disabled = false;
+        leagueSelect.querySelector('option[value="Scandinavia"]').disabled = false;
+    }
+
+    if (selectedPosition === 'All' || (selectedLeague === 'Top 5 Leagues' || selectedLeague === 'Top 7 Leagues' || selectedLeague === 'No Top 7' || selectedLeague === 'All Leagues' || selectedLeague === 'South America' || selectedLeague === 'Scandinavia' || selectedLeague === 'Eastern Europe')) {
+        metricOptions[0].disabled = true;
+        if (selectedMetricIndex === 0) {
+            metricSelect.value = "1";
+            filterTable();
+        }
+    } else {
+        metricOptions[0].disabled = false;
+    }
+}
+
+// Add event listener for all selectors
+metricSelect.addEventListener('change', handleSelectorsChange);
+positionSelect.addEventListener('change', handleSelectorsChange);
+leagueSelect.addEventListener('change', handleSelectorsChange);
+
+
+// Initial display
+filterTable();
+
 </script>
 	
 <script>

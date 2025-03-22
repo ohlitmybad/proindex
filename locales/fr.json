@@ -184,5 +184,8 @@
     "penaltiesAttempted": "Penalties tentés",
     "penaltiesScored": "Penalties marqués",
     "penaltySuccessRate": "Taux de réussite des penalties %"
+  },
+  "toggles": {
+    "per90": "Par 90 : Oui / Non"
   }
 } 

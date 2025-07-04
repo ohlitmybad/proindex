@@ -1,499 +1,1127 @@
 <!DOCTYPE html>
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=0.535, user-scalable=no"">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+    
     <style>
-
-  
-.rank-bar-fill {
-            background-color: rgba(0, 110, 255, 0.835);
-            height: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            border-radius: 20px;
-        }
-
-        body {
-          zoom: 119.2%; /* Adjust the percentage as needed */
-    font-family: Arial, Helvetica, sans-serif; /* Use Font1 as the primary font */
-    font-size: 14.7px;
-    color: #000000c4;
-    scrollbar-width: none; /* Firefox */
-    margin-left: 17.5px;
-    margin-top:0.2px;
-        background: #fff;
+:root {
+  --background-color: #f5f7fa;
+  --border-color: #e0e0e0;
+  --button-color: #3498db;
+  --button-text: #ffffff;
+  --container-bg: #ffffff;
+  --header-bg: #ffffff;
+  --hover-color: #f0f0f0;
+  --primary-color: #3498db;
+  --secondary-color: #2ecc71;
+  --shadow: 0 2px 10px rgba(0,0,0,0.05);
+  --table-bg: #f2f2f2;
+  --text-color: #333333;
 }
 
-.selectors-container {
-  gap: 14px; /* Adjust the value to increase or decrease the spacing */
-display: flex;
-align-items: center;
-flex-wrap: nowrap; /* Prevent wrapping */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-/* Style for selectors */
-select {
-    padding: 8px 12px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+body, html {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: 'Inter', sans-serif;
+  height: 100vh;
+  line-height: 1.6;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-
-
-@media screen and (max-width: 900px) {
-.metric-selector {
-width: auto; /* Allow width to be determined by content */
-min-width: 0px; /* Set minimum width */
+body.dark-mode #SFctr {
+  color: #ffffff !important;
 }
 
-#position, #league, #age {
-width: auto;
-min-width: 0px;
-}
-#age {
-margin-right: 35px;  
-}
-}
-
-#age {
-max-width: 71px;
-}
-#position {
-max-width: 122px;
+input, select {
+  background-color: var(--container-bg);
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  box-sizing: border-box;
+  color: var(--text-color);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  height: 36px;
+  padding: 8px 12px;
+  transition: border-color 0.2s;
 }
 
-#league {
-max-width: 163px;
+input:focus, select:focus {
+  border-color: var(--primary-color);
+  outline: none;
 }
 
-
-.toggle-button {
-  position: absolute;
-  left: 704px;
-  top: 23.8px;
-  width: 20px; /* Set width */
+table {
+  background-color: var(--container-bg);
+  border-collapse: collapse;
+  margin: 0 auto;
+  table-layout: fixed;
+  width: 100%;
 }
 
-/* Hide the default checkbox */
-.toggle-button input[type="checkbox"] {
-  opacity: 0;
-  width: 0;
-  height: 0;
+table td:first-child, table th:first-child {
+  overflow: hidden;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 280px;
 }
 
-/* Style the custom checkbox */
-.toggle-button label {
-  display: inline-block;
-  width: 20px; /* Set width */
-  height: 20px; /* Set height */
-  background-color: #ccc;
-  border-radius: 50%; /* Make it round */
-  cursor: pointer;
-  position: absolute;
+table td:nth-child(2), table th:nth-child(2) {
+  white-space: nowrap;
+  width: 90px;
 }
 
-/* Style the checked state of the custom checkbox */
-.toggle-button input[type="checkbox"]:checked + label {
-  background-color: #8be31e;
+table td:nth-child(3), table th:nth-child(3) {
+  padding: 6px 0;
+  width: calc(100% - 360px);
 }
 
-/* Style the slider inside the custom checkbox */
-.toggle-button label::before {
-  content: "";
-  position: absolute;
-  width: 12px; /* Set width of the slider */
-  height: 12px; /* Set height of the slider */
-  background-color: white;
-  border-radius: 50%; /* Make it round */
-  left: 20%; /* Adjust position */
-  top: 20%; /* Adjust position */
-  transition: transform 0.3s ease;
+td, th {
+  border-bottom: 1px solid var(--border-color);
+  font-size: 14px;
+  padding: 6px;
+  text-align: center;
 }
-
-/* Style the slider when checkbox is checked */
-.toggle-button input[type="checkbox"]:checked + label::before {
-  transform:scale(0.88)
-}
-
-
-/* Existing CSS for toggleSortingButton */
-.toggle-button:hover::after {
-  content: attr(data-tooltip); /* Use the data-tooltip attribute instead of hardcoded text */
-  position: absolute;
-  top: 26px; /* Adjust as needed */
-  left: -30px;
-  background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
-  color: #fff; /* Text color */
-  padding: 4px 8px; /* Padding around the text */
-  border-radius: 5px; /* Rounded corners */
-  font-size: 10px; /* Adjust font size as needed */
-  white-space: nowrap; /* Prevent line breaks */
-}
-
-
-.metric-selector {
-    width: 280px;
-	margin-left: 4px;
-}
-
-.metric-selector.with-toggle {
-    width: 246.8px;
-		margin-left: 4px;
-}
-
-/* Style for the table rows */
-td {
-    width: 300px;
-}
-
-.rank-bar {
-            background-color: rgb(213, 213, 213);
-            border: 1px solid #fff;
-            border-radius: 20px;
-            height: 17.1px;
-            width: 385px;
-            margin-bottom: 5px;
-            position: relative;
-        }
 
 th {
-    width: 50px;
-}
-
-body {
-          zoom: 124.2%; /* Adjust the percentage as needed */
-          overflow: hidden;
-    scrollbar-width: none; /* Firefox */
-        background: #fff;
-}
-
-.result-container {
-	            max-height: 65.2vh; /* Adjust the height based on your content */
-
-            overflow-y: auto; /* Enable vertical scrolling for metrics */
-            margin-bottom: 11px; /* Optional: Add margin for spacing */
-        }
-        @media only screen and (max-width: 900px) {
-    /* Apply styles for screens smaller than 768px (typical mobile devices) */
-    .result-container {
-        max-height: 87.5vh; /* Adjusted height for mobile */
-	margin-bottom: 18px; /* Optional: Add margin for spacing */
-
-    }
+  color: var(--text-color);
+  font-weight: 600;
 }
 
 
-
-.smaller-text {
-    font-size: 79%; /* or adjust with specific size like 80% or 0.8em */
-}
-
-body.dark-mode,
-body.dark-mode * {
-  color: #f2f2f2;
-}
-
-body.dark-mode {
-  background-color: #0F0F0E;
-}
-
-body.dark-mode .tooltip {
-  color: #000000;
-  background-color: #f9f9f9;
-  border: solid;
-  border-width: 1px;
-  border-radius: 5px;
-  padding: 10px;
-  font-size: 12px;
-}
-
-body.dark-mode .rank-bar {
-    background-color: rgb(239, 239, 239);
-border: 1px solid #000000;
-}
-
-body.dark-mode th {
-  color: #f2f2f2;
-}
-
-body.dark-mode select,
-body.dark-mode input {
-  color: #f2f2f2;
-  background-color: #333333;
-}
-
-.dark-mode-toggle {
-    position: absolute;
-  left: 735px;
-  top: 23.7px;
-}
-
-.dark-mode-toggle {
-  width: 21px;
-  height: 21px;
-  background-color: #f2f2f2;
-  border-radius: 50%;  /* This makes it a perfect circle */
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-
-
-.dark-mode-toggle .toggle-icon::before {
-  content: "\f467";; /* Moon icon */
-  font-family: "Ionicons";
-  font-size: 20px;
-}
-
-body.dark-mode .dark-mode-toggle {
-  background-color: #333333;
-}
-
-body.dark-mode .dark-mode-toggle .toggle-icon::before {
-  content: "\f3b0"; /* Sun icon */
-  font-family: "Ionicons";
-  font-size: 13px;
-}
-
-body.dark-mode button {
-  color: #f2f2f2;
-  background-color: #333333;
-}
-
-
-@media only screen and (max-width: 900px) {
-  body {
-    zoom: 100%; /* Reset zoom level for mobile devices */
-  }
-
-
-  .toggle-button {
-  left: 94.2%;
-  top: 19px;
-}
-
-.dark-mode-toggle {
-display: none;
-}
-
-.rank-bar {
-            width: 320px;
-        }
-
-        /* Style for the table rows */
-td {
-    width: 365px;
-}
-.half-spacing {
-    margin-bottom: 0.5em; /* Adjust as needed */
-  }
-
-  /* Existing CSS for toggleSortingButton */
-.toggle-button:hover::after {
-  display: none;
-}
-
-.metric-selector {
-    width: 256.4px; /* Adjust the width as needed */
-    margin-left: 0px;
-}
-
-	.metric-selector.with-toggle {
-    width: 224.8px;
-		margin-left: 0px;
-}
-
-}
 #toggleSort {
-    appearance: none;
-    width: 18px;
-    height: 18px;
-    position: relative;
-    display: inline-block;
-    text-align: center;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    vertical-align: middle;
-    margin-left: 0.7px; /* Adjust this value to reduce the gap */
-    margin-right: 0.7px; /* Adjust this value to reduce the gap */
-}
-
-#toggleSort:not(:checked)::before {
-    content: "\f262";
-    font-family: "Ionicons";
+  appearance: none;
+  background-color: transparent;
+  background: none;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  border: none;
+  color: var(--text-color);
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.2s;
 }
 
 #toggleSort:checked::before {
-    content: "\f25f";
-    font-family: "Ionicons";
+  content: "\f25f";
+  font-family: "Ionicons";
 }
 
-    body.dark-mode #SFctr {
-        color: #ffffff !important
-        }
-        
-        
-        #SFctr input {
-            background-color: #ffffff !important;
-        color:#000000 !important;
-        border: 1px solid #c2c2c2 !important
-        }
+#toggleSort:not(:checked)::before {
+  content: "\f262";
+  font-family: "Ionicons";
+}
 
-#SFctr {
-	font-family: Arial, Helvetica, sans-serif !important;
-	color: #000000 !important;
+.age-selector {
+  flex: 0 3 90px;
+  min-width: 66px;
+}
+
+.btn {
+  background-color: var(--button-color);
+  border-radius: 6px;
+  border: none;
+  box-sizing: border-box;
+  color: var(--button-text);
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  height: 36px;
+  padding: 8px 16px;
+  transition: background-color 0.2s;
+}
+
+.btn-icon {
+  align-items: center;
+  border-radius: 6px;
+  display: flex;
+  height: 36px;
+  justify-content: center;
+  padding: 0;
+  width: 36px;
+}
+
+.btn-outline {
+  background-color: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+}
+
+.chart-wrapper {
+  background-color: var(--container-bg);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+  padding: 20px 25px;
+  position: relative;
+  width: 100%;
+}
+
+.container {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  height: 96vh;
+  margin: 0.3vh auto 2.4vh auto;
+  max-width: 1200px;
+  padding: 0 20px;
+}
+
+.controls {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.custom-select-container {
+  margin-bottom: 0;
+  position: relative;
+}
+
+.custom-select-option {
+  align-items: center;
+  color: var(--text-color);
+  cursor: pointer;
+  display: flex;
+  line-height: 1.4;
+  padding: 8px 16px;
+  transition: background-color 0.2s ease;
+}
+
+.custom-select-option iconify-icon, .custom-select-trigger iconify-icon {
+  margin-right: 7px;
+  transform: translateY(-1px);
+}
+
+.custom-select-option.selected {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.custom-select-options {
+  background-color: var(--container-bg);
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow);
+  display: none;
+  font-size: 14px;
+  left: 0;
+  margin-top: 4px;
+  max-height: 300px;
+  overflow-y: auto;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  z-index: 1000;
+}
+
+.custom-select-options .custom-select-option.selected {
+  background-color: var(--primary-color) !important;
+  color: white !important;
+}
+
+.custom-select-trigger {
+  align-items: center;
+  background-color: var(--container-bg);
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  cursor: pointer;
+  display: flex;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  height: 36px;
+  line-height: 1.4;
+  padding: 0 12px;
+  position: relative;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.custom-select-trigger span {
+  display: inline-block;
+  max-width: calc(100% - 20px);
+  overflow: hidden;
+  padding: 2px 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.custom-select-trigger.has-icon span {
+  margin-left: 1px;
+  max-width: calc(100% - 37px);
+}
+
+.custom-select-trigger.open::after {
+  transform: rotate(-135deg) translateY(1px);
+}
+
+.custom-select-trigger::after {
+  border-bottom: 1.5px solid var(--text-color);
+  border-right: 1.5px solid var(--text-color);
+  content: '';
+  height: 6px;
+  margin-left: auto;
+  margin-right: 2px;
+  opacity: 0.7;
+  transform: rotate(45deg) translateY(-2px);
+  transition: transform 0.3s;
+  width: 6px;
+}
+
+.dark-mode {
+  --background-color: #0e0f0f;
+  --border-color: #333333;
+  --button-color: #2980b9;
+  --button-text: #ffffff;
+  --container-bg: #1a1a1a;
+  --header-bg: #0e0f0f;
+  --hover-color: #252525;
+  --primary-color: #3498db;
+  --secondary-color: #2ecc71;
+  --shadow: 0 2px 10px rgba(0,0,0,0.2);
+  --table-bg: #333333;
+  --text-color: #e0e0e0;
+}
+
+.dark-mode .metric-category-header {
+  background-color: rgba(255,252,252,0.05);
+  color: rgba(255,255,255,0.9);
+}
+
+.dark-mode .rank-bar {
+  border: 1px solid #000000;
+}
+
+.dark-mode .toggle-icon::before {
+  content: "\f3b0";
+  font-size: 20px;
+}
+
+.dark-mode-toggle {
+  align-items: center;
+  background-color: var(--container-bg);
+  border-radius: 50%;
+  bottom: 20px;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  display: flex;
+  height: 40px;
+  justify-content: center;
+  position: fixed;
+  right: 20px;
+  transition: background-color 0.3s;
+  width: 40px;
+  z-index: 100;
+}
+
+.league-selector {
+  flex: 0 1 200px;
+  min-width: 135px;
+}
+
+.metric-category-header {
+  background-color: rgba(0,0,0,0.03);
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-color);
+  cursor: default;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.7px;
+  margin: 8px 0;
+  padding: 10px 16px;
+  pointer-events: none;
+  text-transform: uppercase;
+  top: 0;
+  z-index: 1;
+}
+
+.metric-category-header:first-child {
+  margin-top: 0;
+}
+
+.metric-selector {
+  flex: 0 1 280px;
+  min-width: 155px;
+}
+
+.metrics-toggle-button {
+  align-items: center;
+  display: flex;
+  height: 36px;
+  justify-content: center;
+  position: relative;
+  width: 36px;
+}
+
+.metrics-toggle-button .btn-tooltip-text {
+  background-color: var(--container-bg);
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow);
+  color: var(--text-color);
+  font-size: 12px;
+  font-weight: normal;
+  left: 50%;
+  margin-left: -60px;
+  opacity: 0;
+  padding: 5px;
+  pointer-events: none;
+  position: absolute;
+  text-align: center;
+  top: 125%;
+  transition: opacity 0.3s;
+  visibility: hidden;
+  width: 120px;
+  z-index: 1001;
+}
+
+.metrics-toggle-button .btn-tooltip-text::after {
+  border-color: transparent transparent var(--border-color) transparent;
+  border-style: solid;
+  border-width: 5px;
+  bottom: 100%;
+  content: "";
+  left: 50%;
+  margin-left: -5px;
+  position: absolute;
+}
+
+.metrics-toggle-button button {
+  align-items: center;
+  background-color: var(--container-bg);
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  cursor: pointer;
+  display: flex;
+  font-size: 18px;
+  height: 36px;
+  justify-content: center;
+  transition: all 0.2s ease;
+  width: 36px;
+}
+
+.metrics-toggle-button button i {
+  -webkit-text-stroke: 0.8px currentColor;
+  font-weight: bold;
+}
+
+.metrics-toggle-button button.active {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: var(--button-text);
+}
+
+.metrics-toggle-button:hover .btn-tooltip-text {
+  opacity: 1;
+  visibility: visible;
+}
+
+.past-season-button {
+  align-items: center;
+  display: flex;
+  height: 36px;
+  justify-content: center;
+  position: relative;
+  width: 36px;
+}
+
+.past-season-button .btn-tooltip-text {
+  background-color: var(--container-bg);
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow);
+  color: var(--text-color);
+  font-size: 12px;
+  font-weight: normal;
+  opacity: 0;
+  padding: 5px;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  top: 125%;
+  transition: opacity 0.3s;
+  visibility: hidden;
+  width: 120px;
+  z-index: 1001;
+}
+
+.past-season-button .btn-tooltip-text::after {
+  border-color: transparent transparent var(--border-color) transparent;
+  border-style: solid;
+  border-width: 5px;
+  bottom: 100%;
+  content: "";
+  position: absolute;
+  right: 15px;
+}
+
+.past-season-button button {
+  align-items: center;
+  background-color: var(--container-bg);
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  cursor: pointer;
+  display: flex;
+  font-size: 18px;
+  height: 36px;
+  justify-content: center;
+  transition: all 0.2s ease;
+  width: 36px;
+}
+
+
+.past-season-button:hover .btn-tooltip-text {
+  opacity: 1;
+  visibility: visible;
+}
+
+.position-selector {
+  flex: 0 1 160px;
+  min-width: 110px;
+}
+
+.rank-bar {
+  background-color: rgb(213,213,213);
+  border-radius: 20px;
+  border: 1px solid #fff;
+  display: block;
+  height: 22px;
+  margin-bottom: 5px;
+  margin: 0 auto;
+  max-width: 650px;
+  position: relative;
+  width: 100%;
+}
+
+.rank-bar-fill {
+  background-color: var(--primary-color);
+  border-radius: 10px;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  transition: width 0.3s ease;
+}
+
+.result-container {
+  background-color: var(--container-bg);
+  border-radius: 8px;
+  flex: 1;
+  margin-right: -12px;
+  margin-top: 5.6px;
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 12px;
+  text-align: center;
+}
+
+.result-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.result-container::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 3px;
+}
+
+.result-container::-webkit-scrollbar-thumb:hover {
+  background-color: var(--border-color);
+}
+
+.result-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.result-container:hover::-webkit-scrollbar-thumb {
+  background-color: var(--border-color);
+}
+
+.selectors-container {
+  align-items: center;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.smaller-text {
+  font-size: 0.85em;
+  opacity: 0.7;
+}
+
+.toggle-icon::before {
+  color: var(--text-color);
+  content: "\f467";
+  font-family: "Ionicons";
+  font-size: 30px;
+}
+
+
+@media (hover: hover) and (pointer: fine) {
+  table tr:hover {
+    background-color: #f5f5f5;
+    transition: background-color 0.2s ease;
+  }
+
+  #toggleSort:hover {
+    background-color: var(--hover-color);
+  }
+
+  .btn-outline:hover {
+    background-color: var(--hover-color);
+  }
+
+  .btn:hover {
+    background-color: #2980b9;
+  }
+
+  .custom-select-option:hover {
+    background-color: var(--hover-color);
+  }
+
+  .dark-mode table tr:hover {
+    background-color: #2a2a2a;
+  }
+
+  .metrics-toggle-button button:hover:not(.active) {
+    background-color: var(--hover-color);
+  }
 
 
 }
 
-	    @media only screen and (min-width: 900px) {
+@media (max-width: 655px) {
+  .selectors-container {
+    flex-wrap: wrap;
+  }
+}
+
+@media (hover: none) {
+  .metrics-toggle-button .btn-tooltip-text, .btn-tooltip-text {
+    display: none !important;
+  }
+}
+
+@media (max-width: 717px) {
+  input, select {
+    font-size: 13px;
+    height: 33px;
+    padding: 6px 10px;
+  }
+
+  .btn {
+    font-size: 13px;
+    height: 33px;
+    padding: 6px 14px;
+  }
+
+  .btn-icon {
+    font-size: 15px;
+    height: 33px;
+    width: 33px;
+  }
+
+  .custom-select-option {
+    font-size: 13px;
+  }
+
+  .custom-select-options {
+    font-size: 13px;
+  }
+
+  .custom-select-trigger {
+    font-size: 13px;
+    height: 33px;
+    padding: 0 10px;
+  }
+
+  .metrics-toggle-button button, .past-season-button button {
+    font-size: 15px;
+    height: 33px;
+    width: 33px;
+  }
+}
+
+@media (max-width: 900px) {
+  table td:first-child {
+    width: 220px;
+  }
+
+  .rank-bar {
+    height: 18px;
+  }
+}
+
 
 #SFctr {
-		      transform: scale(0.808);
-  transform-origin: top left; /* Adjust the origin point if needed */
-		    
-	    }
- }
-	    
+  font-family: Arial, Helvetica, sans-serif !important;
+  margin-left: 21.4px;
+}
+
+#SFctr .SFfrm button, #SFctr .SFfrm input[type="password"], #SFctr .SFfrm input[type="text"] {
+  border-radius: 6px;
+}
+
+#SFusrlogpst i, #SFusrlogpst input[type="checkbox"], #SFusrlogpwd i, #SFusrlogpwd input[type="checkbox"] {
+  display: none !important;
+}
+
 #SFusrlogpst strong:first-child {
   font-size: 0px;
 }
 
-#SFusrlogpst input[type="checkbox"],
-#SFusrlogpwd input[type="checkbox"],
-#SFusrlogpst i,
-#SFusrlogpwd i {
-  display: none !important;
-}
-
-#SFctr .SFfrm input[type="text"],
-#SFctr .SFfrm input[type="password"],
-#SFctr .SFfrm button {
-  border-radius: 6px;
-}
-
 #SFusrlogpwd strong {
-  visibility: hidden; /* Hide the original text */
   position: relative;
+  visibility: hidden;
 }
 
 #SFusrlogpwd strong::after {
-  content: "Forgot Password?"; /* Add the new text */
-  visibility: visible;
-  position: absolute;
+  content: "Forgot Password?";
   font-size: 12px;
   font-weight: 400;
   left: 100px;
-  white-space: nowrap; /* Prevent text from wrapping */
+  position: absolute;
   top: -15px;
+  visibility: visible;
+  white-space: nowrap;
 }
-
-
-	    
-	    
-   </style>
+    </style>
 </head>
+
 
 <body>
     <script type="text/javascript">document.body.style.visibility="hidden";</script><div id="SFctr" data-org="31002" data-mfl="64c215764c0b6076026762a3"><div style="clear:both"></div></div><script type="text/javascript" src="https://cdn.membershipworks.com/mfl.js"></script>
-    <div class="selectors-container">
-    <select id="metric" class="metric-selector">
-    </select><input type="checkbox" id="toggleSort" style="display: none;">
-    <select id="position">
-        <option value="Goalkeeper" data-i18n="positions.goalkeeper">Goalkeeper</option>
-        <option value="Centre-back" data-i18n="positions.centreback">Centre-back</option>
-        <option value="Full-back" data-i18n="positions.fullback">Full-back</option>
-        <option value="Midfielder" data-i18n="positions.midfielder">Midfielder</option>
-        <option value="Winger" data-i18n="positions.winger">Winger</option>
-        <option value="Striker" data-i18n="positions.striker">Striker</option>
-        <option value="All" data-i18n="positions.all">All positions</option>
-    </select>
-    <select id="league">
-      <option value="Premier League" data-i18n="leagues.premierLeague">🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier League</option>
-      <option value="La Liga" data-i18n="leagues.laLiga">🇪🇸 La Liga</option>
-      <option value="Bundesliga" data-i18n="leagues.bundesliga">🇩🇪 Bundesliga</option>
-      <option value="Serie A" data-i18n="leagues.serieA">🇮🇹 Serie A</option> 
-      <option value="Ligue 1" data-i18n="leagues.ligue1">🇫🇷 Ligue 1</option>
-      <option value="Liga Portugal" data-i18n="leagues.ligaPortugal">🇵🇹 Liga Portugal</option>
-      <option value="Eredivisie" data-i18n="leagues.eredivisie">🇳🇱 Eredivisie</option>
-      <option value="Top 5 Leagues" data-i18n="leagues.top5">🇪🇺 Top 5 Leagues</option>
-      <option value="Top 7 Leagues" data-i18n="leagues.top7">🇪🇺 Top 7 Leagues</option>
-      <option value="Belgium Pro League" data-i18n="leagues.belgium">🇧🇪 Belgium</option>
-        <option value="Scotland Premiership" data-i18n="leagues.scotland">🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland</option>
-        <option value="Austrian Bundesliga" data-i18n="leagues.austria">🇦🇹 Austria</option>
-        <option value="Swiss Super League" data-i18n="leagues.switzerland">🇨🇭 Switzerland</option>      
-        <option value="Süper Lig" data-i18n="leagues.turkey">🇹🇷 Türkiye</option>
-        <option value="Denmark Superliga" data-i18n="leagues.denmark">🇩🇰 Denmark</option>
-        <option value="Sweden Allsvenskan" data-i18n="leagues.sweden">🇸🇪 Sweden</option>
-        <option value="Norway Eliteserien" data-i18n="leagues.norway">🇳🇴 Norway</option>
-        <option value="Croatia HNL" data-i18n="leagues.croatia">🇭🇷 Croatia</option>
-        <option value="Serbia SuperLiga" data-i18n="leagues.serbia">🇷🇸 Serbia</option>
-        <option value="Czech Fortuna Liga" data-i18n="leagues.czech">🇨🇿 Czech Republic</option>
-        <option value="Poland" data-i18n="leagues.poland">🇵🇱 Poland</option>
-        <option value="Ukraine" data-i18n="leagues.ukraine">🇺🇦 Ukraine</option>
-        <option value="Russia" data-i18n="leagues.russia">🇷🇺 Russia</option>
-        <option value="Greece" data-i18n="leagues.greece">🇬🇷 Greece</option>
-        <option value="Israel" data-i18n="leagues.israel">🇮🇱 Israel</option>
-        <option value="J1 League" data-i18n="leagues.japan">🇯🇵 Japan</option>
-        <option value="K League 1" data-i18n="leagues.korea">🇰🇷 Korea</option>
-        <option value="Saudi Pro League" data-i18n="leagues.saudiArabia">🇸🇦 Saudi Arabia</option>
-        <option value="MLS" data-i18n="leagues.usa">🇺🇸 MLS</option>
-        <option value="LigaMX" data-i18n="leagues.mexico">🇲🇽 Mexico</option>
-        <option value="Brazil Serie A" data-i18n="leagues.brazil">🇧🇷 Brazil</option>
-        <option value="Argentina Primera" data-i18n="leagues.argentina">🇦🇷 Argentina</option>
-        <option value="Uruguay Primera" data-i18n="leagues.uruguay">🇺🇾 Uruguay</option>
-        <option value="Chile" data-i18n="leagues.chile">🇨🇱 Chile</option>
-        <option value="Colombia" data-i18n="leagues.colombia">🇨🇴 Colombia</option>
-        <option value="Ecuador" data-i18n="leagues.ecuador">🇪🇨 Ecuador</option>
-        <option value="Paraguay" data-i18n="leagues.paraguay">🇵🇾 Paraguay</option>
-        <option value="Championship" data-i18n="leagues.championship">🏴󠁧󠁢󠁥󠁮󠁧󠁿 Championship</option>
-        <option value="Segunda Division" data-i18n="leagues.segundaDivision">🇪🇸 Spain Segunda</option>
-        <option value="Serie B" data-i18n="leagues.serieB">🇮🇹 Serie B</option>
-        <option value="Bundesliga 2" data-i18n="leagues.bundesliga2">🇩🇪 2. Bundesliga</option>
-        <option value="Ligue 2" data-i18n="leagues.ligue2">🇫🇷 Ligue 2</option> 
-      <option value="No Top 7" data-i18n="leagues.noTop7">🌍 Outside Top 7</option>
-      <option value="South America" data-i18n="leagues.southAmerica">🌎 South America</option>
-      <option value="Scandinavia" data-i18n="leagues.scandinavia">🌍 Scandinavia</option>
-      <option value="Eastern Europe" data-i18n="leagues.easternEurope">🌍 Eastern Europe</option>
-      <option value="All Leagues" data-i18n="leagues.allLeagues">🌍 All Leagues</option>
-</select>
-    <select id="age">
-        <option value="" data-i18n="age.all">Age</option>
-        <option value="17">U17</option>
-        <option value="18">U18</option>
-        <option value="19">U19</option>
-        <option value="20">U20</option>
-        <option value="21">U21</option>
-        <option value="22">U22</option>
-        <option value="23">U23</option>
-        <option value="24">U24</option>
-        <option value="25">U25</option>
-        <option value="26">U26</option>
-        <option value="27">U27</option>
-        <option value="28">U28</option>
-        <option value="29">U29</option>
-        <option value="30">U30</option>
-        <option value="35">U35</option>
-    </select><div class="toggle-button" data-i18n="toggles.per90" data-tooltip="Per 90 : Yes / No">
-        <input type="checkbox" id="toggleMetrics" checked> <!-- Add checked attribute here -->
-          <label for="toggleMetrics"></label></div>
-      </div><br><div class="half-spacing"></div>
-      <div class="result-container">
-        <table id="playerTable" style="display: none;">
-            <tr><th id="metricHeader"></th></tr>
-        </table>
+    <div class="container">
+        <div class="chart-wrapper">
+            <div class="selectors-container">
+                <!-- Custom Metric Selector -->
+                <div class="custom-select-container metric-selector">
+                    <div class="custom-select-trigger" id="metric-select-trigger">
+                        <span data-i18n="metrics.minutesPlayed">Minutes played</span>
+                    </div>
+                    <div class="custom-select-options" id="metric-select-options" style="display: none;">
+                    </div>
+                </div>
+                <select id="metric" style="display: none;">
+                </select>
+                <input type="checkbox" id="toggleSort" style="display: none;">
+                
+                <!-- Custom Position Selector -->
+                <div class="custom-select-container position-selector">
+                    <div class="custom-select-trigger" id="position-select-trigger">
+                        <span data-i18n="positions.goalkeeper">Goalkeeper</span>
+                    </div>
+                    <div class="custom-select-options" id="position-select-options" style="display: none;">
+                        <div class="custom-select-option selected" data-value="Goalkeeper">
+                            <span data-i18n="positions.goalkeeper">Goalkeeper</span>
+                        </div>
+                        <div class="custom-select-option" data-value="Centre-back">
+                            <span data-i18n="positions.centreback">Centre-back</span>
+                        </div>
+                        <div class="custom-select-option" data-value="Full-back">
+                            <span data-i18n="positions.fullback">Full-back</span>
+                        </div>
+                        <div class="custom-select-option" data-value="Midfielder">
+                            <span data-i18n="positions.midfielder">Midfielder</span>
+                        </div>
+                        <div class="custom-select-option" data-value="Winger">
+                            <span data-i18n="positions.winger">Winger</span>
+                        </div>
+                        <div class="custom-select-option" data-value="Striker">
+                            <span data-i18n="positions.striker">Striker</span>
+                        </div>
+                        <div class="custom-select-option" data-value="All">
+                            <span data-i18n="positions.all">All positions</span>
+                        </div>
+                    </div>
+                </div>
+                <select id="position" style="display: none;">
+                    <option value="Goalkeeper" data-i18n="positions.goalkeeper">Goalkeeper</option>
+                    <option value="Centre-back" data-i18n="positions.centreback">Centre-back</option>
+                    <option value="Full-back" data-i18n="positions.fullback">Full-back</option>
+                    <option value="Midfielder" data-i18n="positions.midfielder">Midfielder</option>
+                    <option value="Winger" data-i18n="positions.winger">Winger</option>
+                    <option value="Striker" data-i18n="positions.striker">Striker</option>
+                    <option value="All" data-i18n="positions.all">All positions</option>
+                </select>
+                <select id="league" style="display: none;">
+                    <option value="All Leagues" data-i18n="leagues.allLeagues">🌍 All Leagues</option>
+                    <option value="Top 7 Leagues" data-i18n="leagues.top7">🇪🇺 Top 7 Leagues</option>
+                    <option value="Top 5 Leagues" data-i18n="leagues.top5">🇪🇺 Top 5 Leagues</option>
+                    <option value="Premier League" data-i18n="leagues.premierLeague">🏴 Premier League</option>
+                    <option value="La Liga" data-i8n="leagues.laLiga">🇪🇸 La Liga</option>
+                    <option value="Bundesliga" data-i18n="leagues.bundesliga">🇩🇪 Bundesliga</option>
+                    <option value="Serie A" data-i18n="leagues.serieA">🇮🇹 Serie A</option> 
+                    <option value="Ligue 1" data-i18n="leagues.ligue1">🇫🇷 Ligue 1</option>
+                    <option value="Liga Portugal" data-i18n="leagues.ligaPortugal">🇵🇹 Liga Portugal</option>
+                    <option value="Eredivisie" data-i18n="leagues.eredivisie">🇳🇱 Eredivisie</option>
+                    <option value="Belgium Pro League" data-i18n="leagues.belgium">🇧🇪 Belgium</option>
+                    <option value="Scotland Premiership" data-i18n="leagues.scotland">🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland</option>
+                    <option value="Austrian Bundesliga" data-i18n="leagues.austria">🇦🇹 Austria</option>
+                    <option value="Swiss Super League" data-i18n="leagues.switzerland">🇨🇭 Switzerland</option>      
+                    <option value="Süper Lig" data-i18n="leagues.turkey">🇹🇷 Türkiye</option>
+                    <option value="Denmark Superliga" data-i18n="leagues.denmark">🇩🇰 Denmark</option>
+                    <option value="Sweden Allsvenskan" data-i18n="leagues.sweden">🇸🇪 Sweden</option>
+                    <option value="Norway Eliteserien" data-i18n="leagues.norway">🇳🇴 Norway</option>
+                    <option value="Croatia HNL" data-i18n="leagues.croatia">🇭🇷 Croatia</option>
+                    <option value="Serbia SuperLiga" data-i18n="leagues.serbia">🇷🇸 Serbia</option>
+                    <option value="Czech Fortuna Liga" data-i18n="leagues.czech">🇨🇿 Czech Republic</option>
+                    <option value="Poland" data-i18n="leagues.poland">🇵🇱 Poland</option>
+                    <option value="Ukraine" data-i18n="leagues.ukraine">🇺🇦 Ukraine</option>
+                    <option value="Russia" data-i18n="leagues.russia">🇷🇺 Russia</option>
+                    <option value="Greece" data-i18n="leagues.greece">🇬🇷 Greece</option>
+                    <option value="Israel" data-i18n="leagues.israel">🇮🇱 Israel</option>
+                    <option value="J1 League" data-i18n="leagues.japan">🇯🇵 Japan</option>
+                    <option value="K League 1" data-i18n="leagues.korea">🇰🇷 Korea</option>
+                    <option value="Saudi Pro League" data-i18n="leagues.saudiArabia">🇸🇦 Saudi Arabia</option>
+                    <option value="MLS" data-i18n="leagues.usa">🇺🇸 MLS</option>
+                    <option value="LigaMX" data-i18n="leagues.mexico">🇲🇽 Mexico</option>
+                    <option value="Brazil Serie A" data-i18n="leagues.brazil">🇧🇷 Brazil</option>
+                    <option value="Argentina Primera" data-i18n="leagues.argentina">🇦🇷 Argentina</option>
+                    <option value="Uruguay Primera" data-i18n="leagues.uruguay">🇺🇾 Uruguay</option>
+                    <option value="Chile" data-i18n="leagues.chile">🇨🇱 Chile</option>
+                    <option value="Colombia" data-i18n="leagues.colombia">🇨🇴 Colombia</option>
+                    <option value="Ecuador" data-i18n="leagues.ecuador">🇪🇨 Ecuador</option>
+                    <option value="Paraguay" data-i18n="leagues.paraguay">🇵🇾 Paraguay</option>
+                    <option value="Championship" data-i18n="leagues.championship">🏴󠁧󠁢󠁥󠁮󠁧󠁿 Championship</option>
+                    <option value="Segunda Division" data-i18n="leagues.segundaDivision">🇪🇸 Spain Segunda</option>
+                    <option value="Serie B" data-i18n="leagues.serieB">🇮🇹 Serie B</option>
+                    <option value="Bundesliga 2" data-i18n="leagues.bundesliga2">🇩🇪 2. Bundesliga</option>
+                    <option value="Ligue 2" data-i18n="leagues.ligue2">🇫🇷 Ligue 2</option>
+                    <option value="No Top 7" data-i18n="leagues.noTop7">🌍 Outside Top 7</option>
+                    <option value="South America" data-i18n="leagues.southAmerica">🌎 South America</option>
+                    <option value="Scandinavia" data-i18n="leagues.scandinavia">🌍 Scandinavia</option>
+                    <option value="Eastern Europe" data-i18n="leagues.easternEurope">🌍 Eastern Europe</option>
+                </select>
+                <!-- Custom League Selector -->
+                
+                <div class="custom-select-container league-selector">
+                  <div class="custom-select-trigger has-icon" id="league-select-trigger">
+                    <iconify-icon icon="emojione:flag-for-united-kingdom" width="18" height="18"></iconify-icon>
+                    <span data-i18n="leagues.premierLeague">Premier League</span>
+                  </div>
+                  <div class="custom-select-options" id="league-select-options" style="display: none;">
+                    <div class="custom-select-option" data-value="All Leagues">
+                      <iconify-icon icon="emojione:globe-showing-europe-africa" width="18" height="18"></iconify-icon>
+                      <span data-i18n="leagues.allLeagues">All Leagues</span>
+                    </div>
+                    <div class="custom-select-option" data-value="Top 7 Leagues">
+                      <iconify-icon icon="emojione:flag-for-flag-european-union" width="18" height="18"></iconify-icon>
+                      <span data-i18n="leagues.top7">Top 7 Leagues</span>
+                    </div>
+                    <div class="custom-select-option" data-value="Top 5 Leagues">
+                      <iconify-icon icon="emojione:flag-for-flag-european-union" width="18" height="18"></iconify-icon>
+                      <span data-i18n="leagues.top5">Top 5 Leagues</span>
+                    </div>
+                    <div class="custom-select-option selected" data-value="Premier League">
+                      <iconify-icon icon="emojione:flag-for-united-kingdom" width="18" height="18"></iconify-icon>
+                      <span data-i18n="leagues.premierLeague">Premier League</span>
+                    </div>
+                    <div class="custom-select-option" data-value="La Liga">
+                      <iconify-icon icon="emojione:flag-for-spain" width="18" height="18"></iconify-icon>
+                      <span data-i18n="leagues.laLiga">La Liga</span>
+                    </div>
+                    <div class="custom-select-option" data-value="Bundesliga">
+                      <iconify-icon icon="emojione:flag-for-germany" width="18" height="18"></iconify-icon>
+                      <span data-i18n="leagues.bundesliga">Bundesliga</span>
+                    </div>
+                    <div class="custom-select-option" data-value="Serie A">
+                      <iconify-icon icon="emojione:flag-for-italy" width="18" height="18"></iconify-icon>
+                      <span data-i18n="leagues.serieA">Serie A</span>
+                    </div>
+                    <div class="custom-select-option" data-value="Ligue 1">
+                      <iconify-icon icon="emojione:flag-for-france" width="18" height="18"></iconify-icon>
+                      <span data-i18n="leagues.ligue1">Ligue 1</span>
+                    </div>
+                    <div class="custom-select-option" data-value="Liga Portugal">
+                      <iconify-icon icon="emojione:flag-for-portugal" width="18" height="18"></iconify-icon>
+                      <span data-i18n="leagues.ligaPortugal">Liga Portugal</span>
+                    </div>
+                    <div class="custom-select-option" data-value="Eredivisie">
+                      <iconify-icon icon="emojione:flag-for-netherlands" width="18" height="18"></iconify-icon>
+                      <span data-i18n="leagues.eredivisie">Eredivisie</span>
+                    </div>
+                    <div class="custom-select-option" data-value="Belgium Pro League">
+                      <iconify-icon icon="emojione:flag-for-belgium" width="18" height="18"></iconify-icon>
+                      <span data-i18n="leagues.belgium">Belgium</span>
+                    </div>
+                    <div class="custom-select-option" data-value="Scotland Premiership">
+                      <div class="scotland-flag-icon" style="width: 18px; height: 18px; border-radius: 50%; overflow: hidden; margin-right: 8px; background-color: #005EB8; background-image: url('https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3f4-e0067-e0062-e0073-e0063-e0074-e007f.svg'); background-size: 150% 150%; background-position: center;"></div>
+                      <span data-i18n="leagues.scotland">Scotland</span>
+                    </div>
+                    <div class="custom-select-option" data-value="Austrian Bundesliga">
+                      <iconify-icon icon="emojione:flag-for-austria" width="18" height="18"></iconify-icon>
+                      <span data-i18n="leagues.austria">Austria</span>
+                    </div>
+                    <div class="custom-select-option" data-value="Swiss Super League">
+                      <iconify-icon icon="emojione:flag-for-switzerland" width="18" height="18"></iconify-icon>
+                      <span data-i18n="leagues.switzerland">Switzerland</span>
+                    </div>
+                    <div class="custom-select-option" data-value="Süper Lig">
+                      <iconify-icon icon="emojione:flag-for-turkey" width="18" height="18"></iconify-icon>
+                      <span data-i18n="leagues.turkey">Türkiye</span>
+                    </div>
+                    <div class="custom-select-option" data-value="Denmark Superliga">
+                      <iconify-icon icon="emojione:flag-for-denmark" width="18" height="18"></iconify-icon>
+                      <span data-i18n="leagues.denmark">Denmark</span>
+                    </div>
+                    <div class="custom-select-option" data-value="Sweden Allsvenskan">
+                      <iconify-icon icon="emojione:flag-for-sweden" width="18" height="18"></iconify-icon>
+                      <span data-i18n="leagues.sweden">Sweden</span>
+                    </div>
+                    <div class="custom-select-option" data-value="Norway Eliteserien">
+                      <iconify-icon icon="emojione:flag-for-norway" width="18" height="18"></iconify-icon>
+                      <span data-i18n="leagues.norway">Norway</span>
+                    </div>
+                    <div class="custom-select-option" data-value="Croatia HNL">
+                      <iconify-icon icon="emojione:flag-for-croatia" width="18" height="18"></iconify-icon>
+                      <span data-i18n="leagues.croatia">Croatia</span>
+                    </div>
+                    <div class="custom-select-option" data-value="Serbia SuperLiga">
+                      <iconify-icon icon="emojione:flag-for-serbia" width="18" height="18"></iconify-icon>
+                      <span data-i18n="leagues.serbia">Serbia</span>
+                    </div>
+                    <div class="custom-select-option" data-value="Czech Fortuna Liga">
+                      <iconify-icon icon="emojione:flag-for-czechia" width="18" height="18"></iconify-icon>
+                      <span data-i18n="leagues.czech">Czech Republic</span>
+                    </div>
+                    <div class="custom-select-option" data-value="Poland">
+                      <iconify-icon icon="emojione:flag-for-poland" width="18" height="18"></iconify-icon>
+                      <span data-i18n="leagues.poland">Poland</span>
+                    </div>
+                    <div class="custom-select-option" data-value="Ukraine">
+                      <iconify-icon icon="emojione:flag-for-ukraine" width="18" height="18"></iconify-icon>
+                      <span data-i18n="leagues.ukraine">Ukraine</span>
+                    </div>
+                    <div class="custom-select-option" data-value="Russia">
+                      <iconify-icon icon="emojione:flag-for-russia" width="18" height="18"></iconify-icon>
+                      <span data-i18n="leagues.russia">Russia</span>
+                    </div>
+                    <div class="custom-select-option" data-value="Greece">
+                      <iconify-icon icon="emojione:flag-for-greece" width="18" height="18"></iconify-icon>
+                      <span data-i18n="leagues.greece">Greece</span>
+                    </div>
+                    <div class="custom-select-option" data-value="Israel">
+                      <iconify-icon icon="emojione:flag-for-israel" width="18" height="18"></iconify-icon>
+                      <span data-i18n="leagues.israel">Israel</span>
+                    </div>
+                    <div class="custom-select-option" data-value="J1 League">
+                      <iconify-icon icon="emojione:flag-for-japan" width="18" height="18"></iconify-icon>
+                      <span data-i18n="leagues.japan">Japan</span>
+                    </div>
+                    <div class="custom-select-option" data-value="K League 1">
+                      <iconify-icon icon="emojione:flag-for-south-korea" width="18" height="18"></iconify-icon>
+                      <span data-i18n="leagues.korea">Korea</span>
+                    </div>
+                    <div class="custom-select-option" data-value="Saudi Pro League">
+                      <iconify-icon icon="emojione:flag-for-saudi-arabia" width="18" height="18"></iconify-icon>
+                      <span data-i18n="leagues.saudiArabia">Saudi Arabia</span>
+                    </div>
+                    <div class="custom-select-option" data-value="MLS">
+                      <iconify-icon icon="emojione:flag-for-united-states" width="18" height="18"></iconify-icon>
+                      <span data-i18n="leagues.usa">MLS</span>
+                    </div>
+                    <div class="custom-select-option" data-value="LigaMX">
+                      <iconify-icon icon="emojione:flag-for-mexico" width="18" height="18"></iconify-icon>
+                      <span data-i18n="leagues.mexico">LigaMX</span>
+                    </div>
+                    <div class="custom-select-option" data-value="Brazil Serie A">
+                      <iconify-icon icon="emojione:flag-for-brazil" width="18" height="18"></iconify-icon>
+                      <span data-i18n="leagues.brazil">Brazil Serie A</span>
+                    </div>
+                    <div class="custom-select-option" data-value="Argentina Primera">
+                      <iconify-icon icon="emojione:flag-for-argentina" width="18" height="18"></iconify-icon>
+                      <span data-i18n="leagues.argentina">Argentina Primera</span>
+                    </div>
+                    <div class="custom-select-option" data-value="Uruguay Primera">
+                      <iconify-icon icon="emojione:flag-for-uruguay" width="18" height="18"></iconify-icon>
+                      <span data-i18n="leagues.uruguay">Uruguay Primera</span>
+                    </div>
+                    <div class="custom-select-option" data-value="Chile">
+                      <iconify-icon icon="emojione:flag-for-chile" width="18" height="18"></iconify-icon>
+                      <span data-i18n="leagues.chile">Chile</span>
+                    </div>
+                    <div class="custom-select-option" data-value="Colombia">
+                      <iconify-icon icon="emojione:flag-for-colombia" width="18" height="18"></iconify-icon>
+                      <span data-i18n="leagues.colombia">Colombia</span>
+                    </div>
+                    <div class="custom-select-option" data-value="Ecuador">
+                      <iconify-icon icon="emojione:flag-for-ecuador" width="18" height="18"></iconify-icon>
+                      <span data-i18n="leagues.ecuador">Ecuador</span>
+                    </div>
+                    <div class="custom-select-option" data-value="Paraguay">
+                      <iconify-icon icon="emojione:flag-for-paraguay" width="18" height="18"></iconify-icon>
+                      <span data-i18n="leagues.paraguay">Paraguay</span>
+                    </div>
+                    <div class="custom-select-option" data-value="Championship">
+                      <iconify-icon icon="emojione:flag-for-united-kingdom" width="18" height="18"></iconify-icon>
+                      <span data-i18n="leagues.championship">Championship</span>
+                    </div>
+                    <div class="custom-select-option" data-value="Segunda Division">
+                      <iconify-icon icon="emojione:flag-for-spain" width="18" height="18"></iconify-icon>
+                      <span data-i18n="leagues.segundaDivision">Segunda Division</span>
+                    </div>
+                    <div class="custom-select-option" data-value="Serie B">
+                      <iconify-icon icon="emojione:flag-for-italy" width="18" height="18"></iconify-icon>
+                      <span data-i18n="leagues.serieB">Serie B</span>
+                    </div>
+                    <div class="custom-select-option" data-value="Bundesliga 2">
+                      <iconify-icon icon="emojione:flag-for-germany" width="18" height="18"></iconify-icon>
+                      <span data-i18n="leagues.bundesliga2">Bundesliga 2</span>
+                    </div>
+                    <div class="custom-select-option" data-value="Ligue 2">
+                      <iconify-icon icon="emojione:flag-for-france" width="18" height="18"></iconify-icon>
+                      <span data-i18n="leagues.ligue2">Ligue 2</span>
+                    </div>
+                    <div class="custom-select-option" data-value="No Top 7">
+                      <iconify-icon icon="emojione:globe-showing-europe-africa" width="18" height="18"></iconify-icon>
+                      <span data-i18n="leagues.noTop7">Outside Top 7</span>
+                    </div>
+                    <div class="custom-select-option" data-value="South America">
+                      <iconify-icon icon="emojione:globe-showing-americas" width="18" height="18"></iconify-icon>
+                      <span data-i18n="leagues.southAmerica">South America</span>
+                    </div>
+                    <div class="custom-select-option" data-value="Scandinavia">
+                      <iconify-icon icon="emojione:globe-showing-europe-africa" width="18" height="18"></iconify-icon>
+                      <span data-i18n="leagues.scandinavia">Scandinavia</span>
+                    </div>
+                    <div class="custom-select-option" data-value="Eastern Europe">
+                      <iconify-icon icon="emojione:globe-showing-europe-africa" width="18" height="18"></iconify-icon>
+                      <span data-i18n="leagues.easternEurope">Eastern Europe</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- Custom Age Selector -->
+                <div class="custom-select-container age-selector">
+                    <div class="custom-select-trigger" id="age-select-trigger">
+                        <span data-i18n="age.all">Age</span>
+                    </div>
+                    <div class="custom-select-options" id="age-select-options" style="display: none;">
+                        <div class="custom-select-option selected" data-value="">
+                            <span data-i18n="age.all">Age</span>
+                        </div>
+                        <div class="custom-select-option" data-value="17">
+                            <span>U17</span>
+                        </div>
+                        <div class="custom-select-option" data-value="18">
+                            <span>U18</span>
+                        </div>
+                        <div class="custom-select-option" data-value="19">
+                            <span>U19</span>
+                        </div>
+                        <div class="custom-select-option" data-value="20">
+                            <span>U20</span>
+                        </div>
+                        <div class="custom-select-option" data-value="21">
+                            <span>U21</span>
+                        </div>
+                        <div class="custom-select-option" data-value="22">
+                            <span>U22</span>
+                        </div>
+                        <div class="custom-select-option" data-value="23">
+                            <span>U23</span>
+                        </div>
+                        <div class="custom-select-option" data-value="24">
+                            <span>U24</span>
+                        </div>
+                        <div class="custom-select-option" data-value="25">
+                            <span>U25</span>
+                        </div>
+                        <div class="custom-select-option" data-value="26">
+                            <span>U26</span>
+                        </div>
+                        <div class="custom-select-option" data-value="27">
+                            <span>U27</span>
+                        </div>
+                        <div class="custom-select-option" data-value="28">
+                            <span>U28</span>
+                        </div>
+                        <div class="custom-select-option" data-value="29">
+                            <span>U29</span>
+                        </div>
+                        <div class="custom-select-option" data-value="30">
+                            <span>U30</span>
+                        </div>
+                        <div class="custom-select-option" data-value="35">
+                            <span>U35</span>
+                        
+                        </div>
+                    </div>
+                </div>
+                <select id="age" style="display: none;">
+                    <option value="" data-i18n="age.all">Age</option>
+                    <option value="17">U17</option>
+                    <option value="18">U18</option>
+                    <option value="19">U19</option>
+                    <option value="20">U20</option>
+                    <option value="21">U21</option>
+                    <option value="22">U22</option>
+                    <option value="23">U23</option>
+                    <option value="24">U24</option>
+                    <option value="25">U25</option>
+                    <option value="26">U26</option>
+                    <option value="27">U27</option>
+                    <option value="28">U28</option>
+                    <option value="29">U29</option>
+                    <option value="30">U30</option>
+                    <option value="35">U35</option>
+                </select>
+                <div class="metrics-toggle-button">
+                    <button type="button" id="toggleMetrics">
+                        <i class="ion-ios-stopwatch-outline"></i>
+                    </button>
+                    <span class="btn-tooltip-text" data-i18n="toggles.switchToTotal">Switch to total</span>
+                </div>
+                <div class="past-season-button">
+                    <button type="button" id="pastSeasonBtn">
+                        <i class="ion-calendar"></i>
+                    </button>
+                    <span class="btn-tooltip-text" data-i18n="toggles.switchTo1PastSeason">Coming soon</span> <!-- COMING SOON REPLACE WITH data-i18n="toggles.switchToPastSeason">Switch to past season</span> -->
+                </div>
+            </div>
+            
+            <div class="result-container">
+                <table id="playerTable" style="display: none;">
+                    <tr><th id="metricHeader"></th></tr>
+                </table>
+            </div>
+        </div>
     </div>
 
-    <script>
+    <div class="dark-mode-toggle" onclick="toggleDarkMode()">
+        <span class="toggle-icon"></span>
+    </div>
 
-const _0x2903d2=_0x194c;(function(_0x2e638b,_0x1cd632){const _0x4c8280=_0x194c,_0x3fcb3f=_0x2e638b();while(!![]){try{const _0x1e365d=parseInt(_0x4c8280(0x21d))/0x1+-parseInt(_0x4c8280(0x1e5))/0x2*(-parseInt(_0x4c8280(0x2c0))/0x3)+parseInt(_0x4c8280(0x217))/0x4*(-parseInt(_0x4c8280(0x289))/0x5)+parseInt(_0x4c8280(0x295))/0x6*(parseInt(_0x4c8280(0x251))/0x7)+-parseInt(_0x4c8280(0x299))/0x8+-parseInt(_0x4c8280(0x263))/0x9+-parseInt(_0x4c8280(0x252))/0xa*(parseInt(_0x4c8280(0x229))/0xb);if(_0x1e365d===_0x1cd632)break;else _0x3fcb3f['push'](_0x3fcb3f['shift']());}catch(_0x176dbb){_0x3fcb3f['push'](_0x3fcb3f['shift']());}}}(_0x4285,0x2d264));const xhr=new XMLHttpRequest();function _0x194c(_0x3b5d0f,_0x533b73){const _0x428560=_0x4285();return _0x194c=function(_0x194c5e,_0x4b09c9){_0x194c5e=_0x194c5e-0x1b5;let _0x24d47d=_0x428560[_0x194c5e];return _0x24d47d;},_0x194c(_0x3b5d0f,_0x533b73);}xhr[_0x2903d2(0x206)]('GET',_0x2903d2(0x268),![]),xhr[_0x2903d2(0x294)](null);let data=xhr[_0x2903d2(0x1d8)],extraHeaderRow=_0x2903d2(0x2ce);function _0x4285(){const _0x3adce6=['metrics.forwardPassRatio','Defensive\x20duels\x20won\x20%','input','xA\x20per\x2090','Through\x20passes\x20completed\x20per\x2090','metrics.assistsPerXa','Offensive\x20duels\x20won\x20per\x2090','max','metrics.preAssists','metrics.corners','Belgium\x20Pro\x20League','Uruguay\x20Primera','Accelerations\x20per\x2090','Progressive\x20carries\x20per\x2090','.metric-selector','metrics.throughPassesCompleted','Serie\x20B','metrics.progressivePassAccuracy','37945BmvAvL','Progressive\x20passes\x20(PAdj)','CATEGORY:\x20Goal\x20Scoring','No\x20Top\x207','Goals\x20+\x20Assists\x20per\x2090','Austrian\x20Bundesliga','bold','metrics.backwardPasses','replace','option[value=\x22Scandinavia\x22]','NPG+A\x20per\x2090','send','228hKAJty','slice','Ecuador','Bundesliga','249888jdrPKQ',')</span></td>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<th>','text','includes','categories.possession','Goals\x20per\x20xG','Saves\x20per\x2090','sort','Penalties\x20scored','metrics.passCompletion','La\x20Liga','metrics.savePercentage','option[value=\x22Top\x207\x20Leagues\x22]','metrics.duelsWon','Matches\x20played','All\x20Leagues','metrics.forwardPasses','Top\x205\x20Leagues','metric','categories.goalScoring','Short\x20pass\x20completion\x20%','metrics.aerialDuels','option[value=\x22Top\x205\x20Leagues\x22]','addEventListener','Direct\x20free\x20kicks\x20oT\x20%','querySelector','CATEGORY:\x20','</th>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<th>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22rank-bar\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22rank-bar-fill\x22\x20style=\x22width:\x20','South\x20America','metrics.goalsAndAssists','color','CATEGORY:\x20Possession','metrics.offensiveDuelsWonPerNinety','querySelectorAll','metrics.penaltiesAttempted','Paraguay','Offensive\x20duels\x20won\x20%','style','metrics.averagePassLength','567HrapQS','metrics.progressiveActions','metrics.possessionsWon','Defensive\x20duels\x20per\x2090','option[value=\x22Eastern\x20Europe\x22]','Through\x20pass\x20completion\x20%','xG+xA\x20per\x2090','Duels\x20won\x20per\x2090','Süper\x20Lig','metrics.offensiveDuels','Brazil\x20Serie\x20A','Average\x20pass\x20length\x20(m)','appendChild','metrics.exits','Player,Team,League,Position,Age,Performance\x20Index,Minutes\x20played,Possessions\x20won\x20per\x2090,Defensive\x20duels\x20per\x2090,Aerial\x20duels\x20per\x2090,Sliding\x20tackles\x20per\x2090,Sliding\x20tackles\x20(PAdj),Shots\x20blocked\x20per\x2090,Interceptions\x20per\x2090,Interceptions\x20(PAdj),Successful\x20attacking\x20actions\x20per\x2090,Goals\x20per\x2090,Non-penalty\x20goals\x20per\x2090,xG\x20per\x2090,Headed\x20goals\x20per\x2090,Shots\x20per\x2090,Assists\x20per\x2090,Crosses\x20per\x2090,Crosses\x20to\x20box\x20per\x2090,Dribbles\x20attempted\x20per\x2090,Offensive\x20duels\x20per\x2090,Touches\x20in\x20box\x20per\x2090,Progressive\x20carries\x20per\x2090,Accelerations\x20per\x2090,Fouls\x20suffered\x20per\x2090,Passes\x20per\x2090,Forward\x20passes\x20per\x2090,Short\x20passes\x20per\x2090,Long\x20passes\x20per\x2090,Average\x20pass\x20length\x20(m),xA\x20per\x2090,Shot\x20assists\x20per\x2090,Key\x20passes\x20per\x2090,Passes\x20to\x20final\x20third\x20per\x2090,Passes\x20to\x20penalty\x20box\x20per\x2090,Through\x20passes\x20per\x2090,Deep\x20completions\x20per\x2090,Progressive\x20passes\x20per\x2090,Shots\x20conceded\x20per\x2090,Clean\x20sheets,xG\x20conceded\x20per\x2090,Prevented\x20goals\x20per\x2090,Exits\x20per\x2090,Defensive\x20duels\x20won\x20%,Aerial\x20duels\x20won\x20%,Shots\x20on\x20target\x20%,Goal\x20conversion\x20%,Cross\x20accuracy\x20%,Dribble\x20success\x20rate\x20%,Offensive\x20duels\x20won\x20%,Pass\x20completion\x20%,Forward\x20pass\x20completion\x20%,Short\x20pass\x20completion\x20%,Long\x20pass\x20accuracy\x20%,Pass\x20completion\x20(to\x20final\x20third)\x20%,Pass\x20completion\x20(to\x20penalty\x20box)\x20%,Through\x20pass\x20completion\x20%,Progressive\x20pass\x20accuracy\x20%,Save\x20percentage\x20%,Free\x20kicks\x20per\x2090,Direct\x20free\x20kicks\x20per\x2090,Direct\x20free\x20kicks\x20oT\x20%,Corners\x20per\x2090,Penalties\x20attempted,Penalty\x20success\x20rate\x20%,Matches\x20played,Duels\x20per\x2090,Duels\x20won\x20%,Possession\x20+/-,Forward\x20pass\x20ratio,xA\x20per\x20100\x20passes,Chance\x20creation\x20ratio,Inaccurate\x20passes\x20%,Goals\x20+\x20Assists\x20per\x2090,NPG+A\x20per\x2090,xG+xA\x20per\x2090,xG/Shot,Goals\x20-\x20xG\x20per\x2090,Goals\x20per\x20xG,Assists\x20-\x20xA\x20per\x2090,Assists\x20per\x20xA,Successful\x20dribbles\x20per\x2090,Shots\x20on\x20target\x20per\x2090,Accurate\x20crosses\x20per\x2090,Offensive\x20duels\x20won\x20per\x2090,Defensive\x20duels\x20won\x20per\x2090,Aerial\x20duels\x20won\x20per\x2090,Passes\x20completed\x20per\x2090,Forward\x20passes\x20completed\x20per\x2090,Short\x20passes\x20completed\x20per\x2090,Long\x20passes\x20completed\x20per\x2090,Accurate\x20passes\x20to\x20final\x20third\x20per\x2090,Accurate\x20passes\x20to\x20pen\x20box\x20per\x2090,Through\x20passes\x20completed\x20per\x2090,Progressive\x20passes\x20completed\x20per\x2090,Misplaced\x20passes\x20per\x2090,Saves\x20per\x2090,Possessions\x20lost\x20per\x2090,Possessions\x20won\x20-\x20lost\x20per\x2090,Progressive\x20actions\x20per\x2090,Duels\x20won\x20per\x2090,Minutes\x20per\x20match,Backward\x20pass\x20ratio,Penalties\x20scored,npxG\x20per\x2090,npxG/Shot,npxG+xA\x20per\x2090,Touches\x20per\x2090,Progressive\x20action\x20rate,Progressive\x20passes\x20(PAdj),Ball-carrying\x20frequency,xG\x20per\x20100\x20touches,Shot\x20frequency,Dribbles\x20per\x20100\x20touches,Goals\x20per\x20100\x20touches,Passes\x20received\x20per\x2090,Backward\x20passes\x20per\x2090,Pre-assists\x20per\x2090','Key\x20passes\x20per\x2090','Sliding\x20tackles\x20per\x2090','option','Shots\x20conceded\x20per\x2090','display','metrics.shotsOnTarget','metrics.shotFrequency','Greece','pow','metrics.accelerations','npxG\x20per\x2090','textContent','metricHeader','Dribble\x20success\x20rate\x20%','map','Goals\x20per\x2090','Saudi\x20Pro\x20League','option[value=\x22No\x20Top\x207\x22]','Shot\x20assists\x20per\x2090','age','xG\x20conceded\x20per\x2090','xG/Shot','metrics.progressiveCarries','toggleSort','npxG/Shot','metrics.throughPasses','Crosses\x20per\x2090','option[value=\x22All\x20Leagues\x22]','change','metrics.dribblesAttempted','Long\x20passes\x20per\x2090','metrics.passesReceived','K\x20League\x201','metrics.accuratePassesToBox','Ligue\x202','league','Croatia\x20HNL','min','dispatchEvent','categories.defending','Goal\x20conversion\x20%','Duels\x20won\x20%','Long\x20passes\x20completed\x20per\x2090','disabled','CATEGORY:\x20Goal\x20Creation','metrics.npGoalsAndAssists','metrics.crossesToBox','round','#aaa','Pass\x20completion\x20(to\x20final\x20third)\x20%','metrics.throughPassCompletion','Argentina\x20Primera','CATEGORY:\x20Goalkeeping','metrics.interceptionsAdj','Possessions\x20won\x20per\x2090','metrics.freeKicks','metrics.headedGoals','Scandinavia','responseText','metrics.xaPerPasses','Long\x20pass\x20accuracy\x20%','Crosses\x20to\x20box\x20per\x2090','metrics.dribblesPerTouches','metrics.dribbleSuccess','metrics.xgConceded','Deep\x20completions\x20per\x2090','metrics.xgPerNinety','categories.goalCreation','metrics.defensiveDuelsWon','metrics.accuratePassesFinalThird','Chile','504TUNQjv','length','metrics.slidingTacklesAdj','Touches\x20per\x2090','CATEGORY:\x20Passing','categories.setPieces','metrics.passCompletionToBox','setAttribute','Scotland\x20Premiership','metrics.goalConversion','metrics.directFreeKicks','Colombia','Championship','metrics.offensiveDuelsWon','metrics.shortPasses','Forward\x20pass\x20ratio','metrics.assistsMinusXa','option[value=\x22South\x20America\x22]','metrics.passesCompleted','metrics.defensiveDuels','metrics.shortPassCompletion','getElementById','metrics.shotsPerNinety','split','npxG+xA\x20per\x2090','Russia','Headed\x20goals\x20per\x2090','Ukraine','Bundesliga\x202','Premier\x20League','Forward\x20passes\x20per\x2090','categories.dribbling','metrics.goalsPerNinety','open','Fouls\x20suffered\x20per\x2090','add','metrics.possessionPlusMinus','metrics.minutesPerMatch','metrics.accurateCrosses','Forward\x20pass\x20completion\x20%','Top\x207\x20Leagues','inline-block','LigaMX','Progressive\x20pass\x20accuracy\x20%','Progressive\x20actions\x20per\x2090','toggleMetrics','metrics.matchesPlayed','forEach','filter','metrics.interceptions','192ZfaCNB','classList','Eredivisie','Pass\x20completion\x20(to\x20penalty\x20box)\x20%','indexOf','Short\x20passes\x20completed\x20per\x2090','363017JwSFXz','Ligue\x201','Israel','Passes\x20to\x20penalty\x20box\x20per\x2090','Aerial\x20duels\x20won\x20%','xG\x20per\x20100\x20touches','metrics.possessionsBalance','position','MLS','xG\x20per\x2090','Accurate\x20crosses\x20per\x2090','metrics.crosses','66VIOpJY','Possessions\x20won\x20-\x20lost\x20per\x2090','Segunda\x20Division','Liga\x20Portugal','Czech\x20Fortuna\x20Liga','All','startsWith','Passes\x20completed\x20per\x2090','metrics.penaltySuccessRate','Passes\x20per\x2090','metrics.npxgAndXa','Performance\x20Index','CATEGORY:\x20Dribbling\x20and\x20Ball-Carrying','Assists\x20-\x20xA\x20per\x2090','Save\x20percentage\x20%','metrics.xgPerTouches','i18n','none','Norway\x20Eliteserien','metrics.progressivePassesCompleted','Free\x20kicks\x20per\x2090','J1\x20League','metrics.possessionsLost','fontWeight','Clean\x20sheets','Interceptions\x20(PAdj)','Cross\x20accuracy\x20%','metrics.progressiveActionRate','Aerial\x20duels\x20per\x2090','data-i18n','Aerial\x20duels\x20won\x20per\x2090','metrics.directFreeKicksOnTarget','Progressive\x20action\x20rate','playerTable','categories.goalkeeping','Poland','metrics.aerialDuelsWonPerNinety','Serie\x20A','Penalties\x20attempted','metrics.npxgPerNinety','62902aLsjhn','185850MPkiVE','Possession\x20+/-','Defensive\x20duels\x20won\x20per\x2090','click','Touches\x20in\x20box\x20per\x2090','\x20per\x2090','categories.passing','option[value=\x22All\x22]','with-toggle','Shot\x20frequency','value','innerHTML','Dribbles\x20per\x20100\x20touches','rgba(','createElement','Non-penalty\x20goals\x20per\x2090','Accurate\x20passes\x20to\x20final\x20third\x20per\x2090','541467DxbVyw','Passes\x20to\x20final\x20third\x20per\x2090','Through\x20passes\x20per\x2090','Denmark\x20Superliga','metrics.nonPenaltyGoals','https://datamb.football/database/INDEX.csv','metrics.preventedGoals','Progressive\x20passes\x20per\x2090','metrics.npxgPerShot','Ball-carrying\x20frequency','metrics.duels','Eastern\x20Europe','Serbia\x20SuperLiga','metrics.minutesPlayed','\x22></div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</th>\x0a\x20\x20\x20\x20\x20\x20\x20\x20','Passes\x20received\x20per\x2090','&nbsp;<span\x20class=\x22smaller-text\x22>(','Successful\x20dribbles\x20per\x2090','metrics.deepCompletions','metrics.slidingTackles'];_0x4285=function(){return _0x3adce6;};return _0x4285();}data=extraHeaderRow+'\x0a'+data;let originalDataArray=data[_0x2903d2(0x1fc)]('\x0a')[_0x2903d2(0x2dd)](_0x4856e7=>_0x4856e7[_0x2903d2(0x1fc)](','));const playerTable=document[_0x2903d2(0x1fa)](_0x2903d2(0x24a)),metricSelect=document[_0x2903d2(0x1fa)](_0x2903d2(0x2ab)),positionSelect=document['getElementById'](_0x2903d2(0x224)),leagueSelect=document[_0x2903d2(0x1fa)](_0x2903d2(0x1c1)),ageInput=document[_0x2903d2(0x1fa)](_0x2903d2(0x2e2)),metricHeader=document[_0x2903d2(0x1fa)](_0x2903d2(0x2db)),toggleButton=document[_0x2903d2(0x1fa)](_0x2903d2(0x212)),toggleSortButton=document[_0x2903d2(0x1fa)](_0x2903d2(0x1b5));let isToggled=![],isAscending=![],currentDataArray=originalDataArray;const customMetricOrder=[{'text':_0x2903d2(0x234),'i18n':'metrics.performanceIndex'},{'text':'Minutes\x20played','i18n':_0x2903d2(0x270)},{'text':_0x2903d2(0x2a7),'i18n':_0x2903d2(0x213)},{'text':'Minutes\x20per\x20match','i18n':_0x2903d2(0x20a)},{'text':_0x2903d2(0x28b),'i18n':_0x2903d2(0x2ac)},{'text':_0x2903d2(0x2de),'i18n':_0x2903d2(0x205)},{'text':_0x2903d2(0x261),'i18n':_0x2903d2(0x267)},{'text':_0x2903d2(0x226),'i18n':_0x2903d2(0x1e0)},{'text':_0x2903d2(0x2e4),'i18n':'metrics.xgPerShot'},{'text':_0x2903d2(0x2d9),'i18n':_0x2903d2(0x250)},{'text':_0x2903d2(0x1b6),'i18n':_0x2903d2(0x26b)},{'text':'Goals\x20per\x20100\x20touches','i18n':'metrics.goalsPerTouches'},{'text':_0x2903d2(0x222),'i18n':_0x2903d2(0x238)},{'text':_0x2903d2(0x25b),'i18n':_0x2903d2(0x2d5)},{'text':'Shots\x20per\x2090','i18n':_0x2903d2(0x1fb)},{'text':'Shots\x20on\x20target\x20%','i18n':_0x2903d2(0x2d4)},{'text':'Shots\x20on\x20target\x20per\x2090','i18n':'metrics.shotsOnTargetPerNinety'},{'text':_0x2903d2(0x1c6),'i18n':_0x2903d2(0x1ee)},{'text':'Goals\x20-\x20xG\x20per\x2090','i18n':'metrics.goalsMinusXg'},{'text':_0x2903d2(0x29e),'i18n':'metrics.goalsPerXg'},{'text':_0x2903d2(0x1ff),'i18n':_0x2903d2(0x1d6)},{'text':_0x2903d2(0x256),'i18n':'metrics.touchesInBox'},{'text':_0x2903d2(0x1ca),'i18n':_0x2903d2(0x1e1)},{'text':'Assists\x20per\x2090','i18n':'metrics.assistsPerNinety'},{'text':_0x2903d2(0x27a),'i18n':'metrics.xaPerNinety'},{'text':'xA\x20per\x20100\x20passes','i18n':_0x2903d2(0x1d9)},{'text':_0x2903d2(0x28d),'i18n':_0x2903d2(0x2b6)},{'text':_0x2903d2(0x293),'i18n':_0x2903d2(0x1cb)},{'text':_0x2903d2(0x2c6),'i18n':'metrics.xgAndXa'},{'text':_0x2903d2(0x1fd),'i18n':_0x2903d2(0x233)},{'text':_0x2903d2(0x2cf),'i18n':'metrics.keyPasses'},{'text':'Chance\x20creation\x20ratio','i18n':'metrics.chanceCreation'},{'text':_0x2903d2(0x236),'i18n':_0x2903d2(0x1f5)},{'text':'Assists\x20per\x20xA','i18n':_0x2903d2(0x27c)},{'text':_0x2903d2(0x2e1),'i18n':'metrics.shotAssists'},{'text':'Pre-assists\x20per\x2090','i18n':_0x2903d2(0x27f)},{'text':_0x2903d2(0x1b8),'i18n':_0x2903d2(0x228)},{'text':_0x2903d2(0x243),'i18n':'metrics.crossAccuracy'},{'text':_0x2903d2(0x227),'i18n':_0x2903d2(0x20b)},{'text':_0x2903d2(0x1db),'i18n':_0x2903d2(0x1cc)},{'text':_0x2903d2(0x1df),'i18n':_0x2903d2(0x275)},{'text':_0x2903d2(0x235),'i18n':_0x2903d2(0x204)},{'text':'Dribbles\x20attempted\x20per\x2090','i18n':_0x2903d2(0x1bb)},{'text':_0x2903d2(0x2dc),'i18n':_0x2903d2(0x1dd)},{'text':_0x2903d2(0x274),'i18n':'metrics.successfulDribbles'},{'text':_0x2903d2(0x25e),'i18n':_0x2903d2(0x1dc)},{'text':'Successful\x20attacking\x20actions\x20per\x2090','i18n':'metrics.attackingActions'},{'text':'Offensive\x20duels\x20per\x2090','i18n':_0x2903d2(0x2c9)},{'text':_0x2903d2(0x2bd),'i18n':_0x2903d2(0x1f2)},{'text':_0x2903d2(0x27d),'i18n':_0x2903d2(0x2b9)},{'text':_0x2903d2(0x284),'i18n':_0x2903d2(0x2e5)},{'text':_0x2903d2(0x26c),'i18n':'metrics.ballCarrying'},{'text':_0x2903d2(0x283),'i18n':_0x2903d2(0x2d8)},{'text':_0x2903d2(0x207),'i18n':'metrics.foulsSuffered'},{'text':_0x2903d2(0x1e9),'i18n':_0x2903d2(0x258)},{'text':_0x2903d2(0x232),'i18n':'metrics.passes'},{'text':'Pass\x20completion\x20%','i18n':_0x2903d2(0x2a2)},{'text':_0x2903d2(0x230),'i18n':_0x2903d2(0x1f7)},{'text':_0x2903d2(0x203),'i18n':_0x2903d2(0x2a9)},{'text':_0x2903d2(0x20c),'i18n':'metrics.forwardPassCompletion'},{'text':'Forward\x20passes\x20completed\x20per\x2090','i18n':'metrics.forwardPassesCompleted'},{'text':'Short\x20passes\x20per\x2090','i18n':_0x2903d2(0x1f3)},{'text':_0x2903d2(0x2ad),'i18n':_0x2903d2(0x1f9)},{'text':_0x2903d2(0x21c),'i18n':'metrics.shortPassesCompleted'},{'text':_0x2903d2(0x1bc),'i18n':'metrics.longPasses'},{'text':_0x2903d2(0x1da),'i18n':'metrics.longPassAccuracy'},{'text':_0x2903d2(0x1c8),'i18n':'metrics.longPassesCompleted'},{'text':_0x2903d2(0x26a),'i18n':'metrics.progressivePasses'},{'text':_0x2903d2(0x210),'i18n':_0x2903d2(0x288)},{'text':'Progressive\x20passes\x20completed\x20per\x2090','i18n':_0x2903d2(0x23c)},{'text':_0x2903d2(0x28a),'i18n':'metrics.progressivePassesAdj'},{'text':_0x2903d2(0x264),'i18n':'metrics.passesToFinalThird'},{'text':_0x2903d2(0x1cf),'i18n':'metrics.passCompletionFinalThird'},{'text':_0x2903d2(0x262),'i18n':_0x2903d2(0x1e3)},{'text':_0x2903d2(0x220),'i18n':'metrics.passesToBox'},{'text':_0x2903d2(0x21a),'i18n':_0x2903d2(0x1eb)},{'text':'Accurate\x20passes\x20to\x20pen\x20box\x20per\x2090','i18n':_0x2903d2(0x1bf)},{'text':_0x2903d2(0x265),'i18n':_0x2903d2(0x1b7)},{'text':_0x2903d2(0x2c5),'i18n':_0x2903d2(0x1d0)},{'text':_0x2903d2(0x27b),'i18n':_0x2903d2(0x286)},{'text':_0x2903d2(0x2cb),'i18n':_0x2903d2(0x2bf)},{'text':'Backward\x20passes\x20per\x2090','i18n':_0x2903d2(0x290)},{'text':'Misplaced\x20passes\x20per\x2090','i18n':'metrics.misplacedPasses'},{'text':_0x2903d2(0x1f4),'i18n':_0x2903d2(0x277)},{'text':'Backward\x20pass\x20ratio','i18n':'metrics.backwardPassRatio'},{'text':_0x2903d2(0x2b8),'i18n':_0x2903d2(0x29d)},{'text':_0x2903d2(0x272),'i18n':_0x2903d2(0x1bd)},{'text':_0x2903d2(0x1e8),'i18n':'metrics.touches'},{'text':'Possessions\x20lost\x20per\x2090','i18n':_0x2903d2(0x23f)},{'text':_0x2903d2(0x22a),'i18n':_0x2903d2(0x223)},{'text':_0x2903d2(0x253),'i18n':_0x2903d2(0x209)},{'text':'Duels\x20per\x2090','i18n':_0x2903d2(0x26d)},{'text':_0x2903d2(0x1c7),'i18n':_0x2903d2(0x2a6)},{'text':_0x2903d2(0x2c7),'i18n':'metrics.duelsWonPerNinety'},{'text':_0x2903d2(0x211),'i18n':_0x2903d2(0x2c1)},{'text':_0x2903d2(0x249),'i18n':_0x2903d2(0x244)},{'text':'CATEGORY:\x20Defending','i18n':_0x2903d2(0x1c5)},{'text':_0x2903d2(0x2c3),'i18n':_0x2903d2(0x1f8)},{'text':_0x2903d2(0x278),'i18n':_0x2903d2(0x1e2)},{'text':_0x2903d2(0x254),'i18n':'metrics.defensiveDuelsWonPerNinety'},{'text':_0x2903d2(0x2d0),'i18n':_0x2903d2(0x276)},{'text':'Sliding\x20tackles\x20(PAdj)','i18n':_0x2903d2(0x1e7)},{'text':'Interceptions\x20per\x2090','i18n':_0x2903d2(0x216)},{'text':_0x2903d2(0x242),'i18n':_0x2903d2(0x1d3)},{'text':_0x2903d2(0x1d4),'i18n':_0x2903d2(0x2c2)},{'text':_0x2903d2(0x245),'i18n':_0x2903d2(0x2ae)},{'text':_0x2903d2(0x221),'i18n':'metrics.aerialDuelsWon'},{'text':_0x2903d2(0x247),'i18n':_0x2903d2(0x24d)},{'text':'Shots\x20blocked\x20per\x2090','i18n':'metrics.shotsBlocked'},{'text':_0x2903d2(0x1d2),'i18n':_0x2903d2(0x24b)},{'text':_0x2903d2(0x29f),'i18n':'metrics.saves'},{'text':_0x2903d2(0x237),'i18n':_0x2903d2(0x2a4)},{'text':'Prevented\x20goals\x20per\x2090','i18n':_0x2903d2(0x269)},{'text':_0x2903d2(0x2d2),'i18n':'metrics.shotsConceded'},{'text':_0x2903d2(0x2e3),'i18n':_0x2903d2(0x1de)},{'text':_0x2903d2(0x241),'i18n':'metrics.cleanSheets'},{'text':'Exits\x20per\x2090','i18n':_0x2903d2(0x2cd)},{'text':'CATEGORY:\x20Set\x20Pieces','i18n':_0x2903d2(0x1ea)},{'text':_0x2903d2(0x23d),'i18n':_0x2903d2(0x1d5)},{'text':'Direct\x20free\x20kicks\x20per\x2090','i18n':_0x2903d2(0x1ef)},{'text':_0x2903d2(0x2b1),'i18n':_0x2903d2(0x248)},{'text':'Corners\x20per\x2090','i18n':_0x2903d2(0x280)},{'text':_0x2903d2(0x24f),'i18n':_0x2903d2(0x2bb)},{'text':_0x2903d2(0x2a1),'i18n':'metrics.penaltiesScored'},{'text':'Penalty\x20success\x20rate\x20%','i18n':_0x2903d2(0x231)}],columnIndexMap={};originalDataArray[0x0][_0x2903d2(0x214)]((_0x4d04dd,_0x2215b7)=>{columnIndexMap[_0x4d04dd]=_0x2215b7;}),metricSelect['innerHTML']='',customMetricOrder[_0x2903d2(0x214)](_0x48772b=>{const _0x5e98df=_0x2903d2,_0x14623b=document['createElement'](_0x5e98df(0x2d1));if(_0x48772b[_0x5e98df(0x29b)]['startsWith']('CATEGORY:\x20'))_0x14623b['textContent']=_0x48772b[_0x5e98df(0x29b)]['replace'](_0x5e98df(0x2b3),''),_0x14623b[_0x5e98df(0x1c9)]=!![],_0x14623b[_0x5e98df(0x2be)][_0x5e98df(0x240)]='bold',_0x14623b['style'][_0x5e98df(0x2b7)]=_0x5e98df(0x1ce),_0x14623b[_0x5e98df(0x1ec)](_0x5e98df(0x246),_0x48772b['i18n']);else{const _0x498d41=isToggled?_0x48772b[_0x5e98df(0x29b)][_0x5e98df(0x291)](_0x5e98df(0x257),''):_0x48772b['text'],_0x5bda03=currentDataArray[0x0][_0x5e98df(0x21b)](_0x498d41);_0x5bda03!==-0x1&&(_0x14623b['value']=_0x5bda03,_0x14623b[_0x5e98df(0x2da)]=_0x498d41,_0x14623b['setAttribute'](_0x5e98df(0x246),_0x48772b['i18n']));}metricSelect[_0x5e98df(0x2cc)](_0x14623b);}),metricSelect[_0x2903d2(0x25c)]='5',leagueSelect[_0x2903d2(0x2b2)](_0x2903d2(0x2af))[_0x2903d2(0x1c9)]=!![],leagueSelect['querySelector']('option[value=\x22Top\x207\x20Leagues\x22]')[_0x2903d2(0x1c9)]=!![],leagueSelect['querySelector'](_0x2903d2(0x1b9))['disabled']=!![],leagueSelect['querySelector']('option[value=\x22No\x20Top\x207\x22]')[_0x2903d2(0x1c9)]=!![],positionSelect[_0x2903d2(0x2b2)](_0x2903d2(0x259))[_0x2903d2(0x1c9)]=!![],leagueSelect[_0x2903d2(0x2b2)](_0x2903d2(0x1f6))[_0x2903d2(0x1c9)]=!![],leagueSelect['querySelector'](_0x2903d2(0x2c4))[_0x2903d2(0x1c9)]=!![],leagueSelect[_0x2903d2(0x2b2)](_0x2903d2(0x292))[_0x2903d2(0x1c9)]=!![],metricSelect[_0x2903d2(0x1c4)](new Event(_0x2903d2(0x1ba))),toggleButton[_0x2903d2(0x2b0)](_0x2903d2(0x1ba),toggleData),toggleSortButton[_0x2903d2(0x2b0)](_0x2903d2(0x255),toggleSortOrder),metricSelect[_0x2903d2(0x2b0)]('change',()=>{isAscending=![],filterTable();}),positionSelect[_0x2903d2(0x2b0)](_0x2903d2(0x1ba),filterTable),leagueSelect[_0x2903d2(0x2b0)](_0x2903d2(0x1ba),filterTable),ageInput['addEventListener'](_0x2903d2(0x279),filterTable);function toggleSortOrder(){isAscending=!isAscending,filterTable();}function toggleData(){const _0x29a9d4=_0x2903d2;isToggled=!isToggled;const _0x672c98=metricSelect[_0x29a9d4(0x25c)];isToggled?(currentDataArray=originalDataArray[_0x29a9d4(0x2dd)]((_0x9e359,_0x29e380)=>{const _0x145c31=_0x29a9d4;if(_0x29e380===0x0)return _0x9e359[_0x145c31(0x2dd)]((_0x5f3c91,_0x583624)=>{const _0x2fa6ad=_0x145c31;return![0xb,0xe,0x22,0x2c,0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x3a,0x3b,0x3c,0x3d,0x3e,0x3f]['includes'](_0x583624)?_0x5f3c91['replace'](_0x2fa6ad(0x257),''):_0x5f3c91;});else{const _0x44f2a8=parseFloat(_0x9e359[0x6]);return _0x9e359[_0x145c31(0x2dd)]((_0x4b9213,_0x453eae)=>{return _0x453eae>0x4&&![0x5,0x6,0xb,0xe,0x22,0x2c,0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x3a,0x3b,0x3c,0x3d,0x3e,0x3f,0x42,0x44,0x45,0x46,0x48,0x49,0x4a,0x4b,0x4c,0x51,0x53,0x55,0x6a,0x6b,0x6c,0x6e,0x71,0x72,0x73,0x74,0x75,0x76,0x77]['includes'](_0x453eae)?[0x12,0x23,0x2d,0x2e,0x50,0x52,0x54,0x6d,0x6f]['includes'](_0x453eae)?(_0x4b9213*_0x44f2a8/0x5a)['toFixed'](0x1):Math['round'](_0x4b9213*_0x44f2a8/0x5a):_0x4b9213;});}}),metricSelect[_0x29a9d4(0x25d)]='',customMetricOrder[_0x29a9d4(0x214)](_0x3ad815=>{const _0x10cc7f=_0x29a9d4,_0x431924=document[_0x10cc7f(0x260)](_0x10cc7f(0x2d1));if(_0x3ad815[_0x10cc7f(0x29b)]['startsWith']('CATEGORY:\x20'))_0x431924[_0x10cc7f(0x2da)]=_0x3ad815[_0x10cc7f(0x29b)][_0x10cc7f(0x291)](_0x10cc7f(0x2b3),''),_0x431924[_0x10cc7f(0x1c9)]=!![],_0x431924[_0x10cc7f(0x2be)][_0x10cc7f(0x240)]=_0x10cc7f(0x28f),_0x431924[_0x10cc7f(0x2be)][_0x10cc7f(0x2b7)]=_0x10cc7f(0x1ce),_0x431924[_0x10cc7f(0x1ec)](_0x10cc7f(0x246),_0x3ad815[_0x10cc7f(0x239)]);else{const _0x31f15f=isToggled?_0x3ad815['text']['replace'](_0x10cc7f(0x257),''):_0x3ad815[_0x10cc7f(0x29b)],_0x456b3f=currentDataArray[0x0][_0x10cc7f(0x21b)](_0x31f15f);_0x456b3f!==-0x1&&(_0x431924[_0x10cc7f(0x25c)]=_0x456b3f,_0x431924[_0x10cc7f(0x2da)]=_0x31f15f,_0x431924[_0x10cc7f(0x1ec)]('data-i18n',_0x3ad815[_0x10cc7f(0x239)]));}metricSelect[_0x10cc7f(0x2cc)](_0x431924);})):currentDataArray=originalDataArray;currentDataArray=currentDataArray[_0x29a9d4(0x2dd)](_0x27609b=>{return parseFloat(_0x27609b[0x10])===0x0&&parseFloat(_0x27609b[0x12])===0x0&&(_0x27609b[0x52]=''),_0x27609b;}),currentDataArray=currentDataArray[_0x29a9d4(0x2dd)](_0x2b25cc=>{return parseFloat(_0x2b25cc[0x15])===0x0&&parseFloat(_0x2b25cc[0x23])===0x0&&(_0x2b25cc[0x54]=''),_0x2b25cc;}),metricSelect['innerHTML']='',customMetricOrder[_0x29a9d4(0x214)](_0x41094c=>{const _0x7ed3e0=_0x29a9d4,_0xa713a3=document[_0x7ed3e0(0x260)]('option');if(_0x41094c[_0x7ed3e0(0x29b)][_0x7ed3e0(0x22f)](_0x7ed3e0(0x2b3)))_0xa713a3['textContent']=_0x41094c[_0x7ed3e0(0x29b)][_0x7ed3e0(0x291)](_0x7ed3e0(0x2b3),''),_0xa713a3[_0x7ed3e0(0x1c9)]=!![],_0xa713a3[_0x7ed3e0(0x2be)]['fontWeight']='bold',_0xa713a3[_0x7ed3e0(0x2be)]['color']=_0x7ed3e0(0x1ce),_0xa713a3['setAttribute'](_0x7ed3e0(0x246),_0x41094c[_0x7ed3e0(0x239)]);else{const _0x30bb9b=isToggled?_0x41094c[_0x7ed3e0(0x29b)][_0x7ed3e0(0x291)]('\x20per\x2090',''):_0x41094c[_0x7ed3e0(0x29b)],_0x2e11e0=currentDataArray[0x0][_0x7ed3e0(0x21b)](_0x30bb9b);_0x2e11e0!==-0x1&&(_0xa713a3[_0x7ed3e0(0x25c)]=_0x2e11e0,_0xa713a3[_0x7ed3e0(0x2da)]=_0x30bb9b,_0xa713a3[_0x7ed3e0(0x1ec)](_0x7ed3e0(0x246),_0x41094c['i18n']));}metricSelect['appendChild'](_0xa713a3);}),metricSelect[_0x29a9d4(0x25c)]=_0x672c98,handleSelectorsChange();const _0x339a32=getPreferredLanguage();applyLanguage(_0x339a32),filterTable();}function filterTable(){const _0x1a6aa1=_0x2903d2;let _0x30785d=currentDataArray[_0x1a6aa1(0x296)](0x1);const _0x1a3619=metricSelect[_0x1a6aa1(0x25c)],_0x1c59e9=positionSelect['value'],_0x267019=leagueSelect['value'],_0x54a9b2=ageInput[_0x1a6aa1(0x25c)];_0x1a3619===''?metricHeader[_0x1a6aa1(0x2be)]['display']=_0x1a6aa1(0x23a):(metricHeader['style'][_0x1a6aa1(0x2d3)]='',isAscending?_0x30785d[_0x1a6aa1(0x2a0)]((_0xf8042,_0x330662)=>parseFloat(_0xf8042[_0x1a3619])-parseFloat(_0x330662[_0x1a3619])):_0x30785d['sort']((_0x2ff8ab,_0x35725c)=>parseFloat(_0x35725c[_0x1a3619])-parseFloat(_0x2ff8ab[_0x1a3619])));_0x30785d=_0x30785d[_0x1a6aa1(0x215)](_0x57b70b=>_0x57b70b[_0x1a3619]!==''),_0x30785d=_0x30785d[_0x1a6aa1(0x2dd)](_0x505551=>{if(parseFloat(_0x505551[0x10])===0x0&&parseFloat(_0x505551[0x12])===0x0){const _0x485ebd=isToggled?0x52:0x52;_0x505551[_0x485ebd]='';}return _0x505551;}),_0x30785d=_0x30785d[_0x1a6aa1(0x2dd)](_0x4a1825=>{return(parseFloat(_0x4a1825[0x10])===0x0||parseFloat(_0x4a1825[0x12])===0x0)&&(_0x4a1825[0x53]=''),_0x4a1825;}),_0x30785d=_0x30785d[_0x1a6aa1(0x2dd)](_0x55dfae=>{if(parseFloat(_0x55dfae[0x15])===0x0&&parseFloat(_0x55dfae[0x23])===0x0){const _0x14b59d=isToggled?0x54:0x54;_0x55dfae[_0x14b59d]='';}return _0x55dfae;}),_0x30785d=_0x30785d[_0x1a6aa1(0x2dd)](_0x46fd5a=>{return(parseFloat(_0x46fd5a[0x23])===0x0||parseFloat(_0x46fd5a[0x15])===0x0)&&(_0x46fd5a[0x55]=''),_0x46fd5a;}),_0x30785d=_0x30785d[_0x1a6aa1(0x2dd)](_0x1e5a54=>{return(parseFloat(_0x1e5a54[0x12])===0x0||parseFloat(_0x1e5a54[0x14])===0x0)&&(_0x1e5a54[0x51]=''),_0x1e5a54;}),_0x30785d=_0x30785d[_0x1a6aa1(0x2dd)](_0x2ff00d=>{return(parseFloat(_0x2ff00d[0x12])===0x0||parseFloat(_0x2ff00d[0x14])===0x0)&&(_0x2ff00d[0x6e]=''),_0x2ff00d;});if(_0x1c59e9===_0x1a6aa1(0x22e)){const _0x292fce={};_0x30785d=_0x30785d[_0x1a6aa1(0x215)](_0x27164e=>{const _0x47e8ab=_0x27164e[0x0]+'\x20'+_0x27164e[0x1];if(!_0x292fce[_0x47e8ab])return _0x292fce[_0x47e8ab]=!![],!![];return![];});}else _0x1c59e9!==''&&(_0x30785d=_0x30785d[_0x1a6aa1(0x215)](_0xf5b67a=>_0xf5b67a[0x3]===_0x1c59e9));if(_0x267019===_0x1a6aa1(0x2aa))_0x30785d=_0x30785d[_0x1a6aa1(0x215)](_0x5da6d7=>[_0x1a6aa1(0x202),'Bundesliga',_0x1a6aa1(0x2a3),_0x1a6aa1(0x21e),'Serie\x20A'][_0x1a6aa1(0x29c)](_0x5da6d7[0x2]));else{if(_0x267019==='Top\x207\x20Leagues')_0x30785d=_0x30785d[_0x1a6aa1(0x215)](_0x1e0c53=>[_0x1a6aa1(0x202),_0x1a6aa1(0x298),'La\x20Liga',_0x1a6aa1(0x21e),_0x1a6aa1(0x24e),_0x1a6aa1(0x219),_0x1a6aa1(0x22c)][_0x1a6aa1(0x29c)](_0x1e0c53[0x2]));else{if(_0x267019==='No\x20Top\x207')_0x30785d=_0x30785d[_0x1a6aa1(0x215)](_0x174294=>['Greece','Poland',_0x1a6aa1(0x200),_0x1a6aa1(0x1fe),_0x1a6aa1(0x21f),_0x1a6aa1(0x297),'Paraguay',_0x1a6aa1(0x1e4),_0x1a6aa1(0x1f0),_0x1a6aa1(0x281),'Scotland\x20Premiership',_0x1a6aa1(0x28e),'Swiss\x20Super\x20League','Süper\x20Lig','Denmark\x20Superliga','Sweden\x20Allsvenskan',_0x1a6aa1(0x23b),_0x1a6aa1(0x1c2),_0x1a6aa1(0x26f),_0x1a6aa1(0x22d),'Saudi\x20Pro\x20League',_0x1a6aa1(0x23e),_0x1a6aa1(0x1be),_0x1a6aa1(0x225),_0x1a6aa1(0x20f),'Brazil\x20Serie\x20A',_0x1a6aa1(0x1d1),'Uruguay\x20Primera',_0x1a6aa1(0x1f1),_0x1a6aa1(0x22b),'Serie\x20B',_0x1a6aa1(0x201),_0x1a6aa1(0x1c0)][_0x1a6aa1(0x29c)](_0x174294[0x2]));else{if(_0x267019===_0x1a6aa1(0x2a8))_0x30785d=_0x30785d[_0x1a6aa1(0x215)](_0x2e4b53=>[_0x1a6aa1(0x2d6),_0x1a6aa1(0x24c),_0x1a6aa1(0x200),_0x1a6aa1(0x1fe),_0x1a6aa1(0x21f),_0x1a6aa1(0x297),'Paraguay',_0x1a6aa1(0x1e4),_0x1a6aa1(0x1f0),_0x1a6aa1(0x202),_0x1a6aa1(0x298),_0x1a6aa1(0x2a3),_0x1a6aa1(0x21e),_0x1a6aa1(0x24e),_0x1a6aa1(0x219),_0x1a6aa1(0x22c),_0x1a6aa1(0x281),_0x1a6aa1(0x1ed),_0x1a6aa1(0x28e),'Swiss\x20Super\x20League',_0x1a6aa1(0x2c8),_0x1a6aa1(0x266),'Sweden\x20Allsvenskan',_0x1a6aa1(0x23b),_0x1a6aa1(0x1c2),'Serbia\x20SuperLiga','Czech\x20Fortuna\x20Liga',_0x1a6aa1(0x2df),_0x1a6aa1(0x23e),_0x1a6aa1(0x1be),_0x1a6aa1(0x225),_0x1a6aa1(0x20f),_0x1a6aa1(0x2ca),'Argentina\x20Primera',_0x1a6aa1(0x282),'Championship',_0x1a6aa1(0x22b),_0x1a6aa1(0x287),_0x1a6aa1(0x201),_0x1a6aa1(0x1c0)][_0x1a6aa1(0x29c)](_0x2e4b53[0x2]));else{if(_0x267019===_0x1a6aa1(0x2b5))_0x30785d=_0x30785d['filter'](_0x398585=>[_0x1a6aa1(0x2ca),_0x1a6aa1(0x1d1),_0x1a6aa1(0x282),'Colombia',_0x1a6aa1(0x1e4),_0x1a6aa1(0x2bc),_0x1a6aa1(0x297)][_0x1a6aa1(0x29c)](_0x398585[0x2]));else{if(_0x267019===_0x1a6aa1(0x1d7))_0x30785d=_0x30785d[_0x1a6aa1(0x215)](_0x2eb451=>[_0x1a6aa1(0x23b),_0x1a6aa1(0x266),'Sweden\x20Allsvenskan'][_0x1a6aa1(0x29c)](_0x2eb451[0x2]));else{if(_0x267019===_0x1a6aa1(0x26e))_0x30785d=_0x30785d[_0x1a6aa1(0x215)](_0x5dfa85=>[_0x1a6aa1(0x22d),_0x1a6aa1(0x26f),'Croatia\x20HNL','Russia','Ukraine',_0x1a6aa1(0x24c)][_0x1a6aa1(0x29c)](_0x5dfa85[0x2]));else _0x267019!==''&&(_0x30785d=_0x30785d[_0x1a6aa1(0x215)](_0x117d72=>_0x117d72[0x2]===_0x267019));}}}}}}_0x54a9b2!==''&&(_0x30785d=_0x30785d[_0x1a6aa1(0x215)](_0x15d8da=>{const _0xca4e3f=parseFloat(_0x15d8da[0x4]);return!isNaN(_0xca4e3f)&&_0xca4e3f>0x0&&_0xca4e3f<=parseInt(_0x54a9b2);})),displayTable(_0x30785d);}function displayTable(_0x228db4){const _0x3b15db=_0x2903d2;playerTable[_0x3b15db(0x25d)]='';if(metricSelect[_0x3b15db(0x25c)]===''){playerTable[_0x3b15db(0x2be)][_0x3b15db(0x2d3)]='none';return;}else playerTable[_0x3b15db(0x2be)][_0x3b15db(0x2d3)]='';isAscending?_0x228db4['sort']((_0x2160af,_0x4ebce3)=>parseFloat(_0x2160af[metricSelect[_0x3b15db(0x25c)]])-parseFloat(_0x4ebce3[metricSelect[_0x3b15db(0x25c)]])):_0x228db4[_0x3b15db(0x2a0)]((_0x5ea969,_0x8737e3)=>parseFloat(_0x8737e3[metricSelect[_0x3b15db(0x25c)]])-parseFloat(_0x5ea969[metricSelect[_0x3b15db(0x25c)]]));let _0x41cdd1=null,_0x3d94b0=0x0,_0x1443d1=0x64,_0x4ead41=0x64,_0x273e4d=Math[_0x3b15db(0x27e)](..._0x228db4[_0x3b15db(0x2dd)](_0x3aed29=>parseFloat(_0x3aed29[metricSelect[_0x3b15db(0x25c)]]))),_0x1a1971=Math[_0x3b15db(0x1c3)](..._0x228db4[_0x3b15db(0x2dd)](_0x361faf=>parseFloat(_0x361faf[metricSelect[_0x3b15db(0x25c)]])));_0x228db4['forEach']((_0x465aae,_0x481154)=>{const _0x10f06b=_0x3b15db;let _0x5cbb5a,_0x470029;if(_0x465aae[metricSelect[_0x10f06b(0x25c)]]===_0x41cdd1)_0x5cbb5a=_0x1443d1,_0x470029=_0x4ead41;else{if(_0x465aae[metricSelect['value']]==='0')_0x5cbb5a=0x0,_0x470029=0x0;else{if(metricSelect['value']==='46'||metricSelect[_0x10f06b(0x25c)]==='84'||metricSelect['value']==='73'||metricSelect[_0x10f06b(0x25c)]==='82'||metricSelect[_0x10f06b(0x25c)]==='103'){const _0x1f76e7=_0x228db4[_0x10f06b(0x2dd)](_0x3ca2a5=>parseFloat(_0x3ca2a5[metricSelect['value']])),_0x366a17=Math[_0x10f06b(0x1c3)](..._0x1f76e7),_0xe2763b=Math[_0x10f06b(0x27e)](..._0x1f76e7),_0x228398=_0xe2763b-_0x366a17,_0xcf8b23=parseFloat(_0x465aae[metricSelect[_0x10f06b(0x25c)]]);_0x5cbb5a=Math[_0x10f06b(0x27e)]((_0xcf8b23-_0x366a17)/_0x228398*0x64,1.5),_0x470029=(_0x228db4[_0x10f06b(0x1e6)]-_0x481154)/_0x228db4[_0x10f06b(0x1e6)]*0x64;}else metricSelect['value']==='5'?(_0x5cbb5a=parseFloat(_0x465aae[metricSelect['value']])*0x64/0x63,_0x470029=(_0x228db4[_0x10f06b(0x1e6)]-_0x481154)/_0x228db4[_0x10f06b(0x1e6)]*0x64):(_0x5cbb5a=Math[_0x10f06b(0x27e)](parseFloat(_0x465aae[metricSelect['value']])/_0x273e4d*0x64,1.5),_0x470029=(_0x228db4[_0x10f06b(0x1e6)]-_0x481154)/_0x228db4['length']*0x64);}_0x41cdd1=_0x465aae[metricSelect['value']],_0x3d94b0=_0x481154,_0x1443d1=_0x5cbb5a,_0x4ead41=_0x470029;}let _0x188648,_0x5cc651,_0x1ca8ab;isAscending?(_0x188648=Math[_0x10f06b(0x1cd)](0xff*(0x1-Math[_0x10f06b(0x2d7)]((0x64-_0x470029)/0x64,1.3))),_0x5cc651=Math['round'](0x64-_0x470029),_0x1ca8ab=Math[_0x10f06b(0x1cd)](0xff*Math[_0x10f06b(0x2d7)]((0x64-_0x470029)/0x64,1.3))):(_0x188648=Math['round'](0xff*(0x1-Math[_0x10f06b(0x2d7)](_0x470029/0x64,1.3))),_0x5cc651=Math[_0x10f06b(0x1cd)](_0x470029),_0x1ca8ab=Math['round'](0xff*Math[_0x10f06b(0x2d7)](_0x470029/0x64,1.3)));const _0x588b0e=0.835,_0x119ca0=_0x10f06b(0x25f)+_0x188648+',\x20'+_0x5cc651+',\x20'+_0x1ca8ab+',\x20'+_0x588b0e+')',_0x2223d5=document['createElement']('tr');_0x2223d5[_0x10f06b(0x25d)]='\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<td>'+(_0x3d94b0+0x1)+'.\x20'+_0x465aae[0x0]+_0x10f06b(0x273)+_0x465aae[0x1]+',\x20'+Math[_0x10f06b(0x1cd)](_0x465aae[0x4])+_0x10f06b(0x29a)+_0x465aae[metricSelect[_0x10f06b(0x25c)]]+_0x10f06b(0x2b4)+_0x5cbb5a+'%;\x20background-color:\x20'+_0x119ca0+_0x10f06b(0x271),playerTable[_0x10f06b(0x2cc)](_0x2223d5);});}function handleSelectorsChange(){const _0x2a713f=_0x2903d2,_0x1c3497=parseInt(metricSelect['value']),_0x438817=positionSelect[_0x2a713f(0x25c)],_0xd6816e=leagueSelect[_0x2a713f(0x25c)],_0x54486b=metricSelect[_0x2a713f(0x2ba)](_0x2a713f(0x2d1)),_0x58a5be=document[_0x2a713f(0x2b2)](_0x2a713f(0x285));_0x1c3497===0x2b||_0x1c3497===0x2d||_0x1c3497===0x52||_0x1c3497===0x53||_0x1c3497===0x54||_0x1c3497===0x55?(toggleSortButton[_0x2a713f(0x2be)]['display']=_0x2a713f(0x20e),_0x58a5be['classList'][_0x2a713f(0x208)](_0x2a713f(0x25a))):(toggleSortButton[_0x2a713f(0x2be)][_0x2a713f(0x2d3)]=_0x2a713f(0x23a),_0x58a5be[_0x2a713f(0x218)]['remove'](_0x2a713f(0x25a))),_0x1c3497===0x5?(leagueSelect[_0x2a713f(0x2b2)](_0x2a713f(0x2af))[_0x2a713f(0x1c9)]=!![],leagueSelect[_0x2a713f(0x2b2)](_0x2a713f(0x2a5))[_0x2a713f(0x1c9)]=!![],positionSelect[_0x2a713f(0x2b2)]('option[value=\x22All\x22]')[_0x2a713f(0x1c9)]=!![],leagueSelect['querySelector'](_0x2a713f(0x2e0))[_0x2a713f(0x1c9)]=!![],leagueSelect['querySelector'](_0x2a713f(0x1b9))[_0x2a713f(0x1c9)]=!![],leagueSelect['querySelector'](_0x2a713f(0x1f6))[_0x2a713f(0x1c9)]=!![],leagueSelect[_0x2a713f(0x2b2)](_0x2a713f(0x2c4))[_0x2a713f(0x1c9)]=!![],leagueSelect[_0x2a713f(0x2b2)]('option[value=\x22Scandinavia\x22]')[_0x2a713f(0x1c9)]=!![]):(leagueSelect[_0x2a713f(0x2b2)](_0x2a713f(0x2af))[_0x2a713f(0x1c9)]=![],leagueSelect[_0x2a713f(0x2b2)]('option[value=\x22Top\x207\x20Leagues\x22]')[_0x2a713f(0x1c9)]=![],positionSelect[_0x2a713f(0x2b2)]('option[value=\x22All\x22]')[_0x2a713f(0x1c9)]=![],leagueSelect[_0x2a713f(0x2b2)](_0x2a713f(0x2e0))['disabled']=![],leagueSelect[_0x2a713f(0x2b2)]('option[value=\x22All\x20Leagues\x22]')[_0x2a713f(0x1c9)]=![],leagueSelect[_0x2a713f(0x2b2)](_0x2a713f(0x1f6))[_0x2a713f(0x1c9)]=![],leagueSelect[_0x2a713f(0x2b2)](_0x2a713f(0x2c4))[_0x2a713f(0x1c9)]=![],leagueSelect['querySelector'](_0x2a713f(0x292))[_0x2a713f(0x1c9)]=![]),_0x438817===_0x2a713f(0x22e)||(_0xd6816e==='Top\x205\x20Leagues'||_0xd6816e===_0x2a713f(0x20d)||_0xd6816e===_0x2a713f(0x28c)||_0xd6816e==='All\x20Leagues'||_0xd6816e==='South\x20America'||_0xd6816e==='Scandinavia'||_0xd6816e==='Eastern\x20Europe')?(_0x54486b[0x0][_0x2a713f(0x1c9)]=!![],_0x1c3497===0x0&&(metricSelect[_0x2a713f(0x25c)]='1',filterTable())):_0x54486b[0x0][_0x2a713f(0x1c9)]=![];}metricSelect[_0x2903d2(0x2b0)](_0x2903d2(0x1ba),handleSelectorsChange),positionSelect['addEventListener'](_0x2903d2(0x1ba),handleSelectorsChange),leagueSelect[_0x2903d2(0x2b0)]('change',handleSelectorsChange),filterTable();
+
+    <script>
+const _0x57cb34=_0x4840;(function(_0x4169b2,_0x347c09){const _0x1b1cf8=_0x4840,_0x47484a=_0x4169b2();while(!![]){try{const _0x37f8ea=parseInt(_0x1b1cf8(0x1ed))/0x1+-parseInt(_0x1b1cf8(0x2e4))/0x2+parseInt(_0x1b1cf8(0x278))/0x3*(-parseInt(_0x1b1cf8(0x226))/0x4)+parseInt(_0x1b1cf8(0x297))/0x5+-parseInt(_0x1b1cf8(0x28d))/0x6+-parseInt(_0x1b1cf8(0x2c7))/0x7*(parseInt(_0x1b1cf8(0x28a))/0x8)+parseInt(_0x1b1cf8(0x251))/0x9;if(_0x37f8ea===_0x347c09)break;else _0x47484a['push'](_0x47484a['shift']());}catch(_0x5b5f3d){_0x47484a['push'](_0x47484a['shift']());}}}(_0x3628,0xb93f1));function _0x3628(){const _0x1a53d1=['sort','categories.possession','Long\x20pass\x20accuracy\x20%','726110ejbsxk','Successful\x20attacking\x20actions\x20per\x2090','round','Forward\x20pass\x20completion\x20%','metrics.progressivePassesCompleted','metrics.passesCompleted','metrics.assistsPerNinety','Saves\x20per\x2090','metrics.crosses','metrics.touches','Switch\x20to\x20total','metrics.crossesToBox','metrics.attackingActions','Denmark\x20Superliga','Duels\x20won\x20per\x2090','metrics.cleanSheets','metrics.successfulDribbles','Save\x20percentage\x20%','metrics.possessionPlusMinus','text','Average\x20pass\x20length\x20(m)','Scandinavia','disabled','Eastern\x20Europe','Long\x20passes\x20completed\x20per\x2090','Shots\x20on\x20target\x20%','Championship','metrics.xaPerNinety','Matches\x20played','status','Passes\x20to\x20penalty\x20box\x20per\x2090','Croatia\x20HNL','metrics.npGoalsAndAssists','metrics.passCompletion','with-toggle','remove','metrics.xaPerPasses','Progressive\x20passes\x20per\x2090','All\x20Leagues','Goals\x20per\x20xG','Liga\x20Portugal','Free\x20kicks\x20per\x2090','Premier\x20League','Short\x20pass\x20completion\x20%','pointerEvents','classList','Short\x20passes\x20completed\x20per\x2090','Norway\x20Eliteserien','Scotland\x20Premiership','toggles.switchToPer90','metrics.shortPassesCompleted','metrics.passCompletionToBox','add','.metric-selector','Accurate\x20passes\x20to\x20pen\x20box\x20per\x2090','Austrian\x20Bundesliga','display','metrics.averagePassLength','Defensive\x20duels\x20won\x20%','getAttribute','pastSeasonBtn','includes','Aerial\x20duels\x20won\x20%','Paraguay','Minutes\x20per\x20match','querySelector','filter','Dribbles\x20attempted\x20per\x2090','data-i18n','Fouls\x20suffered\x20per\x2090','metrics.accurateCrosses','querySelectorAll','Through\x20passes\x20completed\x20per\x2090','league','795660TmARpi','Through\x20passes\x20per\x2090','metrics.goalsMinusXg','xG\x20per\x2090','Poland','Performance\x20Index','metrics.nonPenaltyGoals','none','span','&nbsp;<span\x20class=\x22smaller-text\x22>(','Dribbles\x20per\x20100\x20touches','min','metrics.defensiveDuels','opacity','No\x20Top\x207','toggleMetrics','Ligue\x201','Ecuador','Shots\x20per\x2090','setAttribute','value','Bundesliga\x202','metrics.dribblesAttempted','metrics.interceptionsAdj','metrics.xgPerShot','metrics.longPasses','Player,Team,League,Position,Age,Performance\x20Index,Minutes\x20played,Possessions\x20won\x20per\x2090,Defensive\x20duels\x20per\x2090,Aerial\x20duels\x20per\x2090,Sliding\x20tackles\x20per\x2090,Sliding\x20tackles\x20(PAdj),Shots\x20blocked\x20per\x2090,Interceptions\x20per\x2090,Interceptions\x20(PAdj),Successful\x20attacking\x20actions\x20per\x2090,Goals\x20per\x2090,Non-penalty\x20goals\x20per\x2090,xG\x20per\x2090,Headed\x20goals\x20per\x2090,Shots\x20per\x2090,Assists\x20per\x2090,Crosses\x20per\x2090,Crosses\x20to\x20box\x20per\x2090,Dribbles\x20attempted\x20per\x2090,Offensive\x20duels\x20per\x2090,Touches\x20in\x20box\x20per\x2090,Progressive\x20carries\x20per\x2090,Accelerations\x20per\x2090,Fouls\x20suffered\x20per\x2090,Passes\x20per\x2090,Forward\x20passes\x20per\x2090,Short\x20passes\x20per\x2090,Long\x20passes\x20per\x2090,Average\x20pass\x20length\x20(m),xA\x20per\x2090,Shot\x20assists\x20per\x2090,Key\x20passes\x20per\x2090,Passes\x20to\x20final\x20third\x20per\x2090,Passes\x20to\x20penalty\x20box\x20per\x2090,Through\x20passes\x20per\x2090,Deep\x20completions\x20per\x2090,Progressive\x20passes\x20per\x2090,Shots\x20conceded\x20per\x2090,Clean\x20sheets,xG\x20conceded\x20per\x2090,Prevented\x20goals\x20per\x2090,Exits\x20per\x2090,Defensive\x20duels\x20won\x20%,Aerial\x20duels\x20won\x20%,Shots\x20on\x20target\x20%,Goal\x20conversion\x20%,Cross\x20accuracy\x20%,Dribble\x20success\x20rate\x20%,Offensive\x20duels\x20won\x20%,Pass\x20completion\x20%,Forward\x20pass\x20completion\x20%,Short\x20pass\x20completion\x20%,Long\x20pass\x20accuracy\x20%,Pass\x20completion\x20(to\x20final\x20third)\x20%,Pass\x20completion\x20(to\x20penalty\x20box)\x20%,Through\x20pass\x20completion\x20%,Progressive\x20pass\x20accuracy\x20%,Save\x20percentage\x20%,Free\x20kicks\x20per\x2090,Direct\x20free\x20kicks\x20per\x2090,Direct\x20free\x20kicks\x20oT\x20%,Corners\x20per\x2090,Penalties\x20attempted,Penalty\x20success\x20rate\x20%,Matches\x20played,Duels\x20per\x2090,Duels\x20won\x20%,Possession\x20+/-,Forward\x20pass\x20ratio,xA\x20per\x20100\x20passes,Chance\x20creation\x20ratio,Inaccurate\x20passes\x20%,Goals\x20+\x20Assists\x20per\x2090,NPG+A\x20per\x2090,xG+xA\x20per\x2090,xG/Shot,Goals\x20-\x20xG\x20per\x2090,Goals\x20per\x20xG,Assists\x20-\x20xA\x20per\x2090,Assists\x20per\x20xA,Successful\x20dribbles\x20per\x2090,Shots\x20on\x20target\x20per\x2090,Accurate\x20crosses\x20per\x2090,Offensive\x20duels\x20won\x20per\x2090,Defensive\x20duels\x20won\x20per\x2090,Aerial\x20duels\x20won\x20per\x2090,Passes\x20completed\x20per\x2090,Forward\x20passes\x20completed\x20per\x2090,Short\x20passes\x20completed\x20per\x2090,Long\x20passes\x20completed\x20per\x2090,Accurate\x20passes\x20to\x20final\x20third\x20per\x2090,Accurate\x20passes\x20to\x20pen\x20box\x20per\x2090,Through\x20passes\x20completed\x20per\x2090,Progressive\x20passes\x20completed\x20per\x2090,Misplaced\x20passes\x20per\x2090,Saves\x20per\x2090,Possessions\x20lost\x20per\x2090,Possessions\x20won\x20-\x20lost\x20per\x2090,Progressive\x20actions\x20per\x2090,Duels\x20won\x20per\x2090,Minutes\x20per\x20match,Backward\x20pass\x20ratio,Penalties\x20scored,npxG\x20per\x2090,npxG/Shot,npxG+xA\x20per\x2090,Touches\x20per\x2090,Progressive\x20action\x20rate,Progressive\x20passes\x20(PAdj),Ball-carrying\x20frequency,xG\x20per\x20100\x20touches,Shot\x20frequency,Dribbles\x20per\x20100\x20touches,Goals\x20per\x20100\x20touches,Passes\x20received\x20per\x2090,Backward\x20passes\x20per\x2090,Pre-assists\x20per\x2090','Key\x20passes\x20per\x2090','pow','Russia','metrics.savePercentage','metrics.penaltySuccessRate','Minutes\x20played','Süper\x20Lig','metrics.shotAssists','startsWith','Dribble\x20success\x20rate\x20%','active','metrics.progressiveActions','rgba(','All','metrics.dribbleSuccess','Penalty\x20success\x20rate\x20%','metrics.touchesInBox','metrics.offensiveDuelsWon','Direct\x20free\x20kicks\x20per\x2090','MLS','Progressive\x20actions\x20per\x2090','.metrics-toggle-button\x20.btn-tooltip-text','Argentina\x20Primera','.custom-select-option','selected','metrics.minutesPlayed','metrics.penaltiesScored','split','#metric-select-trigger\x20span','metrics.accuratePassesFinalThird','2452SmTcjb','metrics.possessionsLost','npxG+xA\x20per\x2090','Colombia','GET','Successful\x20dribbles\x20per\x2090','CATEGORY:\x20Goalkeeping','metrics.shotFrequency',')</span></td>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<th>','metricHeader','Backward\x20pass\x20ratio','Top\x207\x20Leagues','Duels\x20per\x2090','Passes\x20received\x20per\x2090','K\x20League\x201','metrics.shortPasses','data-value','metrics.preAssists','categories.passing','metrics.misplacedPasses','#aaa','metrics.npxgAndXa','metrics.passesToBox','metrics.offensiveDuels','max','metrics.matchesPlayed','J1\x20League','categories.setPieces','metrics.longPassAccuracy','xA\x20per\x20100\x20passes','metrics.defensiveDuelsWon','Pass\x20completion\x20(to\x20penalty\x20box)\x20%','Cross\x20accuracy\x20%','Duels\x20won\x20%','i18n','metrics.goalsPerTouches','Bundesliga','Possession\x20+/-','Possessions\x20won\x20per\x2090','metrics.shotsOnTarget','categories.goalCreation','metrics.shotsOnTargetPerNinety','metrics.accuratePassesToBox','22202487KHNIQc','metrics.directFreeKicks','Chile','Sliding\x20tackles\x20per\x2090','Pass\x20completion\x20%','metrics.preventedGoals','Touches\x20per\x2090','Aerial\x20duels\x20won\x20per\x2090','option[value=\x22','Saudi\x20Pro\x20League','metrics.duelsWon','metrics.forwardPassesCompleted','Goals\x20-\x20xG\x20per\x2090','inline-block','Shots\x20on\x20target\x20per\x2090','Defensive\x20duels\x20per\x2090','send','metrics.passesToFinalThird','Brazil\x20Serie\x20A','Crosses\x20to\x20box\x20per\x2090','metrics.forwardPassCompletion','metrics.progressiveActionRate','Serie\x20B','map','CATEGORY:\x20Set\x20Pieces','Pass\x20completion\x20(to\x20final\x20third)\x20%','textContent','Goal\x20conversion\x20%','Progressive\x20passes\x20(PAdj)','npxG\x20per\x2090','metrics.throughPassCompletion','CATEGORY:\x20','Accelerations\x20per\x2090','Goals\x20+\x20Assists\x20per\x2090','0.5','addEventListener','CATEGORY:\x20Defending','metrics.assistsPerXa','metrics.possessionsBalance','5511maMXBk','Non-penalty\x20goals\x20per\x2090','Offensive\x20duels\x20won\x20%','Assists\x20per\x2090','metrics.assistsMinusXa','Ligue\x202','length','xG\x20per\x20100\x20touches','toggles.switchToTotal','Possessions\x20won\x20-\x20lost\x20per\x2090','Progressive\x20passes\x20completed\x20per\x2090','Ukraine','Shot\x20frequency','NPG+A\x20per\x2090','metrics.headedGoals','Switch\x20to\x20per\x2090','metrics.forwardPassRatio','metrics.slidingTackles','24ZoYWkf','metrics.passCompletionFinalThird','metrics.corners','3392850iniFFC','metrics.crossAccuracy','Progressive\x20pass\x20accuracy\x20%','Shots\x20conceded\x20per\x2090','metrics.deepCompletions','replace','metrics.minutesPerMatch','La\x20Liga','#metric-select-options\x20.custom-select-option','Eredivisie','455130LOPofC','metrics.backwardPasses','metrics.passes','Israel','forEach','Goals\x20per\x20100\x20touches','Corners\x20per\x2090','innerHTML','South\x20America','style','Greece','Interceptions\x20per\x2090','Uruguay\x20Primera','Prevented\x20goals\x20per\x2090','Belgium\x20Pro\x20League','CATEGORY:\x20Dribbling\x20and\x20Ball-Carrying','metrics.goalsAndAssists','metrics.accelerations','createElement','metrics.duels','metrics.xgConceded','Goals\x20per\x2090','option','Long\x20passes\x20per\x2090','Penalties\x20attempted','appendChild','#position-select-options\x20.custom-select-option','option[value=\x22All\x22]','[data-value=\x22','Czech\x20Fortuna\x20Liga','Error\x20loading\x20current\x20season\x20data:\x20','color','Sweden\x20Allsvenskan','Serbia\x20SuperLiga','metrics.shotsConceded','position','\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<td>','metrics.saves','Exits\x20per\x2090','metrics.offensiveDuelsWonPerNinety','Defensive\x20duels\x20won\x20per\x2090','Passes\x20to\x20final\x20third\x20per\x2090','Swiss\x20Super\x20League','Passes\x20completed\x20per\x2090','metrics.aerialDuelsWon','getElementById','metrics.progressivePasses','metrics.possessionsWon','1260581IIlOGs','CATEGORY:\x20Goal\x20Scoring','Serie\x20A','Aerial\x20duels\x20per\x2090','Forward\x20passes\x20completed\x20per\x2090','Ball-carrying\x20frequency','\x20per\x2090','Assists\x20-\x20xA\x20per\x2090','age','metrics.interceptions','responseText','change','Crosses\x20per\x2090','slice','fontWeight','metrics.xgAndXa','metrics.xgPerTouches','metrics.throughPasses','%;\x20background-color:\x20','toFixed','indexOf','xG\x20conceded\x20per\x2090','metric','Top\x205\x20Leagues','auto','message'];_0x3628=function(){return _0x1a53d1;};return _0x3628();}let isPastSeason=![],data;function loadData(){const _0x36d86b=_0x4840;if(isPastSeason)return;const _0x49efd5='https://datamb.football/database/INDEX.csv';try{const _0x216c8b=new XMLHttpRequest();_0x216c8b['open'](_0x36d86b(0x22a),_0x49efd5,![]),_0x216c8b[_0x36d86b(0x261)](null);if(_0x216c8b[_0x36d86b(0x1c0)]!==0xc8){alert('Failed\x20to\x20load\x20current\x20season\x20data.\x20Status:\x20'+_0x216c8b[_0x36d86b(0x1c0)]);return;}data=_0x216c8b[_0x36d86b(0x2d1)];let _0x142aa3=_0x36d86b(0x207);data=_0x142aa3+'\x0a'+data;}catch(_0x3cc4c9){alert(_0x36d86b(0x2b5)+_0x3cc4c9[_0x36d86b(0x2e0)]);}}loadData();let originalDataArray=data[_0x57cb34(0x223)]('\x0a')['map'](_0x533a66=>_0x533a66['split'](','));const playerTable=document[_0x57cb34(0x2c4)]('playerTable'),metricSelect=document[_0x57cb34(0x2c4)](_0x57cb34(0x2dd)),positionSelect=document[_0x57cb34(0x2c4)](_0x57cb34(0x2ba)),leagueSelect=document['getElementById'](_0x57cb34(0x1ec)),ageInput=document[_0x57cb34(0x2c4)](_0x57cb34(0x2cf)),metricHeader=document[_0x57cb34(0x2c4)](_0x57cb34(0x22f)),toggleButton=document['getElementById'](_0x57cb34(0x1fc)),toggleSortButton=document[_0x57cb34(0x2c4)]('toggleSort');function _0x4840(_0x43843f,_0x4c2d50){const _0x362829=_0x3628();return _0x4840=function(_0x4840ed,_0x3ddcc5){_0x4840ed=_0x4840ed-0x1a9;let _0x4c46af=_0x362829[_0x4840ed];return _0x4c46af;},_0x4840(_0x43843f,_0x4c2d50);}let isToggled=![],isAscending=![],currentDataArray=originalDataArray;const customMetricOrder=[{'text':_0x57cb34(0x1f2),'i18n':'metrics.performanceIndex'},{'text':'Minutes\x20played','i18n':_0x57cb34(0x221)},{'text':_0x57cb34(0x1bf),'i18n':_0x57cb34(0x23f)},{'text':_0x57cb34(0x1e3),'i18n':_0x57cb34(0x293)},{'text':_0x57cb34(0x2c8),'i18n':'categories.goalScoring'},{'text':_0x57cb34(0x2ac),'i18n':'metrics.goalsPerNinety'},{'text':_0x57cb34(0x279),'i18n':_0x57cb34(0x1f3)},{'text':_0x57cb34(0x1f0),'i18n':'metrics.xgPerNinety'},{'text':'xG/Shot','i18n':_0x57cb34(0x205)},{'text':_0x57cb34(0x26e),'i18n':'metrics.npxgPerNinety'},{'text':'npxG/Shot','i18n':'metrics.npxgPerShot'},{'text':_0x57cb34(0x29c),'i18n':_0x57cb34(0x249)},{'text':_0x57cb34(0x27f),'i18n':_0x57cb34(0x2d7)},{'text':_0x57cb34(0x284),'i18n':_0x57cb34(0x22d)},{'text':_0x57cb34(0x1ff),'i18n':'metrics.shotsPerNinety'},{'text':_0x57cb34(0x1bc),'i18n':_0x57cb34(0x24d)},{'text':_0x57cb34(0x25f),'i18n':_0x57cb34(0x24f)},{'text':_0x57cb34(0x26c),'i18n':'metrics.goalConversion'},{'text':_0x57cb34(0x25d),'i18n':_0x57cb34(0x1ef)},{'text':_0x57cb34(0x1ca),'i18n':'metrics.goalsPerXg'},{'text':'Headed\x20goals\x20per\x2090','i18n':_0x57cb34(0x286)},{'text':'Touches\x20in\x20box\x20per\x2090','i18n':_0x57cb34(0x218)},{'text':'CATEGORY:\x20Goal\x20Creation','i18n':_0x57cb34(0x24e)},{'text':_0x57cb34(0x27b),'i18n':_0x57cb34(0x1a9)},{'text':'xA\x20per\x2090','i18n':_0x57cb34(0x1be)},{'text':_0x57cb34(0x243),'i18n':_0x57cb34(0x1c7)},{'text':_0x57cb34(0x272),'i18n':_0x57cb34(0x2a7)},{'text':_0x57cb34(0x285),'i18n':_0x57cb34(0x1c3)},{'text':'xG+xA\x20per\x2090','i18n':_0x57cb34(0x2d6)},{'text':_0x57cb34(0x228),'i18n':_0x57cb34(0x23b)},{'text':_0x57cb34(0x208),'i18n':'metrics.keyPasses'},{'text':'Chance\x20creation\x20ratio','i18n':'metrics.chanceCreation'},{'text':_0x57cb34(0x2ce),'i18n':_0x57cb34(0x27c)},{'text':'Assists\x20per\x20xA','i18n':_0x57cb34(0x276)},{'text':'Shot\x20assists\x20per\x2090','i18n':_0x57cb34(0x20f)},{'text':'Pre-assists\x20per\x2090','i18n':_0x57cb34(0x237)},{'text':_0x57cb34(0x2d3),'i18n':_0x57cb34(0x1ab)},{'text':_0x57cb34(0x246),'i18n':_0x57cb34(0x28e)},{'text':'Accurate\x20crosses\x20per\x2090','i18n':_0x57cb34(0x1e9)},{'text':_0x57cb34(0x264),'i18n':_0x57cb34(0x1ae)},{'text':'Deep\x20completions\x20per\x2090','i18n':_0x57cb34(0x291)},{'text':_0x57cb34(0x2a6),'i18n':'categories.dribbling'},{'text':_0x57cb34(0x1e6),'i18n':_0x57cb34(0x203)},{'text':_0x57cb34(0x211),'i18n':_0x57cb34(0x216)},{'text':_0x57cb34(0x22b),'i18n':_0x57cb34(0x1b3)},{'text':_0x57cb34(0x1f7),'i18n':'metrics.dribblesPerTouches'},{'text':_0x57cb34(0x2e5),'i18n':_0x57cb34(0x1af)},{'text':'Offensive\x20duels\x20per\x2090','i18n':_0x57cb34(0x23d)},{'text':_0x57cb34(0x27a),'i18n':_0x57cb34(0x219)},{'text':'Offensive\x20duels\x20won\x20per\x2090','i18n':_0x57cb34(0x2be)},{'text':'Progressive\x20carries\x20per\x2090','i18n':'metrics.progressiveCarries'},{'text':_0x57cb34(0x2cc),'i18n':'metrics.ballCarrying'},{'text':_0x57cb34(0x271),'i18n':_0x57cb34(0x2a8)},{'text':_0x57cb34(0x1e8),'i18n':'metrics.foulsSuffered'},{'text':'CATEGORY:\x20Passing','i18n':_0x57cb34(0x238)},{'text':'Passes\x20per\x2090','i18n':_0x57cb34(0x299)},{'text':_0x57cb34(0x255),'i18n':_0x57cb34(0x1c4)},{'text':_0x57cb34(0x2c2),'i18n':_0x57cb34(0x2e9)},{'text':'Forward\x20passes\x20per\x2090','i18n':'metrics.forwardPasses'},{'text':_0x57cb34(0x2e7),'i18n':_0x57cb34(0x265)},{'text':_0x57cb34(0x2cb),'i18n':_0x57cb34(0x25c)},{'text':'Short\x20passes\x20per\x2090','i18n':_0x57cb34(0x235)},{'text':_0x57cb34(0x1ce),'i18n':'metrics.shortPassCompletion'},{'text':_0x57cb34(0x1d1),'i18n':_0x57cb34(0x1d5)},{'text':_0x57cb34(0x2ae),'i18n':_0x57cb34(0x206)},{'text':_0x57cb34(0x2e3),'i18n':_0x57cb34(0x242)},{'text':_0x57cb34(0x1bb),'i18n':'metrics.longPassesCompleted'},{'text':_0x57cb34(0x1c8),'i18n':_0x57cb34(0x2c5)},{'text':_0x57cb34(0x28f),'i18n':'metrics.progressivePassAccuracy'},{'text':_0x57cb34(0x282),'i18n':_0x57cb34(0x2e8)},{'text':_0x57cb34(0x26d),'i18n':'metrics.progressivePassesAdj'},{'text':_0x57cb34(0x2c0),'i18n':_0x57cb34(0x262)},{'text':_0x57cb34(0x26a),'i18n':_0x57cb34(0x28b)},{'text':'Accurate\x20passes\x20to\x20final\x20third\x20per\x2090','i18n':_0x57cb34(0x225)},{'text':_0x57cb34(0x1c1),'i18n':_0x57cb34(0x23c)},{'text':_0x57cb34(0x245),'i18n':_0x57cb34(0x1d6)},{'text':_0x57cb34(0x1d9),'i18n':_0x57cb34(0x250)},{'text':_0x57cb34(0x1ee),'i18n':_0x57cb34(0x2d8)},{'text':'Through\x20pass\x20completion\x20%','i18n':_0x57cb34(0x26f)},{'text':_0x57cb34(0x1eb),'i18n':'metrics.throughPassesCompleted'},{'text':_0x57cb34(0x1b7),'i18n':_0x57cb34(0x1dc)},{'text':'Backward\x20passes\x20per\x2090','i18n':_0x57cb34(0x298)},{'text':'Misplaced\x20passes\x20per\x2090','i18n':_0x57cb34(0x239)},{'text':'Forward\x20pass\x20ratio','i18n':_0x57cb34(0x288)},{'text':_0x57cb34(0x230),'i18n':'metrics.backwardPassRatio'},{'text':'CATEGORY:\x20Possession','i18n':_0x57cb34(0x2e2)},{'text':_0x57cb34(0x233),'i18n':'metrics.passesReceived'},{'text':_0x57cb34(0x257),'i18n':_0x57cb34(0x1ac)},{'text':'Possessions\x20lost\x20per\x2090','i18n':_0x57cb34(0x227)},{'text':_0x57cb34(0x281),'i18n':_0x57cb34(0x277)},{'text':_0x57cb34(0x24b),'i18n':_0x57cb34(0x1b5)},{'text':_0x57cb34(0x232),'i18n':_0x57cb34(0x2aa)},{'text':_0x57cb34(0x247),'i18n':_0x57cb34(0x25b)},{'text':_0x57cb34(0x1b1),'i18n':'metrics.duelsWonPerNinety'},{'text':_0x57cb34(0x21c),'i18n':_0x57cb34(0x213)},{'text':'Progressive\x20action\x20rate','i18n':_0x57cb34(0x266)},{'text':_0x57cb34(0x275),'i18n':'categories.defending'},{'text':_0x57cb34(0x260),'i18n':_0x57cb34(0x1f9)},{'text':_0x57cb34(0x1dd),'i18n':_0x57cb34(0x244)},{'text':_0x57cb34(0x2bf),'i18n':'metrics.defensiveDuelsWonPerNinety'},{'text':_0x57cb34(0x254),'i18n':_0x57cb34(0x289)},{'text':'Sliding\x20tackles\x20(PAdj)','i18n':'metrics.slidingTacklesAdj'},{'text':_0x57cb34(0x2a2),'i18n':_0x57cb34(0x2d0)},{'text':'Interceptions\x20(PAdj)','i18n':_0x57cb34(0x204)},{'text':_0x57cb34(0x24c),'i18n':_0x57cb34(0x2c6)},{'text':_0x57cb34(0x2ca),'i18n':'metrics.aerialDuels'},{'text':_0x57cb34(0x1e1),'i18n':_0x57cb34(0x2c3)},{'text':_0x57cb34(0x258),'i18n':'metrics.aerialDuelsWonPerNinety'},{'text':'Shots\x20blocked\x20per\x2090','i18n':'metrics.shotsBlocked'},{'text':_0x57cb34(0x22c),'i18n':'categories.goalkeeping'},{'text':_0x57cb34(0x1aa),'i18n':_0x57cb34(0x2bc)},{'text':_0x57cb34(0x1b4),'i18n':_0x57cb34(0x20b)},{'text':_0x57cb34(0x2a4),'i18n':_0x57cb34(0x256)},{'text':_0x57cb34(0x290),'i18n':_0x57cb34(0x2b9)},{'text':_0x57cb34(0x2dc),'i18n':_0x57cb34(0x2ab)},{'text':'Clean\x20sheets','i18n':_0x57cb34(0x1b2)},{'text':_0x57cb34(0x2bd),'i18n':'metrics.exits'},{'text':_0x57cb34(0x269),'i18n':_0x57cb34(0x241)},{'text':_0x57cb34(0x1cc),'i18n':'metrics.freeKicks'},{'text':_0x57cb34(0x21a),'i18n':_0x57cb34(0x252)},{'text':'Direct\x20free\x20kicks\x20oT\x20%','i18n':'metrics.directFreeKicksOnTarget'},{'text':_0x57cb34(0x29d),'i18n':_0x57cb34(0x28c)},{'text':_0x57cb34(0x2af),'i18n':'metrics.penaltiesAttempted'},{'text':'Penalties\x20scored','i18n':_0x57cb34(0x222)},{'text':_0x57cb34(0x217),'i18n':_0x57cb34(0x20c)}],columnIndexMap={};originalDataArray[0x0][_0x57cb34(0x29b)]((_0x2d413f,_0x2ae0b1)=>{columnIndexMap[_0x2d413f]=_0x2ae0b1;}),metricSelect[_0x57cb34(0x29e)]='',customMetricOrder[_0x57cb34(0x29b)](_0x1ced68=>{const _0x4b0ba2=_0x57cb34,_0x163a6c=document[_0x4b0ba2(0x2a9)]('option');if(_0x1ced68[_0x4b0ba2(0x1b6)][_0x4b0ba2(0x210)](_0x4b0ba2(0x270)))_0x163a6c[_0x4b0ba2(0x26b)]=_0x1ced68[_0x4b0ba2(0x1b6)][_0x4b0ba2(0x292)](_0x4b0ba2(0x270),''),_0x163a6c['disabled']=!![],_0x163a6c[_0x4b0ba2(0x2a0)][_0x4b0ba2(0x2d5)]='bold',_0x163a6c[_0x4b0ba2(0x2a0)][_0x4b0ba2(0x2b6)]='#aaa',_0x163a6c[_0x4b0ba2(0x200)]('data-i18n',_0x1ced68[_0x4b0ba2(0x248)]);else{const _0x37aafb=isToggled?_0x1ced68[_0x4b0ba2(0x1b6)][_0x4b0ba2(0x292)]('\x20per\x2090',''):_0x1ced68[_0x4b0ba2(0x1b6)],_0x1d05f8=currentDataArray[0x0][_0x4b0ba2(0x2db)](_0x37aafb);_0x1d05f8!==-0x1&&(_0x163a6c[_0x4b0ba2(0x201)]=_0x1d05f8,_0x163a6c[_0x4b0ba2(0x26b)]=_0x37aafb,_0x163a6c['setAttribute'](_0x4b0ba2(0x1e7),_0x1ced68['i18n']));}metricSelect['appendChild'](_0x163a6c);});const minutesPlayedIndex=currentDataArray[0x0][_0x57cb34(0x2db)](_0x57cb34(0x20d));minutesPlayedIndex!==-0x1&&(metricSelect[_0x57cb34(0x201)]=minutesPlayedIndex);metricSelect['dispatchEvent'](new Event(_0x57cb34(0x2d2))),toggleSortButton[_0x57cb34(0x274)]('click',toggleSortOrder),metricSelect['addEventListener'](_0x57cb34(0x2d2),()=>{isAscending=![],filterTable();}),positionSelect[_0x57cb34(0x274)](_0x57cb34(0x2d2),filterTable),leagueSelect[_0x57cb34(0x274)]('change',filterTable),ageInput[_0x57cb34(0x274)]('input',filterTable);function initPastSeasonButton(){const _0x5b1508=_0x57cb34,_0x3c604b=document[_0x5b1508(0x2c4)](_0x5b1508(0x1df));if(!_0x3c604b)return;_0x3c604b[_0x5b1508(0x1b9)]=!![];}function toggleSortOrder(){isAscending=!isAscending,filterTable();}function toggleData(){const _0x11a517=_0x57cb34;isToggled=!isToggled;const _0x28efa9=document[_0x11a517(0x2c4)](_0x11a517(0x1fc));_0x28efa9&&(isToggled?_0x28efa9['classList'][_0x11a517(0x1d7)](_0x11a517(0x212)):_0x28efa9['classList'][_0x11a517(0x1c6)](_0x11a517(0x212)));const _0x524ddf=metricSelect[_0x11a517(0x201)],_0x4ebfd6=document[_0x11a517(0x1e4)](_0x11a517(0x21d));if(isToggled){const _0x37c079=getTranslatedText('toggles.switchToPer90',_0x11a517(0x287));_0x4ebfd6['textContent']=_0x37c079,_0x4ebfd6['setAttribute'](_0x11a517(0x1e7),_0x11a517(0x1d4));}else{const _0x2c43a5=getTranslatedText(_0x11a517(0x280),_0x11a517(0x1ad));_0x4ebfd6[_0x11a517(0x26b)]=_0x2c43a5,_0x4ebfd6[_0x11a517(0x200)]('data-i18n',_0x11a517(0x280));}isToggled?currentDataArray=originalDataArray[_0x11a517(0x268)]((_0x157a18,_0x269371)=>{const _0x1a6df3=_0x11a517;if(_0x269371===0x0)return _0x157a18['map']((_0x458894,_0x1b676b)=>{const _0x8b2047=_0x4840;return![0xb,0xe,0x22,0x2c,0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x3a,0x3b,0x3c,0x3d,0x3e,0x3f]['includes'](_0x1b676b)?_0x458894['replace'](_0x8b2047(0x2cd),''):_0x458894;});else{const _0x3ae4ca=parseFloat(_0x157a18[0x6]);if(isNaN(_0x3ae4ca)||_0x3ae4ca===0x0)return _0x157a18;return _0x157a18[_0x1a6df3(0x268)]((_0x4d05a7,_0x34587a)=>{const _0x18c5b7=_0x1a6df3;if(_0x34587a>0x4&&![0x5,0x6,0xb,0xe,0x22,0x2c,0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x3a,0x3b,0x3c,0x3d,0x3e,0x3f,0x42,0x44,0x45,0x46,0x48,0x49,0x4a,0x4b,0x4c,0x51,0x53,0x55,0x6a,0x6b,0x6c,0x6e,0x71,0x72,0x73,0x74,0x75,0x76,0x77][_0x18c5b7(0x1e0)](_0x34587a)){const _0x5bc44e=parseFloat(_0x4d05a7);if(isNaN(_0x5bc44e))return _0x4d05a7;const _0x92ef8=_0x5bc44e*_0x3ae4ca/0x5a;return[0x12,0x23,0x2d,0x2e,0x50,0x52,0x54,0x6d,0x6f][_0x18c5b7(0x1e0)](_0x34587a)?_0x92ef8[_0x18c5b7(0x2da)](0x1):Math[_0x18c5b7(0x2e6)](_0x92ef8)['toString']();}else return _0x4d05a7;});}}):currentDataArray=originalDataArray[_0x11a517(0x268)](_0x3a4e7a=>_0x3a4e7a[_0x11a517(0x2d4)]());currentDataArray=currentDataArray[_0x11a517(0x268)](_0x409df3=>{return parseFloat(_0x409df3[0x10])===0x0&&parseFloat(_0x409df3[0x12])===0x0&&(_0x409df3[0x52]=''),_0x409df3;}),currentDataArray=currentDataArray[_0x11a517(0x268)](_0x217069=>{return parseFloat(_0x217069[0x15])===0x0&&parseFloat(_0x217069[0x23])===0x0&&(_0x217069[0x54]=''),_0x217069;}),metricSelect[_0x11a517(0x29e)]='',customMetricOrder[_0x11a517(0x29b)](_0x526c0f=>{const _0x2e23ec=_0x11a517,_0xb1c937=document[_0x2e23ec(0x2a9)](_0x2e23ec(0x2ad));if(_0x526c0f[_0x2e23ec(0x1b6)][_0x2e23ec(0x210)](_0x2e23ec(0x270)))_0xb1c937[_0x2e23ec(0x26b)]=_0x526c0f[_0x2e23ec(0x1b6)][_0x2e23ec(0x292)]('CATEGORY:\x20',''),_0xb1c937[_0x2e23ec(0x1b9)]=!![],_0xb1c937[_0x2e23ec(0x2a0)]['fontWeight']='bold',_0xb1c937[_0x2e23ec(0x2a0)]['color']=_0x2e23ec(0x23a),_0xb1c937[_0x2e23ec(0x200)]('data-i18n',_0x526c0f[_0x2e23ec(0x248)]);else{const _0x18f6d5=isToggled?_0x526c0f[_0x2e23ec(0x1b6)][_0x2e23ec(0x292)](_0x2e23ec(0x2cd),''):_0x526c0f[_0x2e23ec(0x1b6)],_0x34316b=currentDataArray[0x0]['indexOf'](_0x18f6d5);_0x34316b!==-0x1&&(_0xb1c937[_0x2e23ec(0x201)]=_0x34316b,_0xb1c937['textContent']=_0x18f6d5,_0xb1c937[_0x2e23ec(0x200)](_0x2e23ec(0x1e7),_0x526c0f['i18n']));}metricSelect['appendChild'](_0xb1c937);}),metricSelect[_0x11a517(0x201)]=_0x524ddf,updateMetricOptions();const _0x2b99c6=metricOptions['querySelector'](_0x11a517(0x2b3)+_0x524ddf+'\x22]');if(_0x2b99c6){metricOptions[_0x11a517(0x1ea)](_0x11a517(0x21f))['forEach'](_0x163789=>_0x163789['classList'][_0x11a517(0x1c6)](_0x11a517(0x220))),_0x2b99c6[_0x11a517(0x1d0)]['add'](_0x11a517(0x220));const _0x2eec96=metricTrigger[_0x11a517(0x1e4)]('span'),_0x2f67c7=_0x2b99c6['querySelector'](_0x11a517(0x1f5));_0x2eec96&&_0x2f67c7&&(_0x2eec96['textContent']=_0x2f67c7['textContent'],_0x2eec96['setAttribute']('data-i18n',_0x2f67c7[_0x11a517(0x1de)](_0x11a517(0x1e7))));}const _0x2b759a=getPreferredLanguage();applyLanguage(_0x2b759a),handleSelectorsChange(),filterTable();}function filterTable(){const _0x1b8ff6=_0x57cb34;let _0x4a2dd5=currentDataArray[_0x1b8ff6(0x2d4)](0x1);const _0x407977=metricSelect['value'],_0x25b7ec=positionSelect['value'],_0x56a74c=leagueSelect[_0x1b8ff6(0x201)],_0x5b1e00=ageInput[_0x1b8ff6(0x201)];_0x407977===''?metricHeader[_0x1b8ff6(0x2a0)][_0x1b8ff6(0x1db)]=_0x1b8ff6(0x1f4):(metricHeader['style'][_0x1b8ff6(0x1db)]='',isAscending?_0x4a2dd5['sort']((_0x243ace,_0x392599)=>parseFloat(_0x243ace[_0x407977])-parseFloat(_0x392599[_0x407977])):_0x4a2dd5[_0x1b8ff6(0x2e1)]((_0x4ace60,_0x465a07)=>parseFloat(_0x465a07[_0x407977])-parseFloat(_0x4ace60[_0x407977])));_0x4a2dd5=_0x4a2dd5[_0x1b8ff6(0x1e5)](_0x11a96c=>_0x11a96c[_0x407977]!==''),_0x4a2dd5=_0x4a2dd5[_0x1b8ff6(0x268)](_0x1fbc7b=>{if(parseFloat(_0x1fbc7b[0x10])===0x0&&parseFloat(_0x1fbc7b[0x12])===0x0){const _0x36d66c=isToggled?0x52:0x52;_0x1fbc7b[_0x36d66c]='';}return _0x1fbc7b;}),_0x4a2dd5=_0x4a2dd5[_0x1b8ff6(0x268)](_0x4c8418=>{return(parseFloat(_0x4c8418[0x10])===0x0||parseFloat(_0x4c8418[0x12])===0x0)&&(_0x4c8418[0x53]=''),_0x4c8418;}),_0x4a2dd5=_0x4a2dd5[_0x1b8ff6(0x268)](_0x582baa=>{if(parseFloat(_0x582baa[0x15])===0x0&&parseFloat(_0x582baa[0x23])===0x0){const _0x322c53=isToggled?0x54:0x54;_0x582baa[_0x322c53]='';}return _0x582baa;}),_0x4a2dd5=_0x4a2dd5[_0x1b8ff6(0x268)](_0xa5e65d=>{return(parseFloat(_0xa5e65d[0x23])===0x0||parseFloat(_0xa5e65d[0x15])===0x0)&&(_0xa5e65d[0x55]=''),_0xa5e65d;}),_0x4a2dd5=_0x4a2dd5[_0x1b8ff6(0x268)](_0x836191=>{return(parseFloat(_0x836191[0x12])===0x0||parseFloat(_0x836191[0x14])===0x0)&&(_0x836191[0x51]=''),_0x836191;}),_0x4a2dd5=_0x4a2dd5[_0x1b8ff6(0x268)](_0x378776=>{return(parseFloat(_0x378776[0x12])===0x0||parseFloat(_0x378776[0x14])===0x0)&&(_0x378776[0x6e]=''),_0x378776;});if(_0x25b7ec==='All'){const _0x42a55d={};_0x4a2dd5=_0x4a2dd5[_0x1b8ff6(0x1e5)](_0x545dd2=>{const _0x42caed=_0x545dd2[0x0]+'\x20'+_0x545dd2[0x1];if(!_0x42a55d[_0x42caed])return _0x42a55d[_0x42caed]=!![],!![];return![];});}else _0x25b7ec!==''&&(_0x4a2dd5=_0x4a2dd5[_0x1b8ff6(0x1e5)](_0x10eedd=>_0x10eedd[0x3]===_0x25b7ec));if(_0x56a74c===_0x1b8ff6(0x2de))_0x4a2dd5=_0x4a2dd5[_0x1b8ff6(0x1e5)](_0x4d9f7c=>[_0x1b8ff6(0x1cd),_0x1b8ff6(0x24a),_0x1b8ff6(0x294),_0x1b8ff6(0x1fd),_0x1b8ff6(0x2c9)][_0x1b8ff6(0x1e0)](_0x4d9f7c[0x2]));else{if(_0x56a74c===_0x1b8ff6(0x231))_0x4a2dd5=_0x4a2dd5[_0x1b8ff6(0x1e5)](_0x46f71f=>[_0x1b8ff6(0x1cd),_0x1b8ff6(0x24a),_0x1b8ff6(0x294),_0x1b8ff6(0x1fd),_0x1b8ff6(0x2c9),_0x1b8ff6(0x296),_0x1b8ff6(0x1cb)]['includes'](_0x46f71f[0x2]));else{if(_0x56a74c===_0x1b8ff6(0x1fb))_0x4a2dd5=_0x4a2dd5[_0x1b8ff6(0x1e5)](_0xee4579=>[_0x1b8ff6(0x2a1),_0x1b8ff6(0x1f1),_0x1b8ff6(0x283),_0x1b8ff6(0x20a),_0x1b8ff6(0x29a),_0x1b8ff6(0x1fe),_0x1b8ff6(0x1e2),_0x1b8ff6(0x253),'Colombia',_0x1b8ff6(0x2a5),_0x1b8ff6(0x1d3),_0x1b8ff6(0x1da),'Swiss\x20Super\x20League',_0x1b8ff6(0x20e),_0x1b8ff6(0x1b0),_0x1b8ff6(0x2b7),'Norway\x20Eliteserien',_0x1b8ff6(0x1c2),_0x1b8ff6(0x2b8),_0x1b8ff6(0x2b4),_0x1b8ff6(0x25a),_0x1b8ff6(0x240),_0x1b8ff6(0x234),_0x1b8ff6(0x21b),'LigaMX',_0x1b8ff6(0x263),'Argentina\x20Primera',_0x1b8ff6(0x2a3),_0x1b8ff6(0x1bd),'Segunda\x20Division',_0x1b8ff6(0x267),_0x1b8ff6(0x202),_0x1b8ff6(0x27d)][_0x1b8ff6(0x1e0)](_0xee4579[0x2]));else{if(_0x56a74c===_0x1b8ff6(0x1c9))_0x4a2dd5=_0x4a2dd5['filter'](_0xf34268=>['Greece',_0x1b8ff6(0x1f1),_0x1b8ff6(0x283),_0x1b8ff6(0x20a),'Israel',_0x1b8ff6(0x1fe),_0x1b8ff6(0x1e2),'Chile',_0x1b8ff6(0x229),_0x1b8ff6(0x1cd),_0x1b8ff6(0x24a),'La\x20Liga',_0x1b8ff6(0x1fd),_0x1b8ff6(0x2c9),_0x1b8ff6(0x296),_0x1b8ff6(0x1cb),_0x1b8ff6(0x2a5),_0x1b8ff6(0x1d3),_0x1b8ff6(0x1da),_0x1b8ff6(0x2c1),_0x1b8ff6(0x20e),_0x1b8ff6(0x1b0),_0x1b8ff6(0x2b7),_0x1b8ff6(0x1d2),_0x1b8ff6(0x1c2),_0x1b8ff6(0x2b8),'Czech\x20Fortuna\x20Liga',_0x1b8ff6(0x25a),_0x1b8ff6(0x240),_0x1b8ff6(0x234),_0x1b8ff6(0x21b),'LigaMX',_0x1b8ff6(0x263),_0x1b8ff6(0x21e),_0x1b8ff6(0x2a3),'Championship','Segunda\x20Division','Serie\x20B','Bundesliga\x202',_0x1b8ff6(0x27d)]['includes'](_0xf34268[0x2]));else{if(_0x56a74c===_0x1b8ff6(0x29f))_0x4a2dd5=_0x4a2dd5[_0x1b8ff6(0x1e5)](_0xc7defb=>[_0x1b8ff6(0x263),'Argentina\x20Primera',_0x1b8ff6(0x2a3),'Colombia',_0x1b8ff6(0x253),_0x1b8ff6(0x1e2),_0x1b8ff6(0x1fe)][_0x1b8ff6(0x1e0)](_0xc7defb[0x2]));else{if(_0x56a74c===_0x1b8ff6(0x1b8))_0x4a2dd5=_0x4a2dd5[_0x1b8ff6(0x1e5)](_0x13a0af=>['Norway\x20Eliteserien',_0x1b8ff6(0x1b0),_0x1b8ff6(0x2b7)][_0x1b8ff6(0x1e0)](_0x13a0af[0x2]));else{if(_0x56a74c===_0x1b8ff6(0x1ba))_0x4a2dd5=_0x4a2dd5[_0x1b8ff6(0x1e5)](_0xc9927c=>[_0x1b8ff6(0x2b4),'Serbia\x20SuperLiga','Croatia\x20HNL',_0x1b8ff6(0x20a),_0x1b8ff6(0x283),_0x1b8ff6(0x1f1)]['includes'](_0xc9927c[0x2]));else _0x56a74c!==''&&(_0x4a2dd5=_0x4a2dd5['filter'](_0x2c6918=>_0x2c6918[0x2]===_0x56a74c));}}}}}}_0x5b1e00!==''&&(_0x4a2dd5=_0x4a2dd5[_0x1b8ff6(0x1e5)](_0x39194d=>_0x39194d[0x4]<=_0x5b1e00+0x1)),displayTable(_0x4a2dd5);}function displayTable(_0x8fb72d){const _0x1e692f=_0x57cb34;playerTable[_0x1e692f(0x29e)]='';if(metricSelect[_0x1e692f(0x201)]===''){playerTable[_0x1e692f(0x2a0)][_0x1e692f(0x1db)]=_0x1e692f(0x1f4);return;}else playerTable[_0x1e692f(0x2a0)]['display']='';isAscending?_0x8fb72d['sort']((_0x5c0644,_0x2876e6)=>parseFloat(_0x5c0644[metricSelect['value']])-parseFloat(_0x2876e6[metricSelect[_0x1e692f(0x201)]])):_0x8fb72d['sort']((_0x1c6d78,_0x4ebb35)=>parseFloat(_0x4ebb35[metricSelect['value']])-parseFloat(_0x1c6d78[metricSelect['value']]));let _0x42c09d=null,_0x25d0f9=0x0,_0xad136c=0x64,_0x33c7f=0x64,_0xbc4cdf=Math[_0x1e692f(0x23e)](..._0x8fb72d[_0x1e692f(0x268)](_0x23a8dd=>parseFloat(_0x23a8dd[metricSelect[_0x1e692f(0x201)]]))),_0x21ae52=Math[_0x1e692f(0x1f8)](..._0x8fb72d[_0x1e692f(0x268)](_0x380e7b=>parseFloat(_0x380e7b[metricSelect[_0x1e692f(0x201)]])));_0x8fb72d[_0x1e692f(0x29b)]((_0x3cdd6b,_0x4cbc24)=>{const _0x2c0458=_0x1e692f;let _0x2a0a4e,_0x2547cb;if(_0x3cdd6b[metricSelect[_0x2c0458(0x201)]]===_0x42c09d)_0x2a0a4e=_0xad136c,_0x2547cb=_0x33c7f;else{if(metricSelect[_0x2c0458(0x201)]==='46'||metricSelect[_0x2c0458(0x201)]==='84'||metricSelect[_0x2c0458(0x201)]==='73'||metricSelect[_0x2c0458(0x201)]==='82'||metricSelect['value']==='103'){const _0x1a9541=_0x8fb72d[_0x2c0458(0x268)](_0xc77abb=>parseFloat(_0xc77abb[metricSelect[_0x2c0458(0x201)]])),_0x2cdb4a=Math['min'](..._0x1a9541),_0x3a436c=Math[_0x2c0458(0x23e)](..._0x1a9541),_0x4cf721=_0x3a436c-_0x2cdb4a,_0x58c49f=parseFloat(_0x3cdd6b[metricSelect['value']]);_0x2a0a4e=Math[_0x2c0458(0x23e)]((_0x58c49f-_0x2cdb4a)/_0x4cf721*0x64,1.5),_0x2547cb=(_0x8fb72d[_0x2c0458(0x27e)]-_0x4cbc24)/_0x8fb72d[_0x2c0458(0x27e)]*0x64;}else{if(_0x3cdd6b[metricSelect[_0x2c0458(0x201)]]==='0')_0x2a0a4e=0x0,_0x2547cb=0x0;else metricSelect[_0x2c0458(0x201)]==='5'?(_0x2a0a4e=parseFloat(_0x3cdd6b[metricSelect[_0x2c0458(0x201)]])*0x64/0x63,_0x2547cb=(_0x8fb72d[_0x2c0458(0x27e)]-_0x4cbc24)/_0x8fb72d[_0x2c0458(0x27e)]*0x64):(_0x2a0a4e=Math[_0x2c0458(0x23e)](parseFloat(_0x3cdd6b[metricSelect[_0x2c0458(0x201)]])/_0xbc4cdf*0x64,1.5),_0x2547cb=(_0x8fb72d[_0x2c0458(0x27e)]-_0x4cbc24)/_0x8fb72d[_0x2c0458(0x27e)]*0x64);}_0x42c09d=_0x3cdd6b[metricSelect[_0x2c0458(0x201)]],_0x25d0f9=_0x4cbc24,_0xad136c=_0x2a0a4e,_0x33c7f=_0x2547cb;}let _0x479cbe,_0x383a60,_0x3a4427;isAscending?(_0x479cbe=Math[_0x2c0458(0x2e6)](0xff*(0x1-Math['pow']((0x64-_0x2547cb)/0x64,1.3))),_0x383a60=Math[_0x2c0458(0x2e6)](0x64-_0x2547cb),_0x3a4427=Math[_0x2c0458(0x2e6)](0xff*Math[_0x2c0458(0x209)]((0x64-_0x2547cb)/0x64,1.3))):(_0x479cbe=Math['round'](0xff*(0x1-Math['pow'](_0x2547cb/0x64,1.3))),_0x383a60=Math['round'](_0x2547cb),_0x3a4427=Math[_0x2c0458(0x2e6)](0xff*Math[_0x2c0458(0x209)](_0x2547cb/0x64,1.3)));const _0xc47701=0.835,_0x566568=_0x2c0458(0x214)+_0x479cbe+',\x20'+_0x383a60+',\x20'+_0x3a4427+',\x20'+_0xc47701+')',_0x575a69=document['createElement']('tr');_0x575a69[_0x2c0458(0x29e)]=_0x2c0458(0x2bb)+(_0x25d0f9+0x1)+'.\x20'+_0x3cdd6b[0x0]+_0x2c0458(0x1f6)+_0x3cdd6b[0x1]+',\x20'+Math['round'](_0x3cdd6b[0x4])+_0x2c0458(0x22e)+_0x3cdd6b[metricSelect[_0x2c0458(0x201)]]+'</th>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<th>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22rank-bar\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22rank-bar-fill\x22\x20style=\x22width:\x20'+_0x2a0a4e+_0x2c0458(0x2d9)+_0x566568+'\x22></div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</th>\x0a\x20\x20\x20\x20\x20\x20\x20\x20',playerTable[_0x2c0458(0x2b0)](_0x575a69);});}function handleSelectorsChange(){const _0xd4085b=_0x57cb34,_0x5eae2e=parseInt(metricSelect[_0xd4085b(0x201)]),_0x231aa2=positionSelect[_0xd4085b(0x201)],_0x1474cc=leagueSelect[_0xd4085b(0x201)],_0x55833d=metricSelect[_0xd4085b(0x1ea)]('option'),_0x404fef=document['querySelector'](_0xd4085b(0x1d8)),_0x1c05fc=[_0xd4085b(0x2de),'Top\x207\x20Leagues','No\x20Top\x207','All\x20Leagues',_0xd4085b(0x29f),'Eastern\x20Europe',_0xd4085b(0x1b8)],_0x4415eb=_0x5eae2e===0x5,_0xf2373c=_0x1c05fc[_0xd4085b(0x1e0)](_0x1474cc),_0x282abe=_0x231aa2===_0xd4085b(0x215);_0x5eae2e===0x2b||_0x5eae2e===0x2d||_0x5eae2e===0x52||_0x5eae2e===0x53||_0x5eae2e===0x54||_0x5eae2e===0x55?(toggleSortButton[_0xd4085b(0x2a0)][_0xd4085b(0x1db)]=_0xd4085b(0x25e),_0x404fef[_0xd4085b(0x1d0)][_0xd4085b(0x1d7)](_0xd4085b(0x1c5))):(toggleSortButton['style'][_0xd4085b(0x1db)]='none',_0x404fef[_0xd4085b(0x1d0)][_0xd4085b(0x1c6)](_0xd4085b(0x1c5)));if(_0x4415eb){_0x1c05fc['forEach'](_0x211c7f=>{const _0x3fec41=_0xd4085b,_0x5b5bee=leagueSelect[_0x3fec41(0x1e4)](_0x3fec41(0x259)+_0x211c7f+'\x22]');if(_0x5b5bee)_0x5b5bee[_0x3fec41(0x1b9)]=!![];});const _0x197f2a=positionSelect[_0xd4085b(0x1e4)](_0xd4085b(0x2b2));if(_0x197f2a)_0x197f2a[_0xd4085b(0x1b9)]=!![];updateCustomSelectorsDisabledState();}else{_0x1c05fc[_0xd4085b(0x29b)](_0x3e3d1b=>{const _0x35e0d2=_0xd4085b,_0x53ad2a=leagueSelect[_0x35e0d2(0x1e4)]('option[value=\x22'+_0x3e3d1b+'\x22]');if(_0x53ad2a)_0x53ad2a[_0x35e0d2(0x1b9)]=![];});const _0x58f527=positionSelect[_0xd4085b(0x1e4)](_0xd4085b(0x2b2));if(_0x58f527)_0x58f527[_0xd4085b(0x1b9)]=![];updateCustomSelectorsDisabledState();}const _0x1dbfff=metricSelect[_0xd4085b(0x1e4)]('option[value=\x225\x22]');if(_0xf2373c||_0x282abe){if(_0x1dbfff)_0x1dbfff[_0xd4085b(0x1b9)]=!![];_0x4415eb&&(metricSelect['value']='20',updateMetricCustomSelector(),filterTable()),updateCustomMetricSelectorDisabledState();}else{if(_0x1dbfff)_0x1dbfff['disabled']=![];updateCustomMetricSelectorDisabledState();}}function updateCustomSelectorsDisabledState(){const _0x44e84c=_0x57cb34,_0x5bd73e=[_0x44e84c(0x2de),_0x44e84c(0x231),_0x44e84c(0x1fb),'All\x20Leagues',_0x44e84c(0x29f),_0x44e84c(0x1ba),'Scandinavia'],_0x338d3e=document[_0x44e84c(0x1ea)]('#league-select-options\x20.custom-select-option');_0x338d3e[_0x44e84c(0x29b)](_0x5c06c0=>{const _0x54f9a9=_0x44e84c,_0x68b672=_0x5c06c0[_0x54f9a9(0x1de)](_0x54f9a9(0x236)),_0x4e1527=_0x5bd73e['includes'](_0x68b672)&&parseInt(metricSelect[_0x54f9a9(0x201)])===0x5;_0x4e1527?(_0x5c06c0['style']['opacity']=_0x54f9a9(0x273),_0x5c06c0[_0x54f9a9(0x2a0)][_0x54f9a9(0x1cf)]=_0x54f9a9(0x1f4)):(_0x5c06c0['style'][_0x54f9a9(0x1fa)]='1',_0x5c06c0[_0x54f9a9(0x2a0)][_0x54f9a9(0x1cf)]=_0x54f9a9(0x2df));});const _0x595d6a=document['querySelectorAll'](_0x44e84c(0x2b1));_0x595d6a[_0x44e84c(0x29b)](_0x3d5415=>{const _0x338fff=_0x44e84c,_0x3a9464=_0x3d5415['getAttribute']('data-value'),_0x1e5fa3=_0x3a9464===_0x338fff(0x215)&&parseInt(metricSelect[_0x338fff(0x201)])===0x5;_0x1e5fa3?(_0x3d5415[_0x338fff(0x2a0)][_0x338fff(0x1fa)]=_0x338fff(0x273),_0x3d5415[_0x338fff(0x2a0)][_0x338fff(0x1cf)]=_0x338fff(0x1f4)):(_0x3d5415[_0x338fff(0x2a0)][_0x338fff(0x1fa)]='1',_0x3d5415['style'][_0x338fff(0x1cf)]=_0x338fff(0x2df));});}function updateCustomMetricSelectorDisabledState(){const _0xff0732=_0x57cb34,_0x142630=document[_0xff0732(0x1ea)](_0xff0732(0x295)),_0x3f1bbb=[_0xff0732(0x2de),_0xff0732(0x231),_0xff0732(0x1fb),_0xff0732(0x1c9),'South\x20America',_0xff0732(0x1ba),_0xff0732(0x1b8)][_0xff0732(0x1e0)](leagueSelect[_0xff0732(0x201)]),_0xf1b988=positionSelect[_0xff0732(0x201)]===_0xff0732(0x215);_0x142630['forEach'](_0x594e6c=>{const _0xdd10af=_0xff0732,_0x5a2639=_0x594e6c[_0xdd10af(0x1de)](_0xdd10af(0x236)),_0x5daba9=_0x5a2639==='5',_0x36bf41=_0x5daba9&&(_0x3f1bbb||_0xf1b988);_0x36bf41?(_0x594e6c['style'][_0xdd10af(0x1fa)]='0.5',_0x594e6c['style'][_0xdd10af(0x1cf)]=_0xdd10af(0x1f4)):(_0x594e6c['style'][_0xdd10af(0x1fa)]='1',_0x594e6c['style'][_0xdd10af(0x1cf)]=_0xdd10af(0x2df));});}function updateMetricCustomSelector(){const _0x3d9b17=_0x57cb34,_0x3137ef=metricSelect[_0x3d9b17(0x201)],_0x34c9b5=document['querySelector']('#metric-select-options\x20[data-value=\x22'+_0x3137ef+'\x22]');if(_0x34c9b5){document[_0x3d9b17(0x1ea)]('#metric-select-options\x20.custom-select-option')['forEach'](_0x1f6e8f=>_0x1f6e8f['classList']['remove'](_0x3d9b17(0x220))),_0x34c9b5[_0x3d9b17(0x1d0)][_0x3d9b17(0x1d7)](_0x3d9b17(0x220));const _0x49f02e=document[_0x3d9b17(0x1e4)](_0x3d9b17(0x224)),_0x25cd9f=_0x34c9b5[_0x3d9b17(0x1e4)](_0x3d9b17(0x1f5));_0x49f02e&&_0x25cd9f&&(_0x49f02e[_0x3d9b17(0x26b)]=_0x25cd9f[_0x3d9b17(0x26b)],_0x49f02e[_0x3d9b17(0x200)](_0x3d9b17(0x1e7),_0x25cd9f[_0x3d9b17(0x1de)](_0x3d9b17(0x1e7))));}}metricSelect['addEventListener'](_0x57cb34(0x2d2),handleSelectorsChange),positionSelect[_0x57cb34(0x274)](_0x57cb34(0x2d2),handleSelectorsChange),leagueSelect[_0x57cb34(0x274)](_0x57cb34(0x2d2),handleSelectorsChange),leagueSelect[_0x57cb34(0x201)]=_0x57cb34(0x1cd),filterTable();
 </script>
 	
 <script>
@@ -508,93 +1136,664 @@ const _0x2903d2=_0x194c;(function(_0x2e638b,_0x1cd632){const _0x4c8280=_0x194c,_
         document.body.classList.add('dark-mode');
       }
     });
-</script>
 
-<div class="dark-mode-toggle" onclick="toggleDarkMode()">
-    <span class="toggle-icon"></span>
-  </div>
-  
-<script>
 
-  
-  function getPreferredLanguage() {
-    // PRIORITY 1: Check URL parameter first
-    const urlParams = new URLSearchParams(window.location.search);
-    const langParam = urlParams.get('lang');
-    if (langParam) {
-      return langParam;
-    }
-    // PRIORITY 2: Check localStorage
-    const storedLang = localStorage.getItem('preferredLanguage');
-    if (storedLang) {
-      return storedLang;
-    }
-    // PRIORITY 3: Use browser language
-    return getBrowserLanguage() || 'en';
+// Custom Dropdown Logic
+const customSelectors = [
+  {
+    trigger: document.getElementById('league-select-trigger'),
+    options: document.getElementById('league-select-options'),
+    hiddenSelect: leagueSelect
+  },
+  {
+    trigger: document.getElementById('position-select-trigger'),
+    options: document.getElementById('position-select-options'),
+    hiddenSelect: positionSelect
+  },
+  {
+    trigger: document.getElementById('age-select-trigger'),
+    options: document.getElementById('age-select-options'),
+    hiddenSelect: ageInput
   }
+];
+
+// Generic function to handle dropdown behavior
+function setupCustomSelector(selector) {
+  const { trigger, options, hiddenSelect } = selector;
+  
+  // Add keyboard navigation for this selector
+  document.addEventListener('keydown', function(e) {
+    // Only process keyboard input when this dropdown is open
+    if (!trigger.classList.contains('open')) return;
+    
+    // Handle arrow keys for navigation
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      
+      const visibleOptions = Array.from(options.querySelectorAll('.custom-select-option'));
+      const currentIndex = visibleOptions.findIndex(opt => opt.classList.contains('selected'));
+      let newIndex;
+      
+      if (e.key === 'ArrowDown') {
+        newIndex = currentIndex < visibleOptions.length - 1 ? currentIndex + 1 : 0;
+      } else {
+        newIndex = currentIndex > 0 ? currentIndex - 1 : visibleOptions.length - 1;
+      }
+      
+      // Update selection
+      visibleOptions.forEach(opt => opt.classList.remove('selected'));
+      visibleOptions[newIndex].classList.add('selected');
+      
+      // Ensure the selected option is visible in the dropdown
+      visibleOptions[newIndex].scrollIntoView({ block: 'nearest' });
+      
+      return;
+    }
+    
+    // Handle Enter key to select the currently highlighted option
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const selectedOption = options.querySelector('.selected');
+      if (selectedOption) {
+        selectedOption.click();
+      }
+      return;
+    }
+    
+    // Handle Escape key to close the dropdown
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      trigger.classList.remove('open');
+      options.style.display = 'none';
+      // Keep highlighting - don't clear it
+      return;
+    }
+  });
+  
+  // Open/close dropdown
+  trigger.addEventListener('click', function(e) {
+    e.stopPropagation();
+    // Close other open dropdowns
+    document.querySelectorAll('.custom-select-trigger.open').forEach(openTrigger => {
+      if (openTrigger !== trigger) {
+        openTrigger.classList.remove('open');
+        openTrigger.nextElementSibling.style.display = 'none';
+      }
+    });
+    // Toggle this dropdown
+    const isOpen = trigger.classList.contains('open');
+    trigger.classList.toggle('open');
+    options.style.display = isOpen ? 'none' : 'block';
+    
+    // Set initial selection when opening dropdown (only if needed)
+    if (!isOpen) {
+      const currentValue = hiddenSelect.value;
+      const currentlyHighlighted = options.querySelector('.custom-select-option.selected');
+      const shouldBeHighlighted = options.querySelector(`[data-value="${currentValue}"]`);
+      
+      // Only update highlighting if it's wrong
+      if (!currentlyHighlighted || currentlyHighlighted !== shouldBeHighlighted) {
+        // Clear any previous selections
+        options.querySelectorAll('.custom-select-option').forEach(opt => opt.classList.remove('selected'));
+        
+        // Highlight the correct option
+        if (shouldBeHighlighted) {
+          shouldBeHighlighted.classList.add('selected');
+          shouldBeHighlighted.scrollIntoView({ block: 'nearest' });
+        }
+      }
+    }
+  });
+  
+  // Option selection
+  options.querySelectorAll('.custom-select-option').forEach(option => {
+    option.addEventListener('click', function() {
+      // Update selected class
+      options.querySelectorAll('.custom-select-option').forEach(opt => opt.classList.remove('selected'));
+      option.classList.add('selected');
+      // Update trigger text and icon
+      const triggerSpan = trigger.querySelector('span');
+      const optionSpan = option.querySelector('span');
+      const optionIcon = option.querySelector('iconify-icon');
+      const optionScotlandFlag = option.querySelector('.scotland-flag-icon');
+      const triggerIcon = trigger.querySelector('iconify-icon');
+      
+      triggerSpan.textContent = optionSpan.textContent;
+      if (optionSpan.getAttribute('data-i18n')) {
+        triggerSpan.setAttribute('data-i18n', optionSpan.getAttribute('data-i18n'));
+      }
+      
+      // Clean up any existing Scotland flag
+      const existingScotlandFlag = trigger.querySelector('.scotland-flag-icon');
+      if (existingScotlandFlag) {
+        existingScotlandFlag.remove();
+      }
+      
+      // Handle regular iconify icons
+      if (optionIcon && triggerIcon) {
+        // Copy all attributes from option icon to trigger icon
+        triggerIcon.setAttribute('icon', optionIcon.getAttribute('icon'));
+        if (optionIcon.getAttribute('width')) {
+          triggerIcon.setAttribute('width', optionIcon.getAttribute('width'));
+        }
+        if (optionIcon.getAttribute('height')) {
+          triggerIcon.setAttribute('height', optionIcon.getAttribute('height'));
+        }
+        triggerIcon.style.display = 'inline-block';
+        trigger.classList.add('has-icon');
+      }
+      // Handle Scotland flag special case
+      else if (optionScotlandFlag && triggerIcon) {
+        // Replace iconify-icon with Scotland flag div
+        const scotlandDiv = optionScotlandFlag.cloneNode(true);
+        triggerIcon.style.display = 'none';
+        trigger.insertBefore(scotlandDiv, triggerSpan);
+        trigger.classList.add('has-icon');
+      }
+      
+    
+    
+      // Update hidden select
+      hiddenSelect.value = option.getAttribute('data-value');
+      hiddenSelect.dispatchEvent(new Event('change'));
+      
+      // Close dropdown
+      trigger.classList.remove('open');
+      options.style.display = 'none';
+      
+      // Update selector restrictions
+      if (typeof handleSelectorsChange === 'function') handleSelectorsChange();
+      
+      // Trigger filtering
+      if (typeof filterTable === 'function') filterTable();
+    });
+  });
+}
+
+// Setup all custom selectors
+customSelectors.forEach(setupCustomSelector);
+
+// Custom Metric Selector Logic (special handling due to dynamic options)
+const metricTrigger = document.getElementById('metric-select-trigger');
+const metricOptions = document.getElementById('metric-select-options');
+
+// Add keyboard navigation variables
+let searchTerm = '';
+let searchTimeout;
+
+// Add keydown event listener to the document for metric selector
+document.addEventListener('keydown', function(e) {
+    // Only process keyboard input when metric dropdown is open
+    if (!metricTrigger.classList.contains('open')) return;
+    
+    // Handle arrow keys for navigation
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        
+        const visibleOptions = Array.from(metricOptions.querySelectorAll('.custom-select-option:not(.metric-category-header)'));
+        const currentIndex = visibleOptions.findIndex(opt => opt.classList.contains('selected'));
+        let newIndex;
+        
+        if (e.key === 'ArrowDown') {
+            newIndex = currentIndex < visibleOptions.length - 1 ? currentIndex + 1 : 0;
+        } else {
+            newIndex = currentIndex > 0 ? currentIndex - 1 : visibleOptions.length - 1;
+        }
+        
+        // Update selection
+        visibleOptions.forEach(opt => opt.classList.remove('selected'));
+        visibleOptions[newIndex].classList.add('selected');
+        
+        // Ensure the selected option is visible in the dropdown
+        visibleOptions[newIndex].scrollIntoView({ block: 'nearest' });
+        
+        return;
+    }
+    
+    // Handle Enter key to select the currently highlighted option
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        const selectedOption = metricOptions.querySelector('.selected');
+        if (selectedOption) {
+            selectedOption.click();
+        }
+        return;
+    }
+    
+    // Handle Escape key to close the dropdown
+    if (e.key === 'Escape') {
+        e.preventDefault();
+        metricTrigger.classList.remove('open');
+        metricOptions.style.display = 'none';
+        // Clear search term but keep highlighting
+        searchTerm = '';
+        return;
+    }
+    
+    // Handle typing to search
+    if (e.key.length === 1 && e.key.match(/[a-zA-Z0-9%\s\-\+\(\)]/)) {
+        // Clear the previous timeout
+        clearTimeout(searchTimeout);
+        
+        // Add the key to the search term
+        searchTerm += e.key.toLowerCase();
+        
+        // Find the first option that starts with the search term
+        const matchingOption = Array.from(metricOptions.querySelectorAll('.custom-select-option:not(.metric-category-header)')).find(option => {
+            const optionText = option.querySelector('span').textContent.toLowerCase();
+            return optionText.startsWith(searchTerm);
+        });
+        
+        // If a matching option is found, select it
+        if (matchingOption) {
+            metricOptions.querySelectorAll('.custom-select-option').forEach(opt => opt.classList.remove('selected'));
+            matchingOption.classList.add('selected');
+            matchingOption.scrollIntoView({ block: 'nearest' });
+        }
+        
+        // Clear the search term after a delay
+        searchTimeout = setTimeout(() => {
+            searchTerm = '';
+        }, 400);
+    }
+});
+
+metricTrigger.addEventListener('click', function(e) {
+  e.stopPropagation();
+  // Close other open dropdowns
+  document.querySelectorAll('.custom-select-trigger.open').forEach(openTrigger => {
+    if (openTrigger !== metricTrigger) {
+      openTrigger.classList.remove('open');
+      openTrigger.nextElementSibling.style.display = 'none';
+    }
+  });
+  // Toggle this dropdown
+  const isOpen = metricTrigger.classList.contains('open');
+  metricTrigger.classList.toggle('open');
+  metricOptions.style.display = isOpen ? 'none' : 'block';
+  
+  // When opening, ensure the currently selected metric is highlighted (only if needed)
+  if (!isOpen) {
+    const currentValue = metricSelect.value;
+    const currentlyHighlighted = metricOptions.querySelector('.custom-select-option.selected');
+    const shouldBeHighlighted = metricOptions.querySelector(`[data-value="${currentValue}"]`);
+    
+    // Only update highlighting if it's wrong
+    if (!currentlyHighlighted || currentlyHighlighted !== shouldBeHighlighted) {
+      // Clear all selections first
+      metricOptions.querySelectorAll('.custom-select-option').forEach(opt => opt.classList.remove('selected'));
+      
+      // Highlight the correct option
+      if (shouldBeHighlighted) {
+        shouldBeHighlighted.classList.add('selected');
+        shouldBeHighlighted.scrollIntoView({ block: 'nearest' });
+      }
+    }
+  }
+});
+
+// Function to update custom selector display to match actual select value
+function updateCustomSelectorDisplay(triggerId, optionsId, value) {
+  const trigger = document.getElementById(triggerId);
+  const options = document.getElementById(optionsId);
+  const selectedOption = options.querySelector(`[data-value="${value}"]`);
+  
+  if (trigger && selectedOption) {
+    // Clear all previous selections
+    options.querySelectorAll('.custom-select-option').forEach(opt => opt.classList.remove('selected'));
+    
+    // Mark the current option as selected
+    selectedOption.classList.add('selected');
+    
+    // Update the trigger display
+    const triggerSpan = trigger.querySelector('span');
+    const optionSpan = selectedOption.querySelector('span');
+    const triggerIcon = trigger.querySelector('iconify-icon');
+    const optionIcon = selectedOption.querySelector('iconify-icon');
+    const optionScotlandFlag = selectedOption.querySelector('.scotland-flag-icon');
+    
+    if (triggerSpan && optionSpan) {
+      triggerSpan.textContent = optionSpan.textContent;
+      triggerSpan.setAttribute('data-i18n', optionSpan.getAttribute('data-i18n'));
+    }
+    
+    // Handle icons
+    const existingScotlandFlag = trigger.querySelector('.scotland-flag-icon');
+    if (existingScotlandFlag) {
+      existingScotlandFlag.remove();
+    }
+    
+    if (optionIcon && triggerIcon) {
+      triggerIcon.setAttribute('icon', optionIcon.getAttribute('icon'));
+      if (optionIcon.getAttribute('width')) {
+        triggerIcon.setAttribute('width', optionIcon.getAttribute('width'));
+      }
+      if (optionIcon.getAttribute('height')) {
+        triggerIcon.setAttribute('height', optionIcon.getAttribute('height'));
+      }
+      triggerIcon.style.display = 'inline-block';
+      trigger.classList.add('has-icon');
+    } else if (optionScotlandFlag && triggerIcon) {
+      const scotlandDiv = optionScotlandFlag.cloneNode(true);
+      triggerIcon.style.display = 'none';
+      trigger.insertBefore(scotlandDiv, triggerSpan);
+      trigger.classList.add('has-icon');
+    }
+  }
+}
+
+// Function to update metric options (called when toggling)
+function updateMetricOptions() {
+  const currentSelection = metricSelect.value; // Preserve current selection
+  metricOptions.innerHTML = '';
+  
+
+  customMetricOrder.forEach(metric => {
+    const option = document.createElement('div');
+    option.className = 'custom-select-option';
+    
+    if (metric.text.startsWith("CATEGORY: ")) {
+      option.className = 'metric-category-header';
+      option.innerHTML = `<span data-i18n="${metric.i18n}">${metric.text.replace("CATEGORY: ", "")}</span>`;
+    } else {
+      const metricName = isToggled ? metric.text.replace(' per 90', '') : metric.text;
+      const index = currentDataArray[0].indexOf(metricName);
+      if (index !== -1) {
+        option.setAttribute('data-value', index);
+        option.innerHTML = `<span data-i18n="${metric.i18n}">${metricName}</span>`;
+        
+        // Add click handler for metric options
+        option.addEventListener('click', function() {
+          if (option.style.pointerEvents === 'none') return;
+          
+          // Update selected class
+          metricOptions.querySelectorAll('.custom-select-option').forEach(opt => opt.classList.remove('selected'));
+          option.classList.add('selected');
+          
+          // Update trigger text
+          const triggerSpan = metricTrigger.querySelector('span');
+          const optionSpan = option.querySelector('span');
+          triggerSpan.textContent = optionSpan.textContent;
+          triggerSpan.setAttribute('data-i18n', optionSpan.getAttribute('data-i18n'));
+          
+          // Update hidden select
+          metricSelect.value = option.getAttribute('data-value');
+          metricSelect.dispatchEvent(new Event('change'));
+          
+          // Close dropdown
+          metricTrigger.classList.remove('open');
+          metricOptions.style.display = 'none';
+          
+          // Update selector restrictions
+          if (typeof handleSelectorsChange === 'function') handleSelectorsChange();
+          
+          // Trigger filtering
+          if (typeof filterTable === 'function') filterTable();
+        });
+      }
+    }
+    metricOptions.appendChild(option);
+  });
+  
+  // Apply translations to the newly created options
+  const preferredLanguage = getPreferredLanguage();
+  applyLanguage(preferredLanguage);
+  
+  // Also update the trigger text if it's currently showing a metric
+  const currentMetricValue = metricSelect.value;
+  if (currentMetricValue) {
+    const selectedMetricOption = metricOptions.querySelector(`[data-value="${currentMetricValue}"]`);
+    if (selectedMetricOption) {
+      const triggerSpan = metricTrigger.querySelector('span');
+      const optionSpan = selectedMetricOption.querySelector('span');
+      if (triggerSpan && optionSpan) {
+        triggerSpan.textContent = optionSpan.textContent;
+        triggerSpan.setAttribute('data-i18n', optionSpan.getAttribute('data-i18n'));
+      }
+    }
+  }
+  
+}
+
+// Initial setup - updateMetricOptions() will handle highlighting based on metricSelect.value
+updateMetricOptions();
+
+// Close dropdown on outside click
+document.addEventListener('click', function(e) {
+  const triggers = document.querySelectorAll('.custom-select-trigger');
+  const optionsContainers = document.querySelectorAll('.custom-select-options');
+
+  let clickedInsideDropdown = false;
+  
+  triggers.forEach(function(trigger, index) {
+    const options = optionsContainers[index];
+    
+    if (trigger && options && (trigger.contains(e.target) || options.contains(e.target))) {
+      clickedInsideDropdown = true;
+    }
+  });
+  
+  if (!clickedInsideDropdown) {
+    triggers.forEach(function(trigger, index) {
+      if (trigger && optionsContainers[index]) {
+        trigger.classList.remove('open');
+        optionsContainers[index].style.display = 'none';
+        
+        // Only clear search term for metric dropdown, keep highlighting
+        if (trigger === metricTrigger) {
+          searchTerm = '';
+        }
+      }
+    });
+  }
+});
+
+// Ensure table loads on startup
+document.addEventListener('DOMContentLoaded', function() {
+  // Small delay to ensure all scripts have loaded
+  setTimeout(() => {
+    // Make sure all selectors are properly initialized
+    const minutesPlayedIndex = currentDataArray[0].indexOf("Minutes played");
+    if (minutesPlayedIndex !== -1) {
+      metricSelect.value = minutesPlayedIndex;
+    }
+    leagueSelect.value = "Premier League";
+    positionSelect.value = "Goalkeeper";
+    ageInput.value = "";
+    
+    // Update custom selectors to reflect the actual select values
+    updateCustomSelectorDisplay('league-select-trigger', 'league-select-options', leagueSelect.value);
+    updateCustomSelectorDisplay('position-select-trigger', 'position-select-options', positionSelect.value);
+    
+    // Update custom metric selector after setting the value
+    updateMetricOptions();
+    
+    // Set the trigger text to match the selected metric
+    const metricValue = metricSelect.value;
+    const selectedMetricOption = metricOptions.querySelector(`[data-value="${metricValue}"]`);
+    if (selectedMetricOption) {
+      const triggerSpan = metricTrigger.querySelector('span');
+      const optionSpan = selectedMetricOption.querySelector('span');
+      triggerSpan.textContent = optionSpan.textContent;
+      triggerSpan.setAttribute('data-i18n', optionSpan.getAttribute('data-i18n'));
+    }
+    
+    // Initialize the past season button
+    initPastSeasonButton();
+    
+    // Initialize the toggle button event listener
+    const toggleButtonElement = document.getElementById('toggleMetrics');
+    if (toggleButtonElement) {
+      toggleButtonElement.addEventListener('click', function() {
+        toggleData();
+      });
+    }
+
+    
+    // Ensure tooltips are set correctly for initial state
+    const toggleTooltip = document.querySelector('.metrics-toggle-button .btn-tooltip-text');
+    const pastSeasonTooltip = document.querySelector('.past-season-button .btn-tooltip-text');
+    
+    // Set initial tooltip based on current state
+    // Default: isToggled = false (showing per 90), so tooltip should say "Switch to total"
+    if (isToggled) {
+        const translatedText = getTranslatedText('toggles.switchToPer90', 'Switch to per 90');
+        toggleTooltip.textContent = translatedText;
+        toggleTooltip.setAttribute('data-i18n', 'toggles.switchToPer90');
+    } else {
+        const translatedText = getTranslatedText('toggles.switchToTotal', 'Switch to total');
+        toggleTooltip.textContent = translatedText;
+        toggleTooltip.setAttribute('data-i18n', 'toggles.switchToTotal');
+    }
+    
+        if (isPastSeason) {
+            const translatedText = getTranslatedText('toggles.switchTo1CurrentSeason', 'Coming soon'); // COMING SOON CHANGE "SWITCH TO CURRENT SEASON", FIX TOGGLE
+            pastSeasonTooltip.textContent = translatedText;
+            pastSeasonTooltip.setAttribute('data-i18n', 'toggles.switchTo1CurrentSeason'); // COMING SOON FIX TOGGLE
+        } else {
+            const translatedText = getTranslatedText('toggles.switchTo1PastSeason', 'Coming soon'); // COMING SOON CHANGE "SWITCH TO PAST SEASON", FIX TOGGLE
+            pastSeasonTooltip.textContent = translatedText;
+            pastSeasonTooltip.setAttribute('data-i18n', 'toggles.switch1ToPastSeason');  // COMING SOON FIX TOGGLE
+        }
+        
+    
+    // Initialize the selector restrictions
+    handleSelectorsChange();
+    
+    // Trigger the initial filter
+    filterTable();
+  }, 50);
+});
+  
+
+function getPreferredLanguage() {
+// PRIORITY 1: Check URL parameter first
+const urlParams = new URLSearchParams(window.location.search);
+const langParam = urlParams.get('lang');
+if (langParam) {
+  return langParam;
+}
+// PRIORITY 2: Check localStorage
+const storedLang = localStorage.getItem('preferredLanguage');
+if (storedLang) {
+  return storedLang;
+}
+// PRIORITY 3: Use browser language
+return getBrowserLanguage() || 'en';
+}
 
   function getBrowserLanguage() {
     return navigator.language.slice(0, 2);
   }
 
-  function applyLanguage(language) {
+  // Helper function to get translated text
+  function getTranslatedText(key, fallbackText) {
+    if (!window.currentTranslations) {
+      return fallbackText;
+    }
+    
+    const keys = key.split('.');
+    let value = window.currentTranslations;
+    for (const keyPart of keys) {
+      if (value === undefined || value === null) break;
+      value = value[keyPart];
+    }
+    
+    return value || fallbackText;
+  }
+
+    function applyLanguage(language) {
     console.log(language);
 
     if (language === 'en') {
+      window.currentTranslations = null;
+      
+      // Still need to handle per 90 logic for English metrics
+      document.querySelectorAll('#metric-select-options span[data-i18n], #metric-select-trigger span[data-i18n]').forEach(span => {
+        const metricKey = span.getAttribute('data-i18n');
+        const originalMetric = customMetricOrder.find(m => m.i18n === metricKey);
+        
+        if (originalMetric) {
+          if (isToggled) {
+            // Show totals version (remove "per 90")
+            span.textContent = originalMetric.text.replace(' per 90', '');
+          } else {
+            // Show per 90 version (keep "per 90")
+            span.textContent = originalMetric.text;
+          }
+        }
+      });
+      
       return;
     }
 
-    
     fetch(`locales/${language}.json`)
-      .then(response => {
-        // Don't throw an error, just return null if response is not OK
-        return response.ok ? response.json() : null;
-      })
-      .then(translations => {
-        // Only proceed if translations exist
-        if (translations) {
-          document.querySelectorAll('[data-i18n]').forEach(element => {
-            const keys = element.getAttribute('data-i18n').split('.');
-            let value = translations;
-            for (const key of keys) {
-              if (value === undefined || value === null) break;
-              value = value[key];
+        .then(response => {
+            // Don't throw an error, just return null if response is not OK
+            return response.ok ? response.json() : null;
+        })
+        .then(translations => {
+            // Only proceed if translations exist
+            if (translations) {
+                // Store translations globally
+                window.currentTranslations = translations;
+                
+                // Then translate everything else
+                document.querySelectorAll('[data-i18n]').forEach(element => {
+                    const keys = element.getAttribute('data-i18n').split('.');
+                    let value = translations;
+                    for (const key of keys) {
+                        if (value === undefined || value === null) break;
+                        value = value[key];
+                                         }
+                     if (value) {
+                         if (element.tagName === 'META') {
+                             element.setAttribute('content', value);
+                         } else if (element.tagName === 'INPUT') {
+                             element.setAttribute('placeholder', value);
+                         } else if (value.includes('<')) {
+                             element.innerHTML = value;
+                         } else if (element.tagName === 'SPAN' && element.getAttribute('data-i18n') && element.closest('#metric-select-options')) {
+                             // Special handling for metric spans inside options to check per 90 state
+                             const metricKey = element.getAttribute('data-i18n');
+                             const originalMetric = customMetricOrder.find(m => m.i18n === metricKey);
+                             
+                             // Only add "per 90" if not toggled AND the original metric includes "per 90"
+                             const shouldAddPerNinety = !isToggled && originalMetric && originalMetric.text.includes('per 90');
+                             
+                             // Get the translated version of "per 90" or use default English version
+                             const per90Translation = translations.common && translations.common.per90 ? 
+                                                     translations.common.per90 : " per 90";
+                             
+                             element.textContent = value + (shouldAddPerNinety ? per90Translation : '');
+                         } else if (element.tagName === 'SPAN' && element.getAttribute('data-i18n') && element.closest('#metric-select-trigger')) {
+                             // Special handling for the trigger span
+                             const metricKey = element.getAttribute('data-i18n');
+                             const originalMetric = customMetricOrder.find(m => m.i18n === metricKey);
+                             
+                             const shouldAddPerNinety = !isToggled && originalMetric && originalMetric.text.includes('per 90');
+                             const per90Translation = translations.common && translations.common.per90 ? 
+                                                     translations.common.per90 : " per 90";
+                             
+                             element.textContent = value + (shouldAddPerNinety ? per90Translation : '');
+                         } else {
+                             element.textContent = value;
+                         }
+                     }
+                });
             }
-            if (value) {
-              if (element.tagName === 'OPTION' && element.parentElement.id === 'metric') {
-                const metricKey = element.getAttribute('data-i18n');
-                const originalMetric = customMetricOrder.find(m => m.i18n === metricKey);
-                
-                // Only add "per 90" if not toggled AND the original metric includes "per 90"
-                const shouldAddPerNinety = !isToggled && originalMetric && originalMetric.text.includes('per 90');
-                
-                // Get the translated version of "per 90" or use default English version
-                const per90Translation = translations.common && translations.common.per90 ? 
-                                        translations.common.per90 : " per 90";
-                
-                element.textContent = value + (shouldAddPerNinety ? per90Translation : '');
-            }
-              else if (element.tagName === 'META') {
-              element.setAttribute('content', value);
-          } else if (value.includes('<')) {
-              element.innerHTML = value;
-          } else if (element.classList.contains('toggle-button')) {
-              element.setAttribute('data-tooltip', value);
-          } else {
-              element.textContent = value;
-          }          }
-          });
-        }
-      })
-      .catch(() => {
-        // Completely empty catch block to silently ignore any errors
-      });
-  }
+        })
+        .catch(() => {
+            // Completely empty catch block to silently ignore any errors
+        });
+}
+
+const preferredLanguage = getPreferredLanguage();
+applyLanguage(preferredLanguage);
   
-  const preferredLanguage = getPreferredLanguage();
-  applyLanguage(preferredLanguage);
   
-    </script>
-    
+</script>
 </body>
 </html>
+
+

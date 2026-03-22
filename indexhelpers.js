@@ -586,13 +586,13 @@ return getBrowserLanguage() || 'en';
         const originalMetric = customMetricOrder.find(m => m.i18n === metricKey);
         
         if (originalMetric) {
-          if (isToggled) {
-            // Show totals version (remove "per 90")
-            span.textContent = originalMetric.text.replace(' per 90', '');
-          } else {
-            // Show per 90 version (keep "per 90")
-            span.textContent = originalMetric.text;
+          let text = isToggled
+            ? originalMetric.text.replace(' per 90', '')
+            : originalMetric.text;
+          if (originalMetric.text.startsWith('CATEGORY: ')) {
+            text = text.replace('CATEGORY: ', '');
           }
+          span.textContent = text;
         }
       });
       
